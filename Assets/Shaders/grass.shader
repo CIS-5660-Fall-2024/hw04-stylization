@@ -1,6 +1,3 @@
-// This Unity shader reconstructs the world space positions for pixels using a depth
-// texture and screen space UV coordinates. The shader draws a checkerboard pattern
-// on a mesh to visualize the positions.
 Shader "Custom/Grass"
 {
     Properties
@@ -12,7 +9,7 @@ Shader "Custom/Grass"
         [KeywordEnum(integer, fractional_even, fractional_odd)]_Partitioning ("Partitioning Mode", Float) = 2
         [KeywordEnum(triangle_cw, triangle_ccw)]_Outputtopology ("Outputtopology Mode", Float) = 0
         [IntRange]_EdgeFactor ("EdgeFactor", Range(1,20)) = 20
-        _TessMinDist ("TessMinDist", Range(0,50)) = 30.0
+        _TessMinDist ("TessMinDist", Range(0,100)) = 30.0
         _FadeDist ("FadeDist", Range(1,500)) = 200.0
         _HeightScale ("HeightScale", Range(1,50)) = 10.0
         _LandSpread ("LandSpread", Range(0.01, 0.1)) = 0.02
@@ -29,6 +26,7 @@ Shader "Custom/Grass"
             #pragma fragment DistanceBasedTessFrag 
             #pragma hull DistanceBasedTessControlPoint
             #pragma domain DistanceBasedTessDomain
+            #pragma geometry GrassGeometryShader // 添加Geometry Shader指令
              
             #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
             #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
@@ -47,12 +45,12 @@ Shader "Custom/Grass"
             CBUFFER_END
 
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap); 
+            float4 _BaseMap_ST;
 
             struct Attributes
             {
                 float3 positionOS   : POSITION; 
                 float2 texcoord     : TEXCOORD0;
-    
             };
 
             struct VertexOut{
@@ -78,6 +76,14 @@ Shader "Custom/Grass"
                 float3 normal          : TEXCOORD2;
             };
 
+            struct GeometryOut
+            {
+                float4 positionCS : SV_POSITION;
+                float2 texcoord : TEXCOORD0;
+                float3 positionWS : TEXCOORD1;
+                float3 normal : TEXCOORD2;
+            };
+
             float h(float2 xz, float amp)
             {
                 float height = fbmPerlin(xz, 0.5, 0.5, 3);
@@ -92,11 +98,10 @@ Shader "Custom/Grass"
                 return o;
             }
    
-   
             PatchTess PatchConstant (InputPatch<VertexOut,3> patch, uint patchID : SV_PrimitiveID){ 
                 PatchTess o;
                 float3 cameraPosWS = GetCameraPositionWS();
-                real3 triVectexFactors =  GetDistanceBasedTessFactor(patch[0].positionWS, patch[1].positionWS, patch[2].positionWS, cameraPosWS, _TessMinDist, _TessMinDist + _FadeDist);
+                real3 triVectexFactors = GetDistanceBasedTessFactor(patch[0].positionWS, patch[1].positionWS, patch[2].positionWS, cameraPosWS, _TessMinDist, _TessMinDist + _FadeDist);
  
                 float4 tessFactors = _EdgeFactor * CalcTriTessFactorsFromEdgeTessFactors(triVectexFactors);
                 o.edgeFactor[0] = max(1.0, tessFactors.x);
@@ -115,7 +120,7 @@ Shader "Custom/Grass"
             #elif _PARTITIONING_FRACTIONAL_ODD
             [partitioning("fractional_odd")]    
             #endif 
- 
+            
             #if _OUTPUTTOPOLOGY_TRIANGLE_CW
             [outputtopology("triangle_cw")] 
             #elif _OUTPUTTOPOLOGY_TRIANGLE_CCW
@@ -131,19 +136,18 @@ Shader "Custom/Grass"
                 o.texcoord = patch[id].texcoord; 
                 return o;
             }
- 
   
             [domain("tri")]      
             DomainOut DistanceBasedTessDomain (PatchTess tessFactors, const OutputPatch<HullOut,3> patch, float3 bary : SV_DOMAINLOCATION)
             {  
                 float3 positionWS = patch[0].positionWS * bary.x + patch[1].positionWS * bary.y + patch[2].positionWS * bary.z; 
-	            float2 texcoord   = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
+                float2 texcoord   = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
                 float2 xz = positionWS.xz * _LandSpread;
                 float heightScale = _HeightScale;
                 float height = h(xz, heightScale);
                 positionWS.y += height;
-                float heightR = h(float2(xz.x + 0.01, xz.y), heightScale);
-                float heightU = h(float2(xz.x, xz.y + 0.01), heightScale);
+                float heightR = h(float2(xz.x + 0.01 * _LandSpread, xz.y), heightScale);
+                float heightU = h(float2(xz.x, xz.y + 0.01 * _LandSpread), heightScale);
                 float3 normal = normalize(cross(float3(0, heightU - height, 0.01), float3(0.01, heightR - height, 0)));
 
                 DomainOut output;
@@ -154,15 +158,25 @@ Shader "Custom/Grass"
     
                 return output; 
             }
- 
 
-            half4 DistanceBasedTessFrag(DomainOut input) : SV_Target{   
-                half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.texcoord).rgb;
-                color = (h(input.positionWS.xz * _LandSpread, 1.0) + 1.0) / 2.0;
-                // color = input.normal * 0.5 + 0.5;
-                return half4(color, 1.0); 
+            [maxvertexcount(3)]
+            void GrassGeometryShader(triangle DomainOut input[3], inout TriangleStream<GeometryOut> triStream)
+            {
+                // GeometryOut output;
+                // for (int i = 0; i < 3; i++) {
+                //     output.positionCS = input[i].positionCS;
+                //     output.texcoord = input[i].texcoord;
+                //     output.positionWS = input[i].positionWS;
+                //     output.normal = input[i].normal;
+                    
+                //     triStream.Append(output); // 输出三角形的每个顶点
+                // }
             }
 
+            half4 DistanceBasedTessFrag(GeometryOut input) : SV_Target{   
+                half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
+                return half4(color, 1.0); 
+            }
 
             ENDHLSL
         }

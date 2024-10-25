@@ -97,3 +97,11 @@ float getGain(float time, float gain)
     else
         return getBias(time * 2.0 - 1.0, 1.0 - gain) / 2.0 + 0.5;
 }
+
+float3x3 localToWorld(float3 N)
+{
+    float3 up = abs(N.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
+    float3 T = normalize(cross(up, N));
+    float3 B = cross(N, T);
+    return float3x3(T, B, N);
+}

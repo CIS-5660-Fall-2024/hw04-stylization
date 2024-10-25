@@ -79,18 +79,49 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
 #endif
 }
 
-void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Diffuse, float2 Thresholds, out float3 OUT)
+void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow,
+    float Diffuse, float2 Thresholds, float Noise, float StippleBandThickness,
+    out float3 OUT)
 {
     if (Diffuse < Thresholds.x)
     {
-        OUT = Shadow;
+        float lerpAlpha = (Diffuse - (Thresholds.x - StippleBandThickness)) / StippleBandThickness;
+        
+        if (Diffuse > Thresholds.x - StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlpha))
+        {
+            OUT = Midtone;
+        }
+        else
+        {
+            OUT = Shadow;
+        }
     }
     else if (Diffuse < Thresholds.y)
     {
-        OUT = Midtone;
+        float lerpAlpha = (Diffuse - (Thresholds.y - StippleBandThickness)) / StippleBandThickness;
+        
+        if (Diffuse > Thresholds.y - StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlpha))
+        {
+            OUT = Highlight;
+        }
+        else
+        {
+            OUT = Midtone;
+        }
+   
     }
     else
     {
+        //float lerpAlpha = ((Thresholds.y + 0.1f) - Diffuse) / 0.1f;
+        
+        //if (Diffuse < Thresholds.y + 0.1f && noise > lerp(1.f, 0.f, lerpAlpha))
+        //{
+        //    OUT = Midtone;
+        //}
+        //else
+        //{
+        //    OUT = Highlight;
+        //}
         OUT = Highlight;
     }
 }

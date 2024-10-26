@@ -5,14 +5,24 @@ Shader "Custom/Grass"
         _BaseMap ("Base Map", 2D) = "white" {}  
         
         [Header(Tess)][Space]
-     
-        [KeywordEnum(integer, fractional_even, fractional_odd)]_Partitioning ("Partitioning Mode", Float) = 2
-        [KeywordEnum(triangle_cw, triangle_ccw)]_Outputtopology ("Outputtopology Mode", Float) = 0
+
+        [HideInInspector] [KeywordEnum(integer, fractional_even, fractional_odd)]_Partitioning ("Partitioning Mode", Float) = 2
+        [HideInInspector] [KeywordEnum(triangle_cw, triangle_ccw)]_Outputtopology ("Outputtopology Mode", Float) = 0
         [IntRange]_EdgeFactor ("EdgeFactor", Range(1,20)) = 20
-        _TessMinDist ("TessMinDist", Range(0,100)) = 30.0
-        _FadeDist ("FadeDist", Range(1,500)) = 200.0
+         _TessMinDist ("TessMinDist", Range(0,1000)) = 1000.0
+         _FadeDist ("FadeDist", Range(1,1000)) = 1000.0
         _HeightScale ("HeightScale", Range(1,50)) = 10.0
         _LandSpread ("LandSpread", Range(0.01, 0.1)) = 0.02
+
+        [Header(Grass Spec)][Space]
+        _Width ("Width", Range(0.1, 2.0)) = 0.5
+        _Height ("Height", Range(0.1, 5.0)) = 4.0
+
+        _PosJitter ("PosJitter", Range(0.01, 2.0)) = 0.05
+        _WidthJitter ("WidthJitter", Range(0.0, 0.8)) = 0.5
+        _HeightJitter ("HeightJitter", Range(0.0, 0.8)) = 0.5
+        _RotationJitter ("RotationJitter", Range(0.0, 0.8)) = 0.5
+        _DirectionJitter ("DirectionJitter", Range(0.0, 0.8)) = 0.5
     }
     SubShader
     {
@@ -34,6 +44,17 @@ Shader "Custom/Grass"
             #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
             #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
             
+            CBUFFER_START(GrassMaterial)
+            float _Width;
+            float _Height;
+
+            float _PosJitter;
+            float _WidthJitter;
+            float _HeightJitter;
+            float _RotationJitter;
+            float _DirectionJitter;
+            CBUFFER_END
+
             PatchTess PatchConstant (InputPatch<VertexOut,3> patch, uint patchID : SV_PrimitiveID){ 
                 PatchTess o;
                 float3 cameraPosWS = GetCameraPositionWS();
@@ -92,13 +113,39 @@ Shader "Custom/Grass"
                 return output; 
             }
 
+            // GeometryOut GenerateGrassVertex(float3 vertexPosition, float width, float height, float2 uv, float3x3 transformMatrix)
+            // {
+            //     float3 tangentPoint = float3(width, 0, height);
+
+            //     float3 localPosition = vertexPosition + mul(transformMatrix, tangentPoint);
+            //     return VertexOutput(localPosition, uv);
+            // }
+
             [maxvertexcount(3)]
             void GrassGeometryShader(triangle DomainOut input[3], inout TriangleStream<GeometryOut> triStream)
             {
                 float3 positionWS = (input[0].positionWS + input[1].positionWS + input[2].positionWS) / 3.0;
-                float3 pos1 = positionWS + float3(-0.5, 0, 0);
-                float3 pos2 = positionWS + float3(0.5, 0, 0);
-                float3 pos3 = positionWS + float3(0, 2.0, 0);
+                float2 hash = hash22(positionWS.xz);
+                float2 nhash = normalize(hash);
+
+                // random width
+                float width = _Width * length(lerp(nhash, hash, _WidthJitter));
+
+                // random rotation
+                float2 dir = normalize(lerp(float2(1, 0), nhash, _RotationJitter));
+                float3 offset = 0;
+                offset.xz = dir * width;
+
+                // random height
+                float height = _Height * lerp(1, hash.x  + 1.0, _HeightJitter);
+                float3 heightOffset = float3(0, height, 0);
+                heightOffset = rotatePointAroundAxis(heightOffset, normalize(offset), hash.y * PI_HALF * _DirectionJitter);
+
+                // random position
+                positionWS.xz = positionWS.xz + hash * _PosJitter;
+                float3 pos1 = positionWS + offset;
+                float3 pos2 = positionWS - offset;
+                float3 pos3 = positionWS + heightOffset;
                 float3 normal = normalize(cross(pos2 - pos1, pos3 - pos1));
                 GeometryOut output;
                 output.positionCS = TransformWorldToHClip(pos1);
@@ -122,7 +169,8 @@ Shader "Custom/Grass"
 
             half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   
                 half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
-                return half4(color, 1.0); 
+                float t = smoothstep(0, 1.0, input.texcoord.y) * 0.5 + 0.5;
+                return half4(color * t, 1.0); 
             }
 
             ENDHLSL

@@ -9,6 +9,7 @@ float _TessMinDist;
 float _FadeDist;
 float _HeightScale;
 float _LandSpread;
+
 CBUFFER_END
 
 TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap); 
@@ -64,4 +65,5 @@ VertexOut DistanceBasedTessVert(Attributes input){
     o.texcoord   = input.texcoord;
     return o;
 }
+
 

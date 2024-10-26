@@ -1,3 +1,8 @@
+#define PI 3.14159265359
+#define PI_HALF 1.57079632679
+#define PI_TWO 6.28318530718
+#define INV_PI 0.31830988618
+
 // NoiseCommon.hlsl
 float hash13(float3 p)
 {
@@ -104,4 +109,38 @@ float3x3 localToWorld(float3 N)
     float3 T = normalize(cross(up, N));
     float3 B = cross(N, T);
     return float3x3(T, B, N);
+}
+
+float2 hash22(float2 p)
+{
+    const float2 k = float2(0.3183099, 0.3678794);
+
+    p = p * k + k.yx;
+    float2 q = frac(sin(float2(dot(p, float2(127.1, 311.7)),
+                               dot(p, float2(269.5, 183.3)))) * 43758.5453);
+
+    return q * 2.0 - 1.0; 
+}
+
+float4 quaternionMultiply(float4 q1, float4 q2)
+{
+    return float4(
+        q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+        q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
+        q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w,
+        q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+    );
+}
+
+float3 rotatePointAroundAxis(float3 p, float3 axis, float angle)
+{
+    float halfAngle = angle * 0.5;
+    float sinHalfAngle = sin(halfAngle);
+    float4 rotationQuat = float4(axis * sinHalfAngle, cos(halfAngle));
+    float4 rotationQuatConjugate = float4(-rotationQuat.xyz, rotationQuat.w);
+
+    float4 pointQuat = float4(p, 0.0);
+    float4 rotatedPointQuat = quaternionMultiply(quaternionMultiply(rotationQuat, pointQuat), rotationQuatConjugate);
+
+    return rotatedPointQuat.xyz;
 }

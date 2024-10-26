@@ -87,22 +87,21 @@ void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow,
     {
         float lerpAlpha = (Diffuse - (Thresholds.x - StippleBandThickness)) / StippleBandThickness;
         
-        if (Diffuse > Thresholds.x - StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlpha))
-        {
-            OUT = Midtone;
-        }
-        else
-        {
-            OUT = Shadow;
-        }
+        OUT = Shadow;
     }
     else if (Diffuse < Thresholds.y)
     {
-        float lerpAlpha = (Diffuse - (Thresholds.y - StippleBandThickness)) / StippleBandThickness;
+        // we're blending the highlight and shadow sections into the midtone section
+        float lerpAlphaUpper = (Diffuse - (Thresholds.y - StippleBandThickness)) / StippleBandThickness;
+        float lerpAlphaLower = ((Thresholds.x + StippleBandThickness) - Diffuse) / StippleBandThickness;
         
-        if (Diffuse > Thresholds.y - StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlpha))
+        if (Diffuse > Thresholds.y - StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlphaUpper))
         {
             OUT = Highlight;
+        }
+        else if (Diffuse < Thresholds.x + StippleBandThickness && Noise < lerp(0.f, 1.f, lerpAlphaLower))
+        {
+            OUT = Shadow;
         }
         else
         {

@@ -73,6 +73,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: a428575817e494f4983b3b4777948e9b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WindMap:
+        m_Texture: {fileID: 2800000, guid: 98be5a7c30f307841976edf6dca9bf0e, type: 3}
+        m_Scale: {x: 30, y: 30}
+        m_Offset: {x: 0.55, y: 0.29}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -101,14 +105,16 @@ Material:
     - _DirectionJitter: 0.8
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeFactor: 15
+    - _EdgeFactor: 20
     - _EnvironmentReflections: 1
     - _FadeDist: 570
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _GrassFadeDist: 65
+    - _GrassTessMinDist: 46.9
     - _Height: 5
-    - _HeightJitter: 0.224
+    - _HeightJitter: 0.23
     - _HeightScale: 24.5
     - _InsideFactor: 1
     - _JitterScale: 1.194
@@ -122,10 +128,10 @@ Material:
     - _Parallax: 0.02
     - _Partitioning: 0
     - _PhoneShape: 0
-    - _PosJitter: 1.368
+    - _PosJitter: 1.587
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RotationJitter: 0.66
+    - _RotationJitter: 0.8
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -134,8 +140,10 @@ Material:
     - _Surface: 0
     - _TessMinDist: 438
     - _UVSec: 0
-    - _Width: 0.637
-    - _WidthJitter: 0.64
+    - _Width: 0.933
+    - _WidthJitter: 0.151
+    - _WindSpeed: 0.088
+    - _WindStrength: 1.441
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

@@ -121,8 +121,9 @@ Shader "Custom/Grass"
             GeometryOut output;
             output.positionCS = TransformWorldToHClip(positionWS);
             output.texcoord = texcoord;
-            output.positionWS = grassPos;
+            output.positionWS = positionWS;
             output.normal = normal;
+            output.rootPos = grassPos;
             return output;
         }
 
@@ -191,9 +192,9 @@ Shader "Custom/Grass"
         }
 
         half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   
-            half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
+            half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.rootPos.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
             float t = smoothstep(0, 1.0, input.texcoord.y) * 0.7 + 0.3;
-            Light light = GetMainLight();
+            Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
             
 
             return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation, 1.0); 
@@ -212,10 +213,35 @@ Shader "Custom/Grass"
             #pragma geometry GrassGeometryShader // 添加Geometry Shader指令
             #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
             #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
-            
-            
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _SHADOWS_SOFT//柔化阴影，得到软阴影
 
             ENDHLSL
         }
+
+        // Pass
+        // { 
+        //     Name "Grass ShadowCaster"
+        //     Tags { "LightMode" = "ShadowCaster"}
+        //     ZWrite On
+        //     ZTest LEqual
+
+        //     HLSLPROGRAM
+        //     #pragma target 4.6 
+        //     #pragma vertex DistanceBasedTessVert
+        //     #pragma fragment ShadowCasterFragment 
+        //     #pragma hull DistanceBasedTessControlPoint
+        //     #pragma domain DistanceBasedTessDomain_Grass
+        //     #pragma geometry GrassGeometryShader // 添加Geometry Shader指令
+        //     #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
+        //     #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
+            
+        //     half4 ShadowCasterFragment(GeometryOut input) : SV_Target
+        //     {
+        //         return 0;
+        //     }
+        //     ENDHLSL
+        // }
     }
 }

@@ -51,6 +51,7 @@ struct GeometryOut
     float2 texcoord : TEXCOORD0;
     float3 positionWS : TEXCOORD1;
     float3 normal : TEXCOORD2;
+    float3 rootPos : TEXCOORD3;
 };
 
 float h(float2 xz, float amp)

@@ -108,20 +108,9 @@ void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow,
         {
             OUT = Midtone;
         }
-   
     }
     else
     {
-        //float lerpAlpha = ((Thresholds.y + 0.1f) - Diffuse) / 0.1f;
-        
-        //if (Diffuse < Thresholds.y + 0.1f && noise > lerp(1.f, 0.f, lerpAlpha))
-        //{
-        //    OUT = Midtone;
-        //}
-        //else
-        //{
-        //    OUT = Highlight;
-        //}
         OUT = Highlight;
     }
 }

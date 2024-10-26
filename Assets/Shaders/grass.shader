@@ -113,15 +113,17 @@ Shader "Custom/Grass"
                 return output; 
             }
 
-            // GeometryOut GenerateGrassVertex(float3 vertexPosition, float width, float height, float2 uv, float3x3 transformMatrix)
-            // {
-            //     float3 tangentPoint = float3(width, 0, height);
+            GeometryOut generateVertex(float3 positionWS, float2 texcoord, float3 grassPos, float3 normal)
+            {
+                GeometryOut output;
+                output.positionCS = TransformWorldToHClip(positionWS);
+                output.texcoord = texcoord;
+                output.positionWS = grassPos;
+                output.normal = normal;
+                return output;
+            }
 
-            //     float3 localPosition = vertexPosition + mul(transformMatrix, tangentPoint);
-            //     return VertexOutput(localPosition, uv);
-            // }
-
-            [maxvertexcount(3)]
+            [maxvertexcount(7)]
             void GrassGeometryShader(triangle DomainOut input[3], inout TriangleStream<GeometryOut> triStream)
             {
                 float3 positionWS = (input[0].positionWS + input[1].positionWS + input[2].positionWS) / 3.0;
@@ -147,24 +149,43 @@ Shader "Custom/Grass"
                 float3 pos2 = positionWS - offset;
                 float3 pos3 = positionWS + heightOffset;
                 float3 normal = normalize(cross(pos2 - pos1, pos3 - pos1));
-                GeometryOut output;
-                output.positionCS = TransformWorldToHClip(pos1);
-                output.texcoord = float2(0, 0);
-                output.positionWS = positionWS;
-                output.normal = normal;
-                triStream.Append(output);
+                // GeometryOut output;
+                // output.positionCS = TransformWorldToHClip(pos1);
+                // output.texcoord = float2(0, 0);
+                // output.positionWS = positionWS;
+                // output.normal = normal;
+                // triStream.Append(output);
 
-                output.positionCS = TransformWorldToHClip(pos2);
-                output.texcoord = float2(1, 0);
-                output.positionWS = positionWS;
-                output.normal = normal;
-                triStream.Append(output);
+                // output.positionCS = TransformWorldToHClip(pos2);
+                // output.texcoord = float2(1, 0);
+                // output.positionWS = positionWS;
+                // output.normal = normal;
+                // triStream.Append(output);
 
-                output.positionCS = TransformWorldToHClip(pos3);
-                output.texcoord = float2(0.5, 1);
-                output.positionWS = positionWS;
-                output.normal = normal;
-                triStream.Append(output);
+                // output.positionCS = TransformWorldToHClip(pos3);
+                // output.texcoord = float2(0.5, 1);
+                // output.positionWS = positionWS;
+                // output.normal = normal;
+                // triStream.Append(output);
+
+                int segment = 3;
+                for (int i = 0; i < segment; i++)
+                {
+                    float t = i / (float)segment;
+                    float widthScale = width * (1 - t);
+                    float heightScale = height * t;
+
+                    // first vertex
+                    float3 posWS = positionWS + offset * (1 - t) + heightOffset * t;
+                    float2 texcoord = float2(t * 0.5, t);
+                    triStream.Append(generateVertex(posWS, texcoord, positionWS, normal));
+
+                    // second vertex
+                    posWS = positionWS - offset * (1 - t) + heightOffset * t;
+                    texcoord = float2(1.0 - 0.5 * t, t);
+                    triStream.Append(generateVertex(posWS, texcoord, positionWS, normal));
+                }
+                triStream.Append(generateVertex(positionWS + heightOffset, float2(0.5, 1), positionWS, normal));
             }
 
             half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   

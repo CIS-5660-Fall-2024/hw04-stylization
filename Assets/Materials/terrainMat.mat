@@ -8,26 +8,27 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: terrainMat
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: 4800000, guid: bac975372fab9b745bd3416a61c40f70, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _OUTPUTTOPOLOGY_TRIANGLE_CW
+  - _PARTITIONING_FRACTIONAL_ODD
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: 0fb5a03fe759bdb4895eb118833e2c43, type: 3}
+        m_Scale: {x: 30, y: 30}
+        m_Offset: {x: 0.55, y: 0.29}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -95,13 +96,19 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EdgeFactor: 20
     - _EnvironmentReflections: 1
+    - _FadeDist: 292
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HeightScale: 24.5
+    - _LandSpread: 0.01
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Outputtopology: 0
     - _Parallax: 0.005
+    - _Partitioning: 2
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -110,6 +117,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _TessMinDist: 100
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

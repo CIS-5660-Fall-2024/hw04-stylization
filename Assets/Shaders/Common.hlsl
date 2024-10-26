@@ -144,3 +144,4 @@ float3 rotatePointAroundAxis(float3 p, float3 axis, float angle)
 
     return rotatedPointQuat.xyz;
 }
+

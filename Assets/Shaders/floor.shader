@@ -35,7 +35,7 @@ Shader "Custom/Floor"
             #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
             #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
 
-            
+
 
             PatchTess PatchConstant (InputPatch<VertexOut,3> patch, uint patchID : SV_PrimitiveID){ 
                 PatchTess o;
@@ -101,7 +101,8 @@ Shader "Custom/Floor"
 
             half4 DistanceBasedTessFrag_Terrain(DomainOut input) : SV_Target{   
                 half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
-                return half4(color, 1.0); 
+                Light light = GetMainLight();
+                return half4(color * light.color * light.distanceAttenuation * light.shadowAttenuation, 1.0)*0.3; 
             }
 
             ENDHLSL

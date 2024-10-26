@@ -3,6 +3,7 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
 #include "Assets/Shaders/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 CBUFFER_START(UnityPerMaterial) 
 float _EdgeFactor;  
 float _TessMinDist;
@@ -65,5 +66,4 @@ VertexOut DistanceBasedTessVert(Attributes input){
     o.texcoord   = input.texcoord;
     return o;
 }
-
 

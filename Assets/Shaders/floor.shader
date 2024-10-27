@@ -12,7 +12,7 @@ Shader "Custom/Floor"
         _TessMinDist ("TessMinDist", Range(0,100)) = 30.0
         _FadeDist ("FadeDist", Range(1,500)) = 200.0
         _HeightScale ("HeightScale", Range(1,50)) = 10.0
-        _LandSpread ("LandSpread", Range(0.01, 0.1)) = 0.02
+        _LandSpread ("LandSpread", Range(0.01, 0.3)) = 0.1
     }
     SubShader
     {

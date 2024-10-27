@@ -56,7 +56,7 @@ struct GeometryOut
 
 float h(float2 xz, float amp)
 {
-    float height = fbmPerlin(xz, 0.5, 0.5, 3);
+    float height = fbmPerlin(xz / 10.0, 0.5, 0.5, 3);
     height = smoothstep(0.0, 1.0, height) * 0.8 + 0.2 * height;
     return height * amp;
 }

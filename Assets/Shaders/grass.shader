@@ -12,7 +12,7 @@ Shader "Custom/Grass"
          _TessMinDist ("TessMinDist", Range(0,1000)) = 1000.0
          _FadeDist ("FadeDist", Range(1,1000)) = 1000.0
         _HeightScale ("HeightScale", Range(1,50)) = 10.0
-        _LandSpread ("LandSpread", Range(0.01, 0.1)) = 0.02
+        _LandSpread ("LandSpread", Range(0.01, 0.3)) = 0.1
 
         [Header(Grass Spec)][Space]
         _Width ("Width", Range(0.1, 2.0)) = 0.5
@@ -24,13 +24,14 @@ Shader "Custom/Grass"
         _RotationJitter ("RotationJitter", Range(0.0, 0.8)) = 0.5
         _DirectionJitter ("DirectionJitter", Range(0.0, 0.8)) = 0.5
 
+        _InteractiveRadius ("InteractiveRadius", Range(0.1, 10.0)) = 1.0
         [Header(Grass Tess)][Space]
         _GrassTessMinDist ("GrassTessMinDist", Range(0,200)) = 100.0
         _GrassFadeDist ("GrassFadeDist", Range(1,300)) = 200.0
 
         [Header(Wind)][Space]
         _WindSpeed ("Wind Speed", Range(0, 1)) = 0.5
-        _WindStrength ("Wind Strength", Range(0, 2)) = 0.5
+        _WindStrength ("Wind Strength", Range(0, 5)) = 0.5
     }
     SubShader
     {
@@ -46,6 +47,7 @@ Shader "Custom/Grass"
         float _HeightJitter;
         float _RotationJitter;
         float _DirectionJitter;
+        float _InteractiveRadius;
 
         float _GrassTessMinDist;
         float _GrassFadeDist;
@@ -54,6 +56,7 @@ Shader "Custom/Grass"
         float _WindStrength;
         CBUFFER_END
 
+        
         TEXTURE2D(_WindMap); 
         SAMPLER(sampler_WindMap);
         float4 _WindMap_ST;
@@ -107,12 +110,15 @@ Shader "Custom/Grass"
             float heightScale = _HeightScale;
             float height = h(xz, heightScale);
             positionWS.y += height;
+            float heightR = h(float2(xz.x + 0.01 * _LandSpread, xz.y), heightScale);
+            float heightU = h(float2(xz.x, xz.y + 0.01 * _LandSpread), heightScale);
+            float3 normal = normalize(cross(float3(0, heightU - height, 0.01), float3(0.01, heightR - height, 0)));
 
             DomainOut output;
             output.positionCS = TransformWorldToHClip(positionWS);
             output.texcoord = texcoord;
             output.positionWS = positionWS;
-            output.normal = float3(0, 1, 0);
+            output.normal = normal;
             return output; 
         }
 
@@ -132,8 +138,11 @@ Shader "Custom/Grass"
         void GrassGeometryShader(triangle DomainOut input[3], inout TriangleStream<GeometryOut> triStream)
         {
             float3 positionWS = (input[0].positionWS + input[1].positionWS + input[2].positionWS) / 3.0;
+            float3 normalWS = (input[0].normal + input[1].normal + input[2].normal) / 3.0;
             float2 hash = hash22(positionWS.xz);
             float2 nhash = normalize(hash);
+            float3 camPos = GetCameraPositionWS();
+            float3x3 ltw = localToWorld(normalWS);
 
             // random width
             float width = _Width * length(lerp(nhash, hash, _WidthJitter));
@@ -141,33 +150,38 @@ Shader "Custom/Grass"
             // random rotation
             float2 dir = normalize(lerp(float2(1, 0), nhash, _RotationJitter));
             float3 offset = 0;
-            offset.xz = dir * width;
+            offset.xy = dir * width;
+            offset = mul(ltw, offset);
 
             // random height
             float height = _Height * lerp(1, hash.x  + 1.0, _HeightJitter);
-            float3 heightOffset = float3(0, height, 0);
+            float3 heightOffset = normalize(normalWS) * height;
+
+            // random direction
             heightOffset = rotatePointAroundAxis(heightOffset, normalize(offset), abs(hash.y) * PI_HALF * _DirectionJitter);
 
             // wind 
-            float2 windSample = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + 114.514) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rg * _WindMap_ST.xy * _WindStrength;
+            float2 windSample = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + 114.514) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rg * _WindMap_ST.xy * _WindStrength * 3.0;
 
             float phase0 = frac(_Time.y * _WindSpeed + 0.5);
             float phase1 = frac(_Time.y * _WindSpeed + 1.0);
 
-            float3 wind0 = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + windSample * phase0) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rgb * 2.0 - 1.0;
-            float3 wind1 = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + windSample * phase1) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rgb * 2.0 - 1.0;
+            float3 wind0 = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + windSample * phase0) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rgb - 0.25;
+            float3 wind1 = SAMPLE_TEXTURE2D_LOD(_WindMap, sampler_WindMap, (positionWS.xz + windSample * phase1) / (10.0 * _WindMap_ST.xy) + _WindMap_ST.zw, 0).rgb - 0.25;
             float flowLerp = abs((0.5 - phase0) / 0.5);
-            float3 wind = lerp(wind0, wind1, flowLerp) * _WindStrength * 3;
+            float3 wind = lerp(wind0, wind1, flowLerp) * _WindStrength;
             wind.yz = wind.zy;
 
             // random position
-            positionWS.xz = positionWS.xz + hash * _PosJitter;
-            float3 pos1 = positionWS + offset;
-            float3 pos2 = positionWS - offset;
-            float3 pos3 = positionWS + heightOffset;
+            float2 jitter = hash * _PosJitter;
+            float3 positionJT = (input[0].positionWS * jitter.x + input[1].positionWS * jitter.y + input[2].positionWS * (1 - jitter.x - jitter.y));
+            float3 pos1 = positionJT + offset;
+            float3 pos2 = positionJT - offset;
+            float3 pos3 = positionJT + heightOffset;
             float3 normal = normalize(cross(pos2 - pos1, pos3 - pos1));
 
-            float dist = distance(GetCameraPositionWS(), positionWS);
+            float dist = distance(camPos, positionJT);
+
             int segment = (int)floor(lerp(MAXSEGMENT, 2, saturate((dist - _GrassTessMinDist) / _GrassFadeDist)));
 
             for (int i = 0; i < segment; i++)
@@ -175,20 +189,21 @@ Shader "Custom/Grass"
                 float t = i / (float)segment;
                 float heightAtten = t * t;
                 float3 windOffset = wind * t;
-                windOffset.y = -length(windOffset.xz)*0.3;
+                windOffset.y = -length(windOffset.xz)*0.05;
+                
                 // first vertex
-                float3 posWS = positionWS + offset * (1 - t) + heightOffset * t * float3(heightAtten, 1, heightAtten) + windOffset;
+                float3 posWS = positionJT + offset * (1 - t) + heightOffset * t * float3(t, 1, t) + windOffset;
                 float2 texcoord = float2(t * 0.5, t);
-                triStream.Append(generateVertex(posWS, texcoord, positionWS, normal));
+                triStream.Append(generateVertex(posWS, texcoord, positionJT, normal));
 
                 // second vertex
-                posWS = positionWS - offset * (1 - t) + heightOffset * t * float3(heightAtten, 1, heightAtten) + windOffset;
+                posWS = positionJT - offset * (1 - t) + heightOffset * t *  float3(t, 1, t) + windOffset;
                 texcoord = float2(1.0 - 0.5 * t, t);
-                triStream.Append(generateVertex(posWS, texcoord, positionWS, normal));
+                triStream.Append(generateVertex(posWS, texcoord, positionJT, normal));
             }
             float3 windOffset = wind;
-            windOffset.y = -length(windOffset.xz)*0.3;
-            triStream.Append(generateVertex(positionWS + heightOffset + windOffset, float2(0.5, 1), positionWS, normal));
+            windOffset.y = -length(windOffset.xz)*0.1;
+            triStream.Append(generateVertex(positionJT + heightOffset + windOffset , float2(0.5, 1), positionJT, normal));
         }
 
         half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   

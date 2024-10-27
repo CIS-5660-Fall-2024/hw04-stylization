@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ToonStippledCrayon_Floor
+  m_Name: ToonStippledCrayon_Ball
   m_Shader: {fileID: -6465566751694194690, guid: 86208cb64a8e0d1459cb3e2180a90691,
     type: 3}
   m_Parent: {fileID: 0}
@@ -35,7 +35,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -120,7 +120,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HighlightStippleRange: 0
+    - _HighlightStippleRange: 0.35
     - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
@@ -138,11 +138,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.67858917, g: 0.9245283, b: 0.501513, a: 1}
+    - _BaseColor: {r: 0.95, g: 0.46455002, b: 0.46455002, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MidToneMultiplier: {r: 0.7075471, g: 0.7075471, b: 0.7075471, a: 0}
-    - _ShadingThresholds: {r: 0.3, g: 0.8, b: 0, a: 0}
-    - _ShadowMultiplier: {r: 0.496, g: 0.496, b: 0.496, a: 0}
+    - _Ramped_Diffuse_Values: {r: 0.2, g: 0.4, b: 1, a: 0}
+    - _ShadingThresholds: {r: 0.3, g: 0.95, b: 0, a: 0}
+    - _ShadowMultiplier: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

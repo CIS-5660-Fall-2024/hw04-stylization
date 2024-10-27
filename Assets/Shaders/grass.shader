@@ -218,7 +218,9 @@ Shader "Custom/Grass"
         Pass
         { 
             Name "Grass"
-            Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalRenderPipeline" "Queue"="Geometry+1"}
+            Tags { "RenderType"="Transparnt" "RenderPipeline"="UniversalRenderPipeline" "Queue"="Transparnt+1"}
+            // ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
             HLSLPROGRAM
             #pragma target 4.6 
             #pragma vertex DistanceBasedTessVert

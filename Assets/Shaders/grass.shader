@@ -194,25 +194,25 @@ Shader "Custom/Grass"
                 // first vertex
                 float3 posWS = positionJT + offset * (1 - t) + heightOffset * t * float3(t, 1, t) + windOffset;
                 float2 texcoord = float2(t * 0.5, t);
-                triStream.Append(generateVertex(posWS, texcoord, positionJT, normal));
+                triStream.Append(generateVertex(posWS, texcoord, positionJT, normalWS));
 
                 // second vertex
                 posWS = positionJT - offset * (1 - t) + heightOffset * t *  float3(t, 1, t) + windOffset;
                 texcoord = float2(1.0 - 0.5 * t, t);
-                triStream.Append(generateVertex(posWS, texcoord, positionJT, normal));
+                triStream.Append(generateVertex(posWS, texcoord, positionJT, normalWS));
             }
             float3 windOffset = wind;
             windOffset.y = -length(windOffset.xz)*0.1;
-            triStream.Append(generateVertex(positionJT + heightOffset + windOffset , float2(0.5, 1), positionJT, normal));
+            triStream.Append(generateVertex(positionJT + heightOffset + windOffset , float2(0.5, 1), positionJT, normalWS));
         }
 
         half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   
             half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.rootPos.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
             float t = smoothstep(0, 1.0, input.texcoord.y) * 0.7 + 0.3;
             Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
-            
+            float lambert = dot(normalize(input.normal), light.direction) * 0.5 + 0.6;
 
-            return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation, 1.0); 
+            return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert, 1.0); 
         }
         ENDHLSL
         Pass

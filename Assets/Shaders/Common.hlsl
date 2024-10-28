@@ -6,12 +6,18 @@
 // NoiseCommon.hlsl
 float hash13(float3 p)
 {
-    return frac(sin(dot(p ,float3(12.9898,78.233,126.7378))) * 43758.5453)*2.0-1.0;
+    return frac(sin(dot(p ,float3(12.9898,78.233,126.7378))) * 43758.5453);
+}
+
+float3 hash33(float3 p)
+{
+    return float3(hash13(p*1.00), hash13(p*1.12), hash13(p*1.23));
 }
 
 float3 grad(float3 p)
 {
-    return float3(hash13(p*1.00), hash13(p*1.12), hash13(p*1.23));
+
+    return float3(hash13(p*1.00) * 2.0 - 1.0, hash13(p*1.12) * 2.0 - 1.0, hash13(p*1.23) * 2.0 - 1.0);
 }
 
 float perlin3D(float3 q)
@@ -78,6 +84,31 @@ void getCaustics(out float4 k, float3 p, float offset)
     float layer2 = length(.5-frac((v + 1919.810) * 0.4));
     float layer3 = length(.5-frac((v + 3378.45818) * 0.3));
     k = pow(min(min(layer1,layer2),layer3), 7.)*25.;
+}
+
+float2 voronoi3D(float3 pos, out float3 pivot) {
+    float3 p = floor(pos);
+    float3 f = frac(pos);
+    float2 min_dist = 100.0;
+    for(int x = -1; x <= 1; x++) {
+        for(int y = -1; y <= 1; y++) {
+            for(int z = -1; z <= 1; z++) {
+                float3 neighbor = float3(x, y, z);
+                float3 pt = hash33(p + neighbor);
+                float3 diff = neighbor + pt - f;
+                float dist = dot(diff, diff);
+                if (dist < min_dist.x) {
+                    min_dist.y = min_dist.x;
+                    min_dist.x = dist;
+                    pivot = pt + neighbor + p;
+                } else if (dist < min_dist.y) {
+                    min_dist.y = dist;
+                }
+            }
+        }
+    }
+
+    return min_dist;
 }
 
 float zebra(float2 p, float thres)

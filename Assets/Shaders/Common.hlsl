@@ -1,23 +1,27 @@
-#define PI 3.14159265359
+// #define PI 3.14159265359
 #define PI_HALF 1.57079632679
 #define PI_TWO 6.28318530718
-#define INV_PI 0.31830988618
+// #define INV_PI 0.31830988618
+
+float cubic(float a) {
+    return a * a * (3.0 - 2.0 * a);
+}
 
 // NoiseCommon.hlsl
-float hash13(float3 p)
+float hash31(float3 p)
 {
     return frac(sin(dot(p ,float3(12.9898,78.233,126.7378))) * 43758.5453);
 }
 
 float3 hash33(float3 p)
 {
-    return float3(hash13(p*1.00), hash13(p*1.12), hash13(p*1.23));
+    return float3(hash31(p*1.00), hash31(p*1.12), hash31(p*1.23));
 }
 
 float3 grad(float3 p)
 {
 
-    return float3(hash13(p*1.00) * 2.0 - 1.0, hash13(p*1.12) * 2.0 - 1.0, hash13(p*1.23) * 2.0 - 1.0);
+    return float3(hash31(p*1.00) * 2.0 - 1.0, hash31(p*1.12) * 2.0 - 1.0, hash31(p*1.23) * 2.0 - 1.0);
 }
 
 float perlin3D(float3 q)
@@ -68,6 +72,53 @@ float fbmPerlin(float2 p, float freq, float amp, int octaves)
         a *= amp;
     }
     return v;
+}
+
+float interphash31(float3 pos) {
+    float x = pos.x;
+    float y = pos.y;
+    float z = pos.z;
+
+    int intX = int(floor(x));
+    float fracX = frac(x);
+    int intY = int(floor(y));
+    float fracY = frac(y);
+    int intZ = int(floor(z));
+    float fracZ = frac(z);
+
+    float v1 = hash31(float3(intX, intY, intZ));
+    float v2 = hash31(float3(intX + 1, intY, intZ));
+    float v3 = hash31(float3(intX, intY + 1, intZ));
+    float v4 = hash31(float3(intX + 1, intY + 1, intZ));
+    float v5 = hash31(float3(intX, intY, intZ + 1));
+    float v6 = hash31(float3(intX + 1, intY, intZ + 1));
+    float v7 = hash31(float3(intX, intY + 1, intZ + 1));
+    float v8 = hash31(float3(intX + 1, intY + 1, intZ + 1));
+
+    float i1 = lerp(v1, v2, cubic(fracX));
+    float i2 = lerp(v3, v4, cubic(fracX));
+    float i3 = lerp(v5, v6, cubic(fracX));
+    float i4 = lerp(v7, v8, cubic(fracX));
+
+    float j1 = lerp(i1, i2, cubic(fracY));
+    float j2 = lerp(i3, i4, cubic(fracY));
+
+    return lerp(j1, j2, fracZ);
+}
+
+float fbm3D(float3 pos) {
+    float total = 0.f;
+    float persistence = 0.5f;
+    int octaves = 8;
+    float freq = 2.f;
+    float amp = 0.5f;
+    for(int i = 1; i <= octaves; i++) {
+        total += interphash31(pos * freq) * amp;
+
+        freq *= 2.f;
+        amp *= persistence;
+    }
+    return total;
 }
 
 // k represents output color
@@ -139,7 +190,7 @@ float3x3 localToWorld(float3 N)
     float3 up = abs(N.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
     float3 T = normalize(cross(up, N));
     float3 B = cross(N, T);
-    return float3x3(T, B, N);
+    return transpose(float3x3(T, B, N));
 }
 
 float2 hash22(float2 p)

@@ -40,8 +40,9 @@ Shader "Custom/Paint"
 
 
         TEXTURECUBE(_BrushCube1);
-        TEXTURECUBE(_BrushCube2);
         SAMPLER(sampler_BrushCube1);
+        TEXTURECUBE(_BrushCube2);
+        SAMPLER(sampler_BrushCube2);
         TEXTURE2D(_ColorRamp);
         SAMPLER(sampler_ColorRamp);
 
@@ -90,7 +91,7 @@ Shader "Custom/Paint"
 
             float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), 1.0).xyz;
             brushNormal1 = mul(ltw, brushNormal1);
-            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube1, normalize(IN.positionOS)), 1.0).xyz;
+            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), 1.0).xyz;
             brushNormal2 = mul(ltw, brushNormal2);
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
@@ -107,7 +108,7 @@ Shader "Custom/Paint"
             normal = overlay((fbmNormal * 0.5 + 0.5) * _FactorFbm , voronoiNormal * 0.5 + 0.5);
             normal = overlay((brushNormal * 0.5 + 0.5) * _FactorBrush, normal);
             // return half4(normalize(normal * 2.0 - 1.0), 1.0);
-            return half4(brushNormal, 1.0);
+            return half4(normalize(brushNormal * 2.0 - 1.0), 1.0);
             Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
             float lambert = dot(normalize(normal), light.direction);
             float hlambert = lambert * 0.5 + 0.5;

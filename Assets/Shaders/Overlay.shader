@@ -67,9 +67,9 @@ Shader "Custom/Overlay"
 
                 float3 normal1 = SAMPLE_TEXTURE2D(_Map1, sampler_Map1, IN.uv).xyz;
                 float3 normal2 = SAMPLE_TEXTURE2D(_Map2, sampler_Map2, IN.uv).xyz;
-                return half4(normal2, 1.0);
-                return half4(overlay(normal1, normal2), 1.0);
-                return half4(overlay(_Color1.rgb, _Color2.rgb), 1.0);
+                // return half4(normal2, 1.0); 
+                return half4(linearLight(normal1, normal2), 1.0);
+                return half4(linearLight(_Color1.rgb, _Color2.rgb), 1.0);
                 return 0;
             }
             ENDHLSL

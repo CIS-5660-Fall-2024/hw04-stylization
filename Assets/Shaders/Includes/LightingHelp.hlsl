@@ -1,3 +1,7 @@
+//Reference: 
+// https://www.youtube.com/watch?v=3iZrZrEWQuA
+// https://legionofandy.com/2016/03/04/the-history-of-ben-day-dots-part-6-letterpress-printing-1890s-early-sunday-comics/
+
 void GetMainLight_float(float3 WorldPos, out float3 Color, out float3 Direction, out float DistanceAtten, out float ShadowAtten)
 {
 #ifdef SHADERGRAPH_PREVIEW
@@ -59,7 +63,6 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
         {
             rampedDiffuse = RampedDiffuseValues.z;
         }
-
         
         if (light.distanceAttenuation <= 0)
         {
@@ -79,15 +82,11 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
 #endif
 }
 
-void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Diffuse, float2 Thresholds, out float3 OUT)
+void ChooseColor_float(float3 Highlight, float3 Shadow, float Diffuse, float Threshold, out float3 OUT)
 {
-    if (Diffuse < Thresholds.x)
+    if (Diffuse < Threshold)
     {
         OUT = Shadow;
-    }
-    else if (Diffuse < Thresholds.y)
-    {
-        OUT = Midtone;
     }
     else
     {

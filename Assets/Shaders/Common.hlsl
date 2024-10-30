@@ -237,8 +237,8 @@ half3 overlay(half3 base, half3 blend)
     return half3(OVERLAY(base.r, blend.r), OVERLAY(base.g, blend.g), OVERLAY(base.b, blend.b));
 }
 
-// #define LINEARLIGHT(base, blend) (blend < 0.5) ? (base + (2.0 * blend) - 1) : (base + 2.0 * (blend - 0.5))
-#define LINEARLIGHT(base, blend) saturate(( blend - 0.1))
+#define LINEARLIGHT(base, blend) (blend < 0.5) ? (base + (2.0 * blend) - 1) : (base + 2.0 * (blend - 0.5))
+// #define LINEARLIGHT(base, blend) saturate(( blend - 0.1))
 half3 linearLight(half3 base, half3 blend)
 {
     return half3(LINEARLIGHT(base.r, blend.r), LINEARLIGHT(base.g, blend.g), LINEARLIGHT(base.b, blend.b));

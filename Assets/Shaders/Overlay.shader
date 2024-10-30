@@ -49,8 +49,6 @@ Shader "Custom/Overlay"
                 float3 obj : TEXCOORD2;
             };
 
-            
-
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
@@ -65,8 +63,8 @@ Shader "Custom/Overlay"
             {
                 float2 UV = IN.positionHCS.xy / _ScaledScreenParams.y;
 
-                float3 normal1 = SAMPLE_TEXTURE2D(_Map1, sampler_Map1, IN.uv).xyz;
-                float3 normal2 = SAMPLE_TEXTURE2D(_Map2, sampler_Map2, IN.uv).xyz;
+                half3 normal1 = SAMPLE_TEXTURE2D(_Map1, sampler_Map1, IN.uv).xyz;
+                half3 normal2 = SAMPLE_TEXTURE2D(_Map2, sampler_Map2, IN.uv).xyz;
                 // return half4(normal2, 1.0); 
                 return half4(linearLight(normal1, normal2), 1.0);
                 return half4(linearLight(_Color1.rgb, _Color2.rgb), 1.0);

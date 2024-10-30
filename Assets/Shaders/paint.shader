@@ -99,18 +99,19 @@ Shader "Custom/Paint"
             fbm = fbm * fbm * 2.0 - 1.0;
             float3 fbmNormal = mul(ltw, normalize(float3(fbm, 1.0)));
 
+            // return half4(voronoiNormal * 0.5 + 0.5, 1.0);
+            // linear light blend
+            normal = lerp(normal, fbmNormal, _FactorFbm);
+            normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
+
             float3 voronoiNormal;
-            float2 voronoi = voronoi3D(IN.normal * 5.0 , voronoiNormal);
+            float2 voronoi = voronoi3D(normal * 5.0 , voronoiNormal);
             voronoiNormal = normalize(voronoiNormal);
 
-            // return half4(voronoiNormal * 0.5 + 0.5, 1.0);
-            // overlay blend
-            normal = overlay((fbmNormal * 0.5 + 0.5) * _FactorFbm , voronoiNormal * 0.5 + 0.5);
-            normal = overlay((brushNormal * 0.5 + 0.5) * _FactorBrush, normal);
-            // return half4(normalize(normal * 2.0 - 1.0), 1.0);
-            return half4(normalize(brushNormal * 2.0 - 1.0), 1.0);
+            // return half4(normalize(voronoiNormal * 2.0 - 1.0), 1.0);
+            // return half4(normalize(brushNormal * 2.0 - 1.0), 1.0);
             Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
-            float lambert = dot(normalize(normal), light.direction);
+            float lambert = dot(normalize(voronoiNormal), light.direction);
             float hlambert = lambert * 0.5 + 0.5;
             float4 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5));
             return color * light.shadowAttenuation * light.distanceAttenuation;

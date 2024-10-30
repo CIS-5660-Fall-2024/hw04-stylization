@@ -5,11 +5,13 @@ Shader "Custom/Paint"
 {
     Properties
     { 
-        _BrushCube ("Brush Cube", CUBE) = "white" {}
+        _BrushCube1 ("Brush Cube1", CUBE) = "white" {}
+        _BrushCube2 ("Brush Cube2", CUBE) = "white" {}
+        _ColorRamp ("Color Ramp", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
         _BrushFrequency ("Brush Frequency", Range(0.1, 10)) = 0.5
-        _FactorFbm ("Factor Fbm", Range(0, 1)) = 0.5
-        _FactorBrush ("Factor Brush", Range(0, 1)) = 0.5
+        _FactorFbm ("Factor Fbm", Range(0.01, 1)) = 0.5
+        _FactorBrush ("Factor Brush", Range(0.01, 1)) = 0.5
     }
 
     // The SubShader block containing the Shader code.
@@ -37,8 +39,11 @@ Shader "Custom/Paint"
         CBUFFER_END
 
 
-        TEXTURECUBE(_BrushCube);
-        SAMPLER(sampler_BrushCube);
+        TEXTURECUBE(_BrushCube1);
+        TEXTURECUBE(_BrushCube2);
+        SAMPLER(sampler_BrushCube1);
+        TEXTURE2D(_ColorRamp);
+        SAMPLER(sampler_ColorRamp);
 
         struct Attributes
         {
@@ -75,27 +80,39 @@ Shader "Custom/Paint"
 
         half4 frag(Varyings IN) : SV_Target
         {
-            float3 normal = IN.normal;
-            // float3 sampledNormal = SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, IN.uv);
-            // sampledNormal = TransformTangentToWorld(sampledNormal, half3x3(IN.tangent.xyz, IN.bitangent, IN.normal)).xyz;
-            // return half4(sampledNormal, 1.0);   
-
-            float3 sampledNormal = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube, sampler_BrushCube, IN.normal), 1.0).xyz;
+            // screen uv
+            float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
             float3x3 ltw = localToWorld(IN.normal);
-            sampledNormal = mul(ltw, sampledNormal);
+            float3 normal = IN.normal;
+            // float3 brushNormal = SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, IN.uv);
+            // brushNormal = TransformTangentToWorld(brushNormal, half3x3(IN.tangent.xyz, IN.bitangent, IN.normal)).xyz;
+            // return half4(brushNormal, 1.0);   
 
-            float fbm = fbm3D(IN.positionWS * _BrushFrequency);
+            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), 1.0).xyz;
+            brushNormal1 = mul(ltw, brushNormal1);
+            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube1, normalize(IN.positionOS)), 1.0).xyz;
+            brushNormal2 = mul(ltw, brushNormal2);
+            float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
+
+            float2 fbm = float2(fbm3D(IN.positionOS * 41.1226 * _BrushFrequency), fbm3D(IN.positionOS * 38.7116 * _BrushFrequency));
             fbm = fbm * fbm * 2.0 - 1.0;
-            // linear light blend
-            normal += fbm * _FactorFbm;
-            normal = lerp(normal, sampledNormal, _FactorBrush);
-            // return half4(LinearLight(1, 0, _FactorBrush), 1.0);
-            // normal = normalize(lerp(normal, sampledNormal, 0.5));
-            float2 voronoi = voronoi3D(normal * 5.0 , normal);
-            // return half4(normalize(normal), 1.0);
+            float3 fbmNormal = mul(ltw, normalize(float3(fbm, 1.0)));
+
+            float3 voronoiNormal;
+            float2 voronoi = voronoi3D(IN.normal * 5.0 , voronoiNormal);
+            voronoiNormal = normalize(voronoiNormal);
+
+            // return half4(voronoiNormal * 0.5 + 0.5, 1.0);
+            // overlay blend
+            normal = overlay((fbmNormal * 0.5 + 0.5) * _FactorFbm , voronoiNormal * 0.5 + 0.5);
+            normal = overlay((brushNormal * 0.5 + 0.5) * _FactorBrush, normal);
+            // return half4(normalize(normal * 2.0 - 1.0), 1.0);
+            return half4(brushNormal, 1.0);
             Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
-            float lambert = saturate(dot(normalize(normal), light.direction) * 0.5 + 0.5);
-            return _Color * lambert * light.shadowAttenuation * light.distanceAttenuation;
+            float lambert = dot(normalize(normal), light.direction);
+            float hlambert = lambert * 0.5 + 0.5;
+            float4 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5));
+            return color * light.shadowAttenuation * light.distanceAttenuation;
         }
         ENDHLSL
 

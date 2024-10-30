@@ -52,6 +52,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ColorRamp:
+        m_Texture: {fileID: 2800000, guid: e6e6a57a2fd14434192b681c021d9611, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -106,7 +110,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
-    - _BrushFrequency: 3.6
+    - _BrushFrequency: 4.16
     - _BrushRoughness: 0
     - _BrushWeight: 0.5
     - _BumpScale: 1
@@ -119,8 +123,8 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FactorBrush: 0.688
-    - _FactorFbm: 0.122
+    - _FactorBrush: 0.579
+    - _FactorFbm: 0.197
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1

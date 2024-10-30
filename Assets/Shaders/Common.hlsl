@@ -227,3 +227,13 @@ float3 rotatePointAroundAxis(float3 p, float3 axis, float angle)
     return rotatedPointQuat.xyz;
 }
 
+#define luminance(c) dot(c, float3(0.2126, 0.7152, 0.0722))
+
+
+
+#define OVERLAY(base, blend) (blend < 0.5) ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend))
+float3 overlay(float3 base, float3 blend)
+{
+    return float3(OVERLAY(base.r, blend.r), OVERLAY(base.g, blend.g), OVERLAY(base.b, blend.b));
+}
+

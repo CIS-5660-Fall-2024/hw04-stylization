@@ -24,18 +24,9 @@ After forking the repo, take a moment to watch this brief HW/Base Project Overvi
 - [See the Project Overview here](https://youtu.be/JmVTmpgSz5U)
 
 ## 1. Picking a Piece of Concept Art
+The concept art I am inspiring my scene off of is a piece of visual development done by Chris Sanders when developing the Disney film Lilo and Stitch. I really enjoy the water color aspects of it!
 
-Choose a simple illustration to guide your stylization. Choose a relatively simple piece of art THAT INCLUDES OUTLINES. You *might* want to look through the rest of the homework instructions before committing to one. Here are some examples of styles that will work well. Feel free to choose one of these, but we encourage your to pick your own.
-
-| ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/dae1ffc2-8269-493d-919f-b3811c76ed30) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/9c345ee6-19df-4191-9e47-6722b6597a5a) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/48521733-f83a-4704-ac8d-9d2f24574922) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/3068bdc4-1b08-41cf-9a16-08d94be5f1ea) |  ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/ae1d0fae-7998-4287-8269-13e2cafd740b) | 
-|:--:|:--:|:--:|:--:|:--:|
-| *https://twitter.com/stefscribbles/status/1646235145110683650* | *https://twitter.com/trudicastle/status/1122648793009098752* | *https://twitter.com/caomor/status/1049494055518908416* | *https://www.artstation.com/requinoesis* | *https://twitter.com/cysketch/status/1712442821389713597* | 
-
-
-**Disclaimer: Don't forget to identify and credit the artist who created the concept art : )**
-
-**[Emma Koch](https://www.artstation.com/ekoch)**, an amazing 3D artist I happened to stumble upon on ArtStation produces incredible 2D-esque 3D art pieces. Some of the references I picked above were inspired directly from her work. I'd definitely check out her artstation for any inspiraiton if you want some! [Link](https://www.artstation.com/ekoch)
-
+![lilostitchconceptart](https://github.com/user-attachments/assets/f146f97e-b5a8-4012-bd1f-59d7832346c3)
 ---
 ## 2. Interesting Shaders
 

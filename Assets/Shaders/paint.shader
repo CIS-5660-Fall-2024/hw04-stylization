@@ -12,6 +12,7 @@ Shader "Custom/Paint"
         _BrushFrequency ("Brush Frequency", Range(0.1, 10)) = 0.5
         _FactorFbm ("Factor Fbm", Range(0.01, 1)) = 0.5
         _FactorBrush ("Factor Brush", Range(0.01, 1)) = 0.5
+        [Toggle(_AdditionalLights)] _AddLights ("AddLights", Float) = 1
     }
 
     // The SubShader block containing the Shader code.
@@ -99,7 +100,6 @@ Shader "Custom/Paint"
             fbm = fbm * fbm * 2.0 - 1.0;
             float3 fbmNormal = mul(ltw, normalize(float3(fbm, 1.0)));
 
-            // return half4(voronoiNormal * 0.5 + 0.5, 1.0);
             // linear light blend
             normal = lerp(normal, fbmNormal, _FactorFbm);
             normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
@@ -108,13 +108,25 @@ Shader "Custom/Paint"
             float2 voronoi = voronoi3D(normal * 5.0 , voronoiNormal);
             voronoiNormal = normalize(voronoiNormal);
 
-            // return half4(normalize(voronoiNormal * 2.0 - 1.0), 1.0);
-            // return half4(normalize(brushNormal * 2.0 - 1.0), 1.0);
             Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
             float lambert = dot(normalize(voronoiNormal), light.direction);
             float hlambert = lambert * 0.5 + 0.5;
-            float4 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5));
-            return color * light.shadowAttenuation * light.distanceAttenuation;
+            float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
+
+            float3 lightContribution = 0;
+            // compute additional lights contribution
+            int pixelLightCount = 0;
+        #ifdef _AdditionalLights
+            pixelLightCount = GetAdditionalLightsCount();            
+            for(int index = 0; index < pixelLightCount; index++)    
+            {
+                Light light = GetAdditionalLight(index, IN.positionWS); 
+                lightContribution += light.color * light.shadowAttenuation * light.distanceAttenuation * color;
+            }
+        #endif
+            return half4(lightContribution, 1.0);
+            // color *= lightContribution;
+            return half4(color * light.shadowAttenuation * light.distanceAttenuation * light.color, 1.0);
         }
         ENDHLSL
 
@@ -124,6 +136,7 @@ Shader "Custom/Paint"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma shader_feature _AdditionalLights
             ENDHLSL
         }
 

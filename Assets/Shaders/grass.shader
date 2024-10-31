@@ -35,6 +35,8 @@ Shader "Custom/Grass"
     }
     SubShader
     {
+        // UsePass "Custom/Floor/TERRAIN"
+
         Cull Off
         HLSLINCLUDE
         #include "Assets/Shaders/GrassCommon.hlsl"
@@ -211,16 +213,15 @@ Shader "Custom/Grass"
             float t = smoothstep(0, 1.0, input.texcoord.y) * 0.7 + 0.3;
             Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
             float lambert = dot(normalize(input.normal), light.direction) * 0.5 + 0.6;
-
             return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert, 1.0); 
         }
         ENDHLSL
         Pass
         { 
             Name "Grass"
-            Tags { "RenderType"="Transparnt" "RenderPipeline"="UniversalRenderPipeline" "Queue"="Transparnt+1"}
-            // ZWrite Off
-            Blend SrcAlpha OneMinusSrcAlpha
+            Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalRenderPipeline" "Queue"="Geometry+1"}
+            ZWrite On
+            // Blend SrcAlpha OneMinusSrcAlpha
             HLSLPROGRAM
             #pragma target 4.6 
             #pragma vertex DistanceBasedTessVert
@@ -237,28 +238,67 @@ Shader "Custom/Grass"
             ENDHLSL
         }
 
-        // Pass
-        // { 
-        //     Name "Grass ShadowCaster"
-        //     Tags { "LightMode" = "ShadowCaster"}
-        //     ZWrite On
-        //     ZTest LEqual
+        Pass
+        { 
+            Name "Grass ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster"}
+            ZWrite On
+            ZTest LEqual
 
-        //     HLSLPROGRAM
-        //     #pragma target 4.6 
-        //     #pragma vertex DistanceBasedTessVert
-        //     #pragma fragment ShadowCasterFragment 
-        //     #pragma hull DistanceBasedTessControlPoint
-        //     #pragma domain DistanceBasedTessDomain_Grass
-        //     #pragma geometry GrassGeometryShader // 添加Geometry Shader指令
-        //     #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
-        //     #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
+            HLSLPROGRAM
+            #pragma target 4.6 
+            #pragma vertex DistanceBasedTessVert
+            #pragma fragment ShadowCasterFragment 
+            #pragma hull ShadowDistanceBasedTessControlPoint
+            #pragma domain DistanceBasedTessDomain_Grass
+            // #pragma geometry GrassGeometryShader // 添加Geometry Shader指令
+            #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
+            #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
             
-        //     half4 ShadowCasterFragment(GeometryOut input) : SV_Target
-        //     {
-        //         return 0;
-        //     }
-        //     ENDHLSL
-        // }
+            PatchTess ShadowPatchConstant (InputPatch<VertexOut,3> patch, uint patchID : SV_PrimitiveID){ 
+                PatchTess o;
+                float3 cameraPosWS = GetCameraPositionWS();
+                real3 triVectexFactors = GetDistanceBasedTessFactor(patch[0].positionWS, patch[1].positionWS, patch[2].positionWS, cameraPosWS, _TessMinDist, _TessMinDist + _FadeDist);
+
+                float4 tessFactors = 3.0 * CalcTriTessFactorsFromEdgeTessFactors(triVectexFactors);
+                o.edgeFactor[0] = max(1.0, tessFactors.x);
+                o.edgeFactor[1] = max(1.0, tessFactors.y);
+                o.edgeFactor[2] = max(1.0, tessFactors.z);
+
+                o.insideFactor  = max(1.0, tessFactors.w);
+                return o;
+            }
+
+            [domain("tri")]   
+            #if _PARTITIONING_INTEGER
+            [partitioning("integer")] 
+            #elif _PARTITIONING_FRACTIONAL_EVEN
+            [partitioning("fractional_even")] 
+            #elif _PARTITIONING_FRACTIONAL_ODD
+            [partitioning("fractional_odd")]    
+            #endif 
+
+            #if _OUTPUTTOPOLOGY_TRIANGLE_CW
+            [outputtopology("triangle_cw")] 
+            #elif _OUTPUTTOPOLOGY_TRIANGLE_CCW
+            [outputtopology("triangle_ccw")] 
+            #endif
+
+            [patchconstantfunc("ShadowPatchConstant")] 
+            [outputcontrolpoints(3)]                 
+            [maxtessfactor(64.0f)]                 
+            HullOut ShadowDistanceBasedTessControlPoint (InputPatch<VertexOut,3> patch,uint id : SV_OutputControlPointID){  
+                HullOut o;
+                o.positionWS = patch[id].positionWS;
+                o.texcoord = patch[id].texcoord; 
+                return o;
+            }
+
+            half4 ShadowCasterFragment(DomainOut input) : SV_Target
+            {
+                return 0;
+            }
+            ENDHLSL
+        }
     }
 }

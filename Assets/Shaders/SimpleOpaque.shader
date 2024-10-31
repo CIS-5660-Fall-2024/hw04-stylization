@@ -1,7 +1,7 @@
 // This Unity shader reconstructs the world space positions for pixels using a depth
 // texture and screen space UV coordinates. The shader draws a checkerboard pattern
 // on a mesh to visualize the positions.
-Shader "Custom/Overlay"
+Shader "Custom/SimpleOpaque"
 {
     Properties
     { 
@@ -16,16 +16,13 @@ Shader "Custom/Overlay"
     {
         // SubShader Tags define when and under which conditions a SubShader block or
         // a pass is executed.
-        Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue"="Transparent+1"}
-        ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "Queue"="Geometry"}
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Assets/Shaders/Common.hlsl"
             CBUFFER_START(UnityPerMaterial)
             float4 _Color1;
@@ -61,25 +58,12 @@ Shader "Custom/Overlay"
                 return OUT;
             }
 
-            float LinearEyeDepth(float depth)
-            {
-                return 1.0 / (_ProjectionParams.z * depth + _ProjectionParams.w);
-            }
-
-            float Linear01Depth(float depth)
-        {
-            float linearDepth = LinearEyeDepth(depth);
-            return linearDepth / _ProjectionParams.y;
-        }
-        
             half4 frag(Varyings IN) : SV_Target
             {
                 float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
 
                 half3 normal1 = SAMPLE_TEXTURE2D(_Map1, sampler_Map1, IN.uv).xyz;
                 half3 normal2 = SAMPLE_TEXTURE2D(_Map2, sampler_Map2, IN.uv).xyz;
-                half3 depth = Linear01Depth(SampleSceneDepth(UV), _ZBufferParams);
-                return half4(depth, 1.0); 
                 return half4(linearLight(normal1, normal2), 1.0);
                 return half4(linearLight(_Color1.rgb, _Color2.rgb), 1.0);
                 return 0;

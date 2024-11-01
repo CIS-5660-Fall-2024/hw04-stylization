@@ -6,7 +6,8 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 #pragma shader_feature _RANDOMHEIGHT
-
+#pragma shader_feature _AdditionalLights
+#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
 CBUFFER_START(UnityPerMaterial) 
 float _EdgeFactor;  
 float _TessMinDist;

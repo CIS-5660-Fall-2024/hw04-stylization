@@ -33,6 +33,8 @@ Shader "Custom/Grass"
         [Header(Wind)][Space]
         _WindSpeed ("Wind Speed", Range(0, 1)) = 0.5
         _WindStrength ("Wind Strength", Range(0, 5)) = 0.5
+
+        [Toggle(_AdditionalLights)] _AddLights ("AddLights", Float) = 1
     }
     SubShader
     {
@@ -231,10 +233,20 @@ Shader "Custom/Grass"
             // lighting
             Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
             float lambert = dot(normalize(brushNormal), light.direction);
-            // return half4(brushNormal, 1.0);
             float3 totalContrib = color * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert;
+
+            int pixelLightCount = 0;
+        #ifdef _AdditionalLights
+            pixelLightCount = GetAdditionalLightsCount();
+            for (int i = 0; i < pixelLightCount; i++)
+            {
+                Light additionalLight = GetAdditionalLight(i, input.positionWS);
+                lambert = dot(normalize(brushNormal), additionalLight.direction);
+                totalContrib += color * additionalLight.color * additionalLight.distanceAttenuation * additionalLight.shadowAttenuation * lambert;
+            }
+        #endif
+        
             return half4(totalContrib, 1.0);
-            return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert, 1.0); 
         }
         ENDHLSL
         Pass

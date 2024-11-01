@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _AdditionalLights
   - _OUTPUTTOPOLOGY_TRIANGLE_CW
   - _PARTITIONING_INTEGER
   m_InvalidKeywords: []
@@ -95,6 +96,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddLights: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0

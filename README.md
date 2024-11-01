@@ -1,5 +1,14 @@
 # HW 4: *3D Stylization*
 
+
+## Reference
+Model: [low poly anime character](https://www.cgtrader.com/free-3d-models/character/fantasy-character/japanese-kid-anime-style-lowpoly-animated)
+
+| *Shader Style Reference* | *Character View* |
+|:--:|:--:|
+| <img width="500px" src=https://github.com/AkikozZM/hw04-stylization/blob/main/img/style_ref1.png>  | <img width="500px" src=https://github.com/AkikozZM/hw04-stylization/blob/main/img/style_ref2.png> |
+
+
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 

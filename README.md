@@ -44,14 +44,12 @@ I also added a second overlay full screen vignette effect. I was particularly in
 
 ---
 ## 5. Create a Scene
-Using Unity's controls, create a ***SUPER BASIC*** scene with a few elements to show off your unique rendering stylization. Be sure to apply the materials you've created. Please don't go crazy with the geometry -- then you'll have github problems if your files are too large. [See here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github). 
+Using free 3D Models and my shaders, I compiled a scene reminiscent of Lilo and Stitch!
 
-Note that your modelling will NOT be graded at all for this assignment. It is **NOT** expected that your scene will be a one-to-one faithful replica of your concept art. You are **STRONGLY ENCOURAGED** to find free assets online, even if they don't strongly resemble the geometry/objects present in your concept art. (TLDR; If you choose to model your own geometry for this project, be aware of the time-constraint and risk!)
 
-Some example resources for finding 3D assets to populate your scene With:
-1. [SketchFab](https://sketchfab.com/)
-2. [Mixamo](https://www.mixamo.com/#/)
-3. [TurboSquid](https://www.turbosquid.com/)
+https://github.com/user-attachments/assets/b09d1ffd-bc15-4616-9a63-778dcdc4f135
+
+
 
 ## 6. Interactivity
 As a finishing touch, let's show off the fact that our scene is rendered in real-time! Please add an element of interactivity to your scene. Change some major visual aspect of your scene on a keypress. The triggered change could be

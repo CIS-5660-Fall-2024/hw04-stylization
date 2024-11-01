@@ -4,11 +4,11 @@ Shader "Custom/Grass"
     {
         _BaseMap ("Base Map", 2D) = "white" {}  
         _WindMap ("Wind Map", 2D) = "white" {}
-
+        _BrushMap ("Brush Map", 2D) = "white" {}
         [HideInInspector] [KeywordEnum(integer, fractional_even, fractional_odd)]_Partitioning ("Partitioning Mode", Float) = 2
         [HideInInspector] [KeywordEnum(triangle_cw, triangle_ccw)]_Outputtopology ("Outputtopology Mode", Float) = 0
         [Header(Tess)][Space]
-        [IntRange]_EdgeFactor ("EdgeFactor", Range(1,20)) = 20
+        [IntRange]_EdgeFactor ("EdgeFactor", Range(1,50)) = 20
          _TessMinDist ("TessMinDist", Range(0,1000)) = 1000.0
          _FadeDist ("FadeDist", Range(1,1000)) = 1000.0
         _HeightScale ("HeightScale", Range(1,50)) = 10.0
@@ -16,6 +16,7 @@ Shader "Custom/Grass"
 
         [Header(Grass Spec)][Space]
         _Width ("Width", Range(0.1, 2.0)) = 0.5
+        [Toggle(_RANDOMHEIGHT)] _RandH ("Random Height", Float) = 1
         _Height ("Height", Range(0.1, 5.0)) = 4.0
 
         _PosJitter ("PosJitter", Range(0.01, 2.0)) = 0.05
@@ -62,6 +63,10 @@ Shader "Custom/Grass"
         TEXTURE2D(_WindMap); 
         SAMPLER(sampler_WindMap);
         float4 _WindMap_ST;
+        TEXTURE2D(_BrushMap);
+        SAMPLER(sampler_BrushMap);
+        float4 _BrushMap_ST;
+
 
         PatchTess PatchConstant (InputPatch<VertexOut,3> patch, uint patchID : SV_PrimitiveID){ 
             PatchTess o;
@@ -99,6 +104,7 @@ Shader "Custom/Grass"
             HullOut o;
             o.positionWS = patch[id].positionWS;
             o.texcoord = patch[id].texcoord; 
+            o.normal = patch[id].normal;
             return o;
         }
 
@@ -109,13 +115,16 @@ Shader "Custom/Grass"
             float3 positionWS = patch[0].positionWS * bary.x + patch[1].positionWS * bary.y + patch[2].positionWS * bary.z; 
             float2 texcoord   = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
             float2 xz = positionWS.xz * _LandSpread;
+        #ifdef _RANDOMHEIGHT
             float heightScale = _HeightScale;
             float height = h(xz, heightScale);
             positionWS.y += height;
             float heightR = h(float2(xz.x + 0.01 * _LandSpread, xz.y), heightScale);
             float heightU = h(float2(xz.x, xz.y + 0.01 * _LandSpread), heightScale);
             float3 normal = normalize(cross(float3(0, heightU - height, 0.01), float3(0.01, heightR - height, 0)));
-
+        #else
+            float3 normal = patch[0].normal * bary.x + patch[1].normal * bary.y + patch[2].normal * bary.z;
+        #endif
             DomainOut output;
             output.positionCS = TransformWorldToHClip(positionWS);
             output.texcoord = texcoord;
@@ -209,10 +218,22 @@ Shader "Custom/Grass"
         }
 
         half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   
+            // distorted normal
+            float3x3 ltw = localToWorld(input.normal);
+            half3 brushNormal = UnpackNormalScale(SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, input.rootPos.xz / (10.0 * _BrushMap_ST.xy) + _BrushMap_ST.zw), 2.0);
+            brushNormal = TransformTangentToWorld(brushNormal, half3x3(transpose(ltw))).xyz;
+
+            // color
             half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.rootPos.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
             float t = smoothstep(0, 1.0, input.texcoord.y) * 0.7 + 0.3;
+            color *= t;
+
+            // lighting
             Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
-            float lambert = dot(normalize(input.normal), light.direction) * 0.5 + 0.6;
+            float lambert = dot(normalize(brushNormal), light.direction);
+            // return half4(brushNormal, 1.0);
+            float3 totalContrib = color * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert;
+            return half4(totalContrib, 1.0);
             return half4(color * t * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert, 1.0); 
         }
         ENDHLSL

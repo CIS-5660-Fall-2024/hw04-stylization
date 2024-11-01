@@ -1,3 +1,4 @@
+#pragma once
 // #define PI 3.14159265359
 #define PI_HALF 1.57079632679
 #define PI_TWO 6.28318530718
@@ -193,6 +194,15 @@ float3x3 localToWorld(float3 N)
     return transpose(float3x3(T, B, N));
 }
 
+#define MOD3 float3(443.8975,397.2973, 491.1871)
+
+float hash21(float2 p)
+{
+    float3 p3  = frac(float3(p.xyx) * MOD3);
+    p3 += dot(p3, p3.yzx + 19.19);
+    return frac((p3.x + p3.y) * p3.z);
+}
+
 float2 hash22(float2 p)
 {
     const float2 k = float2(0.3183099, 0.3678794);
@@ -242,4 +252,11 @@ half3 overlay(half3 base, half3 blend)
 half3 linearLight(half3 base, half3 blend)
 {
     return half3(LINEARLIGHT(base.r, blend.r), LINEARLIGHT(base.g, blend.g), LINEARLIGHT(base.b, blend.b));
+}
+
+float dither(float2 uv)
+{
+    float2 seed = uv;
+    float rnd = hash21( seed );
+    return rnd/255.0;
 }

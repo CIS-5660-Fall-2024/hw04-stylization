@@ -6,10 +6,17 @@ Shader "Custom/Paint"
     Properties
     { 
         [Header(Brush)][Space]
+        _BrushNormalScale ("Brush Normal Scale", Range(0.5, 3.0)) = 1.5
         _BrushCube1 ("Brush Cube1", CUBE) = "white" {}
         _BrushCube2 ("Brush Cube2", CUBE) = "white" {}
+
+        [Toggle(_UseRamp)] _URamp ("Use Ramp", Float) = 1
+        [Toggle(_UseAlbedoMap)] _UAlbedo ("Use AlbedoMap", Float) = 1
         _ColorRamp ("Color Ramp", 2D) = "white" {}
+        _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        _VoronoiSize ("Voronoi Size", Range(1.0, 7.0)) = 5.0
         _Color ("Color", Color) = (1,1,1,1)
+        _ColorTransition ("Color Transition", Range(0.01, 1)) = 0.5
         _BrushFrequency ("Brush Frequency", Range(0.1, 10)) = 0.5
         _FactorFbm ("Factor Fbm", Range(0.01, 1)) = 0.5
         _FactorBrush ("Factor Brush", Range(0.01, 1)) = 0.5
@@ -19,6 +26,7 @@ Shader "Custom/Paint"
         _RimKernel ("Rim Kernel", Range(0.001, 0.1)) = 0.01
         _RimScale ("Rim Scale", Range(0.5, 3.0)) = 1.5
         [Toggle(_AdditionalLights)] _AddLights ("AddLights", Float) = 1
+
     }
 
     // The SubShader block containing the Shader code.
@@ -44,13 +52,16 @@ Shader "Custom/Paint"
         
 
         CBUFFER_START(UnityPerMaterial)
+        float _BrushNormalScale;
         float4 _Color;
+        float _VoronoiSize;
         float _BrushFrequency;
         float _FactorFbm;
         float _FactorBrush;
         float _RimThreshold;
         float _RimKernel;
         float _RimScale;
+        float _ColorTransition;
         CBUFFER_END
 
 
@@ -60,7 +71,9 @@ Shader "Custom/Paint"
         SAMPLER(sampler_BrushCube2);
         TEXTURE2D(_ColorRamp);
         SAMPLER(sampler_ColorRamp);
-        
+        TEXTURE2D(_MainTex);
+        SAMPLER(sampler_MainTex);
+
         struct Attributes
         {
             float4 positionOS   : POSITION;
@@ -110,43 +123,38 @@ Shader "Custom/Paint"
         {
             // screen uv
             float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
-            float3x3 ltw = localToWorld(IN.normal);
-            float3 normal = IN.normal;
+            float3x3 ltO = localToWorld(IN.normalOS);
+            float3 normal = IN.normalOS;
             float3 V = normalize(_WorldSpaceCameraPos - IN.positionWS);
             
-            // float3 brushNormal = SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, IN.uv);
-            // brushNormal = TransformTangentToWorld(brushNormal, half3x3(IN.tangent.xyz, IN.bitangent, IN.normal)).xyz;
-            // return half4(brushNormal, 1.0);   
-
-            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), 1.0).xyz;
-            brushNormal1 = mul(ltw, brushNormal1);
-            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), 1.0).xyz;
-            brushNormal2 = mul(ltw, brushNormal2);
+            // overlay blend brush normal
+            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), _BrushNormalScale).xyz;
+            brushNormal1 = mul(ltO, brushNormal1);
+            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), _BrushNormalScale).xyz;
+            brushNormal2 = mul(ltO, brushNormal2);
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2(fbm3D(IN.positionOS * 41.1226 * _BrushFrequency), fbm3D(IN.positionOS * 38.7116 * _BrushFrequency));
             fbm = fbm * fbm * 2.0 - 1.0;
-            float3 fbmNormal = mul(ltw, normalize(float3(fbm, 1.0)));
+            float3 fbmNormal = mul(ltO, normalize(float3(fbm, 1.0)));
 
-            // linear light blend
+            // linear light blend normal
             normal = lerp(normal, fbmNormal, _FactorFbm);
             normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
 
+            // voronoi using distorted normal as input
             float3 voronoiNormal;
-            float2 voronoi = voronoi3D(normal * 5.0 , voronoiNormal);
-            normal = normalize(voronoiNormal);
+            float2 voronoi = voronoi3D(normal * _VoronoiSize , voronoiNormal);
+            normal = normalize(mul(transpose(unity_WorldToObject), float4(voronoiNormal, 0.0)).xyz) * 2.0 - 1.0;
 
-            // rim lighting
+            // depth based rim mask
             float fragDepth = getDepth(UV);
             float3 normalView = normalize(mul(UNITY_MATRIX_V, normal));
 
             float depth = getDepth(UV + normalView.xy * _RimKernel * (0.9 - 0.9 * fragDepth));
             float depthDiff = abs(fragDepth - depth);
-            // return depth;
             float rim = saturate(depthDiff / max(0.0001, _RimThreshold));
-            rim = smoothstep(0.03, 1.0, rim) * _RimScale * 2.0;
-            // return rim;
-
+            rim = smoothstep(0.03, 1.0, rim) * _RimScale;
             // light contributions
             float3 lightContribution = 0;
 
@@ -154,23 +162,40 @@ Shader "Custom/Paint"
             Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
             float lambert = dot(normalize(normal), light.direction);
             float hlambert = lambert * 0.5 + 0.5;
+            
+        #ifdef _UseRamp
             float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
-
-            float3 lighting = light.shadowAttenuation * light.distanceAttenuation * light.color;
+        #elif _UseAlbedoMap
+            float3 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
+        #else
+            float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
+        #endif
+            float3 lighting = light.distanceAttenuation * light.shadowAttenuation * light.color;
 
             // kd + ks, ks = rimMask * fresnel * lighting
             float specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V)));
-            lightContribution += color * lighting * (1 + specular);
-            // return light.shadowAttenuation;
+            lightContribution += lighting * (color + specular);
+
             // compute additional lights contribution
             int pixelLightCount = 0;
         #ifdef _AdditionalLights
-            pixelLightCount = GetAdditionalLightsCount();            
+            pixelLightCount = GetAdditionalLightsCount();        
             for(int index = 0; index < pixelLightCount; index++)    
             {
                 light = GetAdditionalLight(index, IN.positionWS); 
+                lambert = dot(normalize(normal), light.direction);
+                hlambert = lambert * 0.5 + 0.5;
+            #ifdef _UseRamp
+                float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
+            #elif _UseAlbedoMap
+                float3 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
+            #else
+                float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
+            #endif
+                // color = _Color.rgb * lambert;
                 lighting = light.shadowAttenuation * light.distanceAttenuation * light.color;
-                lightContribution += color * lighting * (1 + specular);
+                specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V)));
+                lightContribution += lighting * (color + specular);
             }
         #endif
             return half4(lightContribution, 1.0);
@@ -186,9 +211,13 @@ Shader "Custom/Paint"
             #pragma vertex vert
             #pragma fragment frag
             #pragma shader_feature _AdditionalLights
+            #pragma shader_feature _UseRamp
+            #pragma shader_feature _UseAlbedoMap
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _SHADOWS_SOFT//柔化阴影，得到软阴影
+            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             ENDHLSL
         }
 
@@ -200,10 +229,31 @@ Shader "Custom/Paint"
             ZTest LEqual
 
             HLSLPROGRAM
-            #pragma vertex vert
+            #pragma vertex ShadowVert
             #pragma fragment ShadowCasterFragment 
+            
+            Varyings ShadowVert(Attributes IN)
+            {
+                Varyings OUT;
+
+                VertexNormalInputs normalInput = GetVertexNormalInputs(IN.normal, IN.tangent);
+                OUT.normal = normalInput.normalWS;
+                OUT.normalOS = IN.normal;
+
+                float3 worldPos = TransformObjectToWorld(IN.positionOS.xyz);
+                Light light = GetMainLight();
+                worldPos = ApplyShadowBias(worldPos, OUT.normal, light.direction);
+                OUT.positionHCS = TransformWorldToHClip(worldPos);
+
+                OUT.uv = IN.uv;
+                
+                
+                return OUT;
+            }
+
             half4 ShadowCasterFragment(Varyings input) : SV_Target
             {
+
                 return (0, 0, 0, 1);
             }
             ENDHLSL

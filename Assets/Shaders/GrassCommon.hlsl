@@ -4,6 +4,9 @@
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
 #include "Assets/Shaders/Common.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+#pragma shader_feature _RANDOMHEIGHT
+
 CBUFFER_START(UnityPerMaterial) 
 float _EdgeFactor;  
 float _TessMinDist;
@@ -20,11 +23,15 @@ struct Attributes
 {
     float3 positionOS   : POSITION; 
     float2 texcoord     : TEXCOORD0;
+    float3 normalOS     : NORMAL;
+    float4 tangent : TEXCOORD2;
+
 };
 
 struct VertexOut{
     float3 positionWS : INTERNALTESSPOS; 
     float2 texcoord : TEXCOORD0;
+    float3 normal : TEXCOORD1;
 };
     
 struct PatchTess {  
@@ -35,6 +42,7 @@ struct PatchTess {
 struct HullOut{
     float3 positionWS : INTERNALTESSPOS; 
     float2 texcoord : TEXCOORD0;
+    float3 normal : TEXCOORD1;
 };
 
 struct DomainOut
@@ -66,6 +74,8 @@ VertexOut DistanceBasedTessVert(Attributes input){
     VertexOut o;
     o.positionWS = TransformObjectToWorld(input.positionOS);  
     o.texcoord   = input.texcoord;
+    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangent);
+    o.normal = normalInput.normalWS;
     return o;
 }
 

@@ -55,6 +55,7 @@ Shader "Custom/Floor"
             HullOut o;
             o.positionWS = patch[id].positionWS;
             o.texcoord = patch[id].texcoord; 
+            o.normal = patch[id].normal;
             return o;
         }
 
@@ -65,13 +66,16 @@ Shader "Custom/Floor"
             float3 positionWS = patch[0].positionWS * bary.x + patch[1].positionWS * bary.y + patch[2].positionWS * bary.z; 
             float2 texcoord   = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
             float2 xz = positionWS.xz * _LandSpread;
+        #ifdef _RANDOMHEIGHT
             float heightScale = _HeightScale;
             float height = h(xz, heightScale);
             positionWS.y += height;
             float heightR = h(float2(xz.x + 0.01 * _LandSpread, xz.y), heightScale);
             float heightU = h(float2(xz.x, xz.y + 0.01 * _LandSpread), heightScale);
             float3 normal = normalize(cross(float3(0, heightU - height, 0.01), float3(0.01, heightR - height, 0)));
-
+        #else
+            float3 normal = patch[0].normal * bary.x + patch[1].normal * bary.y + patch[2].normal * bary.z;
+        #endif
             DomainOut output;
             output.positionCS = TransformWorldToHClip(positionWS);
             output.texcoord = texcoord;

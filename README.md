@@ -2,7 +2,14 @@
 
 ## Magic Ruin
 
-![pixel](./img/pixel.gif)
+The magic ruin is a pixel style rendering inspired by some old 2D games.
+
+![pixel](./img/season.gif)
+
+[Youtube](https://www.youtube.com/watch?v=xSFgx2XWlxA)
+
+[![Video](http://img.youtube.com/vi/xSFgx2XWlxA/0.jpg)](http://www.youtube.com/watch?v=xSFgx2XWlxA "Video Title")
+
 ![sp](./img/spring.png)
 ![au](./img/autumn.png)
 ![wt](./img/winter.png)

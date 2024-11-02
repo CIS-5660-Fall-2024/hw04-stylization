@@ -8,7 +8,9 @@ The magic ruin is a pixel style rendering inspired by some old 2D games.
 
 [Youtube](https://www.youtube.com/watch?v=xSFgx2XWlxA)
 
-[![Video](http://img.youtube.com/vi/xSFgx2XWlxA/0.jpg)](http://www.youtube.com/watch?v=xSFgx2XWlxA "Video Title")
+[![Video](http://img.youtube.com/vi/xSFgx2XWlxA/0.jpg)](http://www.youtube.com/watch?v=xSFgx2XWlxA "Youtube")
+
+### Images
 
 ![sp](./img/spring.png)
 ![au](./img/autumn.png)
@@ -17,6 +19,9 @@ The magic ruin is a pixel style rendering inspired by some old 2D games.
 ## Reference Art
 
 ![ref](./img/refArt.png)
+
+Author: t3ssel8r
+Source: https://www.youtube.com/watch?v=fSNdZ82I-eQ
 
 ## Features
 

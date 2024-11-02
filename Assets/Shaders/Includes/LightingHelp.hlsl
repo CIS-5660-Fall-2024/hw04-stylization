@@ -31,7 +31,7 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
 #ifndef SHADERGRAPH_PREVIEW
 
     int pixelLightCount = GetAdditionalLightsCount();
-    
+
     for (int i = 0; i < pixelLightCount; ++i)
     {
         Light light = GetAdditionalLight(i, WorldPosition);
@@ -39,14 +39,14 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
         uint light_i = tmp[i % 4];
 
         half shadowAtten = light.shadowAttenuation * AdditionalLightRealtimeShadow(light_i, WorldPosition, light.direction);
-        
+
         half NdotL = saturate(dot(WorldNormal, light.direction));
         half distanceAtten = light.distanceAttenuation;
 
         half thisDiffuse = distanceAtten * shadowAtten * NdotL;
-        
+
         half rampedDiffuse = 0;
-        
+
         if (thisDiffuse < Thresholds.x)
         {
             rampedDiffuse = RampedDiffuseValues.x;
@@ -60,7 +60,13 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
             rampedDiffuse = RampedDiffuseValues.z;
         }
 
-        
+
+        if (shadowAtten * NdotL == 0)
+        {
+            rampedDiffuse = 0;
+
+        }
+
         if (light.distanceAttenuation <= 0)
         {
             rampedDiffuse = 0.0;
@@ -69,23 +75,60 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
         Color += max(rampedDiffuse, 0) * light.color.rgb;
         Diffuse += rampedDiffuse;
     }
-    
-    if (Diffuse <= 0.3)
-    {
-        Color = float3(0, 0, 0);
-        Diffuse = 0;
-    }
-    
 #endif
 }
-
-void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Diffuse, float2 Thresholds, out float3 OUT)
+void MapCircle_float(float3 innerColor, float3 outerColor, float3 backgroundColor, float colorOffset, float xOffset, float yOffset, float radius, float falloff, float falloffLimit, float xValue, float yValue, out float3 OUT)
 {
-    if (Diffuse < Thresholds.x)
+    float circleValue = pow((xValue - xOffset), 2) + pow((yValue - yOffset), 2);
+    //float3 realOuterColor = lerp(outerColor, backgroundColor, 0.5);
+    if (circleValue <= pow(radius, 2))
+    {
+        float circleP = sqrt(circleValue) / radius;
+        OUT = lerp(innerColor, outerColor, circleP * colorOffset);
+
+    }
+    else
+    {
+        // Not a circle
+        float outerP = (sqrt(circleValue) - radius) / (falloffLimit - radius);
+        OUT = lerp(outerColor, backgroundColor, outerP * falloff);
+        //OUT = float3(defaultC, defaultC, defaultC);
+    }
+}
+
+
+float GetBias(float time, float bias)
+{
+    return (time / ((((1.0 / bias) - 2.0) * (1.0 - time)) + 1.0));
+}
+
+float GetGain(float time, float gain)
+{
+  if(time < 0.5)
+    return GetBias(time * 2.0,gain)/2.0;
+  else
+    return GetBias(time * 2.0 - 1.0,1.0 - gain)/2.0 + 0.5;
+}
+
+
+void computeFoamColor_float(float dotProd, float foamThreshold, float zDistance, float foamBias, out float OUT)
+{
+    if (dotProd < foamThreshold)
+    {
+        OUT = 1.f * GetBias((1 - zDistance), foamBias);
+    }
+    else
+    {
+        OUT = 0.0;
+    }
+}
+void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Diffuse, float Threshold1, float Threshold2, out float3 OUT)
+{
+    if (Diffuse < Threshold2)
     {
         OUT = Shadow;
     }
-    else if (Diffuse < Thresholds.y)
+    else if (Diffuse < Threshold1)
     {
         OUT = Midtone;
     }

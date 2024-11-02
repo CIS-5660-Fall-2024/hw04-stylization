@@ -11,7 +11,7 @@ Shader "Custom/StyleizeSky"
 
         [Toggle(_UseRamp)] _URamp ("Use Ramp", Float) = 1
         _ColorRamp ("Color Ramp", 2D) = "white" {}
-        _VoronoiSize ("Voronoi Size", Range(1.0, 7.0)) = 5.0
+        _VoronoiSize ("Voronoi Size", Range(1.0, 15.0)) = 5.0
         _Color ("Color", Color) = (1,1,1,1)
         _ColorTransition ("Color Transition", Range(0.01, 1)) = 0.5
         _FbmBrushFrequency ("Brush Frequency", Range(0.1, 10)) = 0.5
@@ -34,7 +34,7 @@ Shader "Custom/StyleizeSky"
 
         [Header(Wind)][Space]
         _WindDirection ("Wind Direction", Vector) = (1, 0, 0)
-        _WindSpeed ("Wind Speed", Range(0.1, 10)) = 1.0
+        _WindSpeed ("Wind Speed", Range(0.1, 1.0)) = 1.0
         _WindStrength ("Wind Strength", Range(0.2, 10.0)) = 0.1
     }
 
@@ -143,35 +143,19 @@ Shader "Custom/StyleizeSky"
         
         half4 frag(Varyings IN) : SV_Target
         {
-            float3 wind = _WindDirection;
+            // main light
+            Light light = GetMainLight();
+
             // screen uv
             float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
             float3x3 ltO = localToWorld(IN.positionOS);
             float3 normal = normalize(IN.positionWS);
-
-            // procedual spherical flow map
-            float3x3 ltw = localToWorld(normal);
-            float2 flowUV = float2(mul(wind, ltw).rg);
-            // return flowUV.g;
-            // distort normal in uv space with flow map
-            float2 normalUV = NormalToUV(normal);
-            normalUV.y = -normalUV.y;
-            float time = _Time.y * _WindSpeed;
-            float phase0 = frac(time) - 0.5;
-            float phase1 = frac(time + 0.5) - 0.5;
-
-            float3 brushNormal1 = UVToNormal((normalUV + flowUV * phase0 * _WindStrength));
-            float3 brushNormal2 = UVToNormal((normalUV + flowUV * phase1 * _WindStrength));
-            float flowLerp  = abs((0.5 - phase0) / 0.5);
-            brushNormal1 = lerp(brushNormal1, brushNormal2, flowLerp);
             float3 V = normalize(_WorldSpaceCameraPos - IN.positionWS);
-            
 
             // overlay blend brush normal
-            brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, brushNormal1), _BrushNormalScale).xyz;
+            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, rotatePointAroundAxis(normalize(IN.positionOS), _WindDirection, _Time.y * _WindSpeed * 0.07)), _BrushNormalScale).xyz;
             brushNormal1 = mul(ltO, brushNormal1);
-            // float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), _BrushNormalScale).xyz;
-            brushNormal2 = IN.positionOS;
+            float3 brushNormal2 = IN.positionOS;
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2((fbm3D(normalize(IN.positionOS)* _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
@@ -198,8 +182,7 @@ Shader "Custom/StyleizeSky"
             // light contributions
             float3 lightContribution = 0;
 
-            // main light
-            Light light = GetMainLight();
+            
             float lambert = dot(normalize(normal), float3(0, 1, 0));
         #ifdef _UseHalfLambert
             float hlambert = lambert * 0.5 + 0.5;

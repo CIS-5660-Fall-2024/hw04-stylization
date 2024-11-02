@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - _AdditionalLights
   - _UseAlbedoMap
+  - _UseHalfLambert
   - _UseRamp
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -130,6 +131,8 @@ Material:
     - _EnvironmentReflections: 1
     - _FactorBrush: 0.345
     - _FactorFbm: 0.191
+    - _FbmBrushFrequency: 0.5
+    - _FbmBrushStrength: 1
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -149,6 +152,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UAlbedo: 1
+    - _UHLambert: 1
     - _URamp: 1
     - _UVSec: 0
     - _VoronoiSize: 5

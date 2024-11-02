@@ -3,7 +3,7 @@ Shader "Custom/Floor"
     Properties
     {
         _BaseMap ("Base Map", 2D) = "white" {}  
-        
+        [Toggle(_RANDOMHEIGHT)] _RandH ("Random Height", Float) = 1
         [Header(Tess)][Space]
      
         [KeywordEnum(integer, fractional_even, fractional_odd)]_Partitioning ("Partitioning Mode", Float) = 2
@@ -102,8 +102,6 @@ Shader "Custom/Floor"
             #pragma fragment DistanceBasedTessFrag_Terrain 
             #pragma hull DistanceBasedTessControlPoint
             #pragma domain DistanceBasedTessDomain_Terrain
-            #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
-            #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
             #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
             #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS

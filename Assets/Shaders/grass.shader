@@ -222,9 +222,9 @@ Shader "Custom/Grass"
         half4 DistanceBasedTessFrag_Grass(GeometryOut input) : SV_Target{   
             // distorted normal
             float3x3 ltw = localToWorld(input.normal);
-            half3 brushNormal = UnpackNormalScale(SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, input.rootPos.xz / (10.0 * _BrushMap_ST.xy) + _BrushMap_ST.zw), 2.0);
+            half3 brushNormal = UnpackNormalScale(SAMPLE_TEXTURE2D(_BrushMap, sampler_BrushMap, input.rootPos.xz / (10.0 * _BrushMap_ST.xy) + _BrushMap_ST.zw), 1.0);
             brushNormal = TransformTangentToWorld(brushNormal, half3x3(transpose(ltw))).xyz;
-
+            float3 normal = linearLight(brushNormal * 0.5 + 0.5, input.normal* 0.5 + 0.5) * 2.0 - 1.0;
             // color
             half3 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.rootPos.xz / (10.0 * _BaseMap_ST.xy) + _BaseMap_ST.zw).rgb;
             float t = smoothstep(0, 1.0, input.texcoord.y) * 0.7 + 0.3;
@@ -232,7 +232,7 @@ Shader "Custom/Grass"
 
             // lighting
             Light light = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
-            float lambert = dot(normalize(brushNormal), light.direction);
+            float lambert = dot(normalize(normal), light.direction);
             float3 totalContrib = color * light.color * light.distanceAttenuation * light.shadowAttenuation * lambert;
 
             int pixelLightCount = 0;

@@ -1,25 +1,22 @@
 // This Unity shader reconstructs the world space positions for pixels using a depth
 // texture and screen space UV coordinates. The shader draws a checkerboard pattern
 // on a mesh to visualize the positions.
-Shader "Custom/Paint"
+Shader "Custom/StyleizeSky"
 {
     Properties
     { 
-        _RotSeed ("RotSeed", Float) = 114514.25
         [Header(Brush)][Space]
         _BrushNormalScale ("Brush Normal Scale", Range(0.5, 3.0)) = 1.5
         _BrushCube1 ("Brush Cube1", CUBE) = "white" {}
         _BrushCube2 ("Brush Cube2", CUBE) = "white" {}
 
         [Toggle(_UseRamp)] _URamp ("Use Ramp", Float) = 1
-        [Toggle(_UseAlbedoMap)] _UAlbedo ("Use AlbedoMap", Float) = 1
         _ColorRamp ("Color Ramp", 2D) = "white" {}
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _VoronoiSize ("Voronoi Size", Range(1.0, 7.0)) = 5.0
         _Color ("Color", Color) = (1,1,1,1)
         _ColorTransition ("Color Transition", Range(0.01, 1)) = 0.5
         _FbmBrushFrequency ("Brush Frequency", Range(0.1, 10)) = 0.5
-        _FbmBrushStrength ("Brush Strength", Range(0.1, 10)) = 1.0
+        _FbmBrushStrength ("Brush Strength", Range(0.1, 10)) = 1.0  
         _FactorFbm ("Factor Fbm", Range(0.01, 1)) = 0.5
         _FactorBrush ("Factor Brush", Range(0.01, 1)) = 0.5
 
@@ -27,8 +24,14 @@ Shader "Custom/Paint"
         _RimThreshold ("Rim Threshold", Range(0.001, 0.03)) = 0.1
         _RimKernel ("Rim Kernel", Range(0.001, 0.1)) = 0.01
         _RimScale ("Rim Scale", Range(0.5, 3.0)) = 1.5
-        [Toggle(_AdditionalLights)] _AddLights ("AddLights", Float) = 1
         [Toggle(_UseHalfLambert)] _UHLambert ("Use Half Lambert", Float) = 1
+
+        [Header(Sun)][Space]
+        _FlareTex ("Flare Texture", 2D) = "white" {}
+        _SunColor ("Sun Color", Color) = (1,1,1,1)
+        _SunIntensity ("Sun Intensity", Range(0.1, 10)) = 1.0
+        _InnerSize ("Sun Size", Range(0.97, 1)) = 0.1
+        _Fade ("Fade", Range(0.001, 0.02)) = 0.01
     }
 
     // The SubShader block containing the Shader code.
@@ -54,7 +57,6 @@ Shader "Custom/Paint"
         
 
         CBUFFER_START(UnityPerMaterial)
-        float _RotSeed;
         float _BrushNormalScale;
         float4 _Color;
         float _VoronoiSize;
@@ -66,6 +68,10 @@ Shader "Custom/Paint"
         float _RimKernel;
         float _RimScale;
         float _ColorTransition;
+        float4 _SunColor;
+        float _SunIntensity;
+        float _InnerSize;
+        float _Fade;
         CBUFFER_END
 
 
@@ -75,8 +81,8 @@ Shader "Custom/Paint"
         SAMPLER(sampler_BrushCube2);
         TEXTURE2D(_ColorRamp);
         SAMPLER(sampler_ColorRamp);
-        TEXTURE2D(_MainTex);
-        SAMPLER(sampler_MainTex);
+        TEXTURE2D(_FlareTex);
+        SAMPLER(sampler_FlareTex);
 
         struct Attributes
         {
@@ -127,21 +133,22 @@ Shader "Custom/Paint"
         {
             // screen uv
             float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
-            float3x3 ltO = localToWorld(IN.normalOS);
-            float3 normal = IN.normalOS;
+            float3x3 ltO = localToWorld(IN.positionOS);
+            float3 normal = normalize(IN.positionWS);
             float3 V = normalize(_WorldSpaceCameraPos - IN.positionWS);
             
-            float3x3 randomRotMat = randomRototationMatrix(_RotSeed);
+
 
             // overlay blend brush normal
-            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, mul(randomRotMat, normalize(IN.positionOS))), _BrushNormalScale).xyz;
+            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), _BrushNormalScale).xyz;
             brushNormal1 = mul(ltO, brushNormal1);
-            float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, mul(randomRotMat, normalize(IN.positionOS))), _BrushNormalScale).xyz;
+            // float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), _BrushNormalScale).xyz;
+            float3 brushNormal2 = float3(0, 0, 1);
             brushNormal2 = mul(ltO, brushNormal2);
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
-            float2 fbm = float2((fbm3D(normalize(IN.positionOS * 41.1226) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS * 38.7116) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
-            fbm = fbm * fbm * 2.0 - 1.0;
+            float2 fbm = float2((fbm3D(normalize(IN.positionOS)* _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
+            fbm = fbm * fbm * fbm;
             float3 fbmNormal = mul(ltO, normalize(float3(fbm, 1.0)));
 
             // linear light blend normal
@@ -151,22 +158,22 @@ Shader "Custom/Paint"
             // voronoi using distorted normal as input
             float3 voronoiNormal;
             float2 voronoi = voronoi3D(normal * _VoronoiSize , voronoiNormal);
-            normal = normalize(mul(transpose(unity_WorldToObject), float4(voronoiNormal, 0.0)).xyz) * 2.0 - 1.0;
-
+            normal = normalize(voronoiNormal * 2.0 - 1.0);
+            
             // depth based rim mask
             float fragDepth = getDepth(UV);
             float3 normalView = normalize(mul((UNITY_MATRIX_V), normal).xyz);
 
             float depth = getDepth(UV + normalView.xy * _RimKernel * (0.9 - 0.9 * fragDepth));
-            float depthDiff = saturate(depth - fragDepth);  
+            float depthDiff = abs(fragDepth - depth);
             float rim = saturate(depthDiff / max(0.0001, _RimThreshold));
             rim = smoothstep(0.03, 1.0, rim) * _RimScale;
             // light contributions
             float3 lightContribution = 0;
 
             // main light
-            Light light = GetMainLight(TransformWorldToShadowCoord(IN.positionWS));
-            float lambert = dot(normalize(normal), light.direction);
+            Light light = GetMainLight();
+            float lambert = dot(normalize(normal), float3(0, 1, 0));
         #ifdef _UseHalfLambert
             float hlambert = lambert * 0.5 + 0.5;
         #else
@@ -175,102 +182,41 @@ Shader "Custom/Paint"
             
         #ifdef _UseRamp
             float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
-        #elif _UseAlbedoMap
-            float3 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
         #else
             float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
         #endif
-            float3 lighting = light.distanceAttenuation * light.color;
+            float3 lighting = light.color;
 
-            // kd + ks, ks = rimMask * fresnel * lighting
-            float specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V))) * light.shadowAttenuation;
-            lightContribution += lighting * (color + specular);
+            lightContribution += lighting * (color);
 
-            // compute additional lights contribution
-            int pixelLightCount = 0;
-        #ifdef _AdditionalLights
-            pixelLightCount = GetAdditionalLightsCount();        
-            for(int index = 0; index < pixelLightCount; index++)    
+            
+            // draw sun
+            float sunAngle = dot(normalize(IN.positionWS), light.direction);
+            UV = IN.positionHCS.xy / _ScaledScreenParams.y;
+            float flareMask = SAMPLE_TEXTURE2D(_FlareTex, sampler_FlareTex, float2(1.0 - sunAngle, 0.5)).r;
+            if (sunAngle > _InnerSize)
             {
-                light = GetAdditionalLight(index, IN.positionWS); 
-                lambert = dot(normalize(normal), light.direction);
-            #ifdef _UseHalfLambert
-                float hlambert = lambert * 0.5 + 0.5;
-            #else
-                float hlambert = saturate(lambert);
-            #endif
-
-            #ifdef _UseRamp
-                float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
-            #elif _UseAlbedoMap
-                float3 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
-            #else
-                float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
-            #endif
-                // color = _Color.rgb * lambert;
-                lighting = light.shadowAttenuation * light.distanceAttenuation * light.color;
-                specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V)));
-                lightContribution += lighting * (color + specular);
+                return half4(_SunColor.rgb * _SunIntensity * 10.0, 1.0);
+            } else if (sunAngle > _InnerSize - _Fade)
+            {
+                float t = 1.0 - saturate((sunAngle - (_InnerSize - _Fade)) / _Fade);
+                t = smoothstep(0.2, 0.8, t);
+                return half4(lerp(_SunColor.rgb * _SunIntensity * 10.0, lightContribution, t), 1.0);
             }
-        #endif
+
             return half4(lightContribution, 1.0);
-            // color *= lightContribution;
         }
         ENDHLSL
 
         Pass
         {
             Name "Paint"
-            Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "Queue"="Geometry+1"}
+            Tags { "RenderType" = "Background" "RenderPipeline" = "UniversalPipeline" }
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma shader_feature _AdditionalLights
             #pragma shader_feature _UseRamp
-            #pragma shader_feature _UseAlbedoMap
             #pragma shader_feature _UseHalfLambert
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_SCREEN
-            #pragma multi_compile _ _SHADOWS_SOFT//柔化阴影，得到软阴影
-            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-            ENDHLSL
-        }
-
-        Pass
-        { 
-            Name "Paint ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster"}
-            ZWrite On
-            ZTest LEqual
-
-            HLSLPROGRAM
-            #pragma vertex ShadowVert
-            #pragma fragment ShadowCasterFragment 
-            
-            Varyings ShadowVert(Attributes IN)
-            {
-                Varyings OUT;
-
-                VertexNormalInputs normalInput = GetVertexNormalInputs(IN.normal, IN.tangent);
-                OUT.normal = normalInput.normalWS;
-                OUT.normalOS = IN.normal;
-
-                float3 worldPos = TransformObjectToWorld(IN.positionOS.xyz);
-                Light light = GetMainLight();
-                worldPos = ApplyShadowBias(worldPos, OUT.normal, light.direction);
-                OUT.positionHCS = TransformWorldToHClip(worldPos);
-
-                OUT.uv = IN.uv;
-                
-                
-                return OUT;
-            }
-
-            half4 ShadowCasterFragment(Varyings input) : SV_Target
-            {
-                return half4(0, 0, 0, 1);
-            }
             ENDHLSL
         }
 

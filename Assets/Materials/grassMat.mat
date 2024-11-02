@@ -28,7 +28,7 @@ Material:
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 0fb5a03fe759bdb4895eb118833e2c43, type: 3}
-        m_Scale: {x: 30, y: 30}
+        m_Scale: {x: 7, y: 7}
         m_Offset: {x: 0.55, y: 0.29}
     - _BrushMap:
         m_Texture: {fileID: 2800000, guid: 72cbdd3173d67ec4aafc9ec664729d9b, type: 3}
@@ -111,9 +111,9 @@ Material:
     - _DirectionJitter: 0.464
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeFactor: 45
+    - _EdgeFactor: 18
     - _EnvironmentReflections: 1
-    - _FadeDist: 1000
+    - _FadeDist: 664
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -121,13 +121,13 @@ Material:
     - _GrassTessMinDist: 13.5
     - _Height: 1.5
     - _HeightJitter: 0.209
-    - _HeightScale: 24.5
+    - _HeightScale: 15.1
     - _InsideFactor: 1
     - _InteractiveRadius: 5.19
     - _JitterScale: 1.194
     - _LODMaxDistance: 296
     - _LODMinDistance: 50.9
-    - _LandSpread: 0.1
+    - _LandSpread: 0.2475
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -148,7 +148,7 @@ Material:
     - _Surface: 0
     - _TessMinDist: 29
     - _UVSec: 0
-    - _Width: 0.154
+    - _Width: 0.529
     - _WidthJitter: 0.624
     - _WindSpeed: 0.021
     - _WindStrength: 3

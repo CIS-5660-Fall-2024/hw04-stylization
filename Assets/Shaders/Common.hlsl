@@ -8,6 +8,12 @@ float cubic(float a) {
     return a * a * (3.0 - 2.0 * a);
 }
 
+float3 hash13(float p)
+{
+   float3 p3 = frac(p * float3(.1031, .1030, .0973));
+   p3 += dot(p3, p3.yzx+33.33);
+   return frac((p3.xxy+p3.yzz)*p3.zyx); 
+}
 // NoiseCommon.hlsl
 float hash31(float3 p)
 {
@@ -259,4 +265,13 @@ float dither(float2 uv)
     float2 seed = uv;
     float rnd = hash21( seed );
     return rnd/255.0;
+}
+
+float3x3 randomRototationMatrix(float seed)
+{
+    float3 forward = normalize(hash13(float(seed)));
+    float3 tangent = abs(forward.y) > abs(forward.z) ? float3(0, 1, 0) : float3(0, 0, 1);
+    float3 bitangent = normalize(cross(forward, tangent));
+    tangent = cross(bitangent, forward);
+    return float3x3(tangent, bitangent, forward);
 }

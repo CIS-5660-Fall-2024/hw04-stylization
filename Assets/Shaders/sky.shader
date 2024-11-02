@@ -35,6 +35,7 @@ Shader "Custom/StyleizeSky"
         [Header(Wind)][Space]
         _WindDirection ("Wind Direction", Vector) = (1, 0, 0)
         _WindSpeed ("Wind Speed", Range(0.1, 10)) = 1.0
+        _WindStrength ("Wind Strength", Range(0.2, 10.0)) = 0.1
     }
 
     // The SubShader block containing the Shader code.
@@ -77,6 +78,7 @@ Shader "Custom/StyleizeSky"
         float _Fade;
         float3 _WindDirection;
         float _WindSpeed;
+        float _WindStrength;
         CBUFFER_END
 
 
@@ -122,6 +124,7 @@ Shader "Custom/StyleizeSky"
             return OUT;
         }
 
+
         float getDepth(float2 uv)
         {
             // Sample the depth from the Camera depth texture.
@@ -133,10 +136,14 @@ Shader "Custom/StyleizeSky"
         #endif
             return Linear01Depth(depth, _ZBufferParams);
         }
+
         #define POW5(x) ((x) * (x) * (x) * (x) * (x))
+        #define NormalToUV(normal) float2(atan2(normal.z, normal.x) / 6.2831853 + 0.5, asin(normal.y) / 3.1415927 + 0.5)
+        #define UVToNormal(uv) float3(cos((uv.y - 0.5) * 3.1416927) * cos(uv.x * 6.2831853 - 3.1416927), sin((uv.y - 0.5) * 3.1416927), cos((uv.y - 0.5) * 3.1416927) * sin(uv.x * 6.2831853 - 3.1416927))
+        
         half4 frag(Varyings IN) : SV_Target
         {
-            float3 wind = _WindDirection * _WindSpeed;
+            float3 wind = _WindDirection;
             // screen uv
             float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
             float3x3 ltO = localToWorld(IN.positionOS);
@@ -144,18 +151,27 @@ Shader "Custom/StyleizeSky"
 
             // procedual spherical flow map
             float3x3 ltw = localToWorld(normal);
-            float2 flowUV = float2(mul(wind, ltw).rg) * 0.5 + 0.5;
-            return flowUV.g; 
+            float2 flowUV = float2(mul(wind, ltw).rg);
+            // return flowUV.g;
+            // distort normal in uv space with flow map
+            float2 normalUV = NormalToUV(normal);
+            normalUV.y = -normalUV.y;
+            float time = _Time.y * _WindSpeed;
+            float phase0 = frac(time) - 0.5;
+            float phase1 = frac(time + 0.5) - 0.5;
+
+            float3 brushNormal1 = UVToNormal((normalUV + flowUV * phase0 * _WindStrength));
+            float3 brushNormal2 = UVToNormal((normalUV + flowUV * phase1 * _WindStrength));
+            float flowLerp  = abs((0.5 - phase0) / 0.5);
+            brushNormal1 = lerp(brushNormal1, brushNormal2, flowLerp);
             float3 V = normalize(_WorldSpaceCameraPos - IN.positionWS);
             
-            float time = _Time.x * 0.8;
 
-            float3 rotatedNormal = rotatePointAroundAxis(normalize(IN.positionOS), normalize(float3(0, 1, 0)), time);
             // overlay blend brush normal
-            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, rotatedNormal), _BrushNormalScale).xyz;
+            brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, brushNormal1), _BrushNormalScale).xyz;
             brushNormal1 = mul(ltO, brushNormal1);
             // float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), _BrushNormalScale).xyz;
-            float3 brushNormal2 = IN.positionOS;
+            brushNormal2 = IN.positionOS;
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2((fbm3D(normalize(IN.positionOS)* _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);

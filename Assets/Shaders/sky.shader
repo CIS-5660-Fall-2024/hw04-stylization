@@ -8,7 +8,6 @@ Shader "Custom/StyleizeSky"
         [Header(Brush)][Space]
         _BrushNormalScale ("Brush Normal Scale", Range(0.5, 3.0)) = 1.5
         _BrushCube1 ("Brush Cube1", CUBE) = "white" {}
-        _BrushCube2 ("Brush Cube2", CUBE) = "white" {}
 
         [Toggle(_UseRamp)] _URamp ("Use Ramp", Float) = 1
         _ColorRamp ("Color Ramp", 2D) = "white" {}
@@ -32,6 +31,10 @@ Shader "Custom/StyleizeSky"
         _SunIntensity ("Sun Intensity", Range(0.1, 10)) = 1.0
         _InnerSize ("Sun Size", Range(0.97, 1)) = 0.1
         _Fade ("Fade", Range(0.001, 0.02)) = 0.01
+
+        [Header(Wind)][Space]
+        _WindDirection ("Wind Direction", Vector) = (1, 0, 0)
+        _WindSpeed ("Wind Speed", Range(0.1, 10)) = 1.0
     }
 
     // The SubShader block containing the Shader code.
@@ -72,13 +75,13 @@ Shader "Custom/StyleizeSky"
         float _SunIntensity;
         float _InnerSize;
         float _Fade;
+        float3 _WindDirection;
+        float _WindSpeed;
         CBUFFER_END
 
 
         TEXTURECUBE(_BrushCube1);
         SAMPLER(sampler_BrushCube1);
-        TEXTURECUBE(_BrushCube2);
-        SAMPLER(sampler_BrushCube2);
         TEXTURE2D(_ColorRamp);
         SAMPLER(sampler_ColorRamp);
         TEXTURE2D(_FlareTex);
@@ -99,7 +102,8 @@ Shader "Custom/StyleizeSky"
             float3 positionOS : TEXCOORD1;
             float2 uv : TEXCOORD2;
             float3 normal : TEXCOORD3;
-            float3 normalOS : TEXCOORD4;
+            float3 tangent : TEXCOORD4;
+            float3 bitangent : TEXCOORD5;
         };
 
         Varyings vert(Attributes IN)
@@ -113,7 +117,8 @@ Shader "Custom/StyleizeSky"
             
             VertexNormalInputs normalInput = GetVertexNormalInputs(IN.normal, IN.tangent);
             OUT.normal = normalInput.normalWS;
-            OUT.normalOS = IN.normal;
+            OUT.tangent = normalInput.tangentWS;
+            OUT.bitangent = normalInput.bitangentWS;
             return OUT;
         }
 
@@ -131,20 +136,26 @@ Shader "Custom/StyleizeSky"
         #define POW5(x) ((x) * (x) * (x) * (x) * (x))
         half4 frag(Varyings IN) : SV_Target
         {
+            float3 wind = _WindDirection * _WindSpeed;
             // screen uv
             float2 UV = IN.positionHCS.xy / _ScaledScreenParams.xy;
             float3x3 ltO = localToWorld(IN.positionOS);
             float3 normal = normalize(IN.positionWS);
+
+            // procedual spherical flow map
+            float3x3 ltw = localToWorld(normal);
+            float2 flowUV = float2(mul(wind, ltw).rg) * 0.5 + 0.5;
+            return flowUV.g; 
             float3 V = normalize(_WorldSpaceCameraPos - IN.positionWS);
             
+            float time = _Time.x * 0.8;
 
-
+            float3 rotatedNormal = rotatePointAroundAxis(normalize(IN.positionOS), normalize(float3(0, 1, 0)), time);
             // overlay blend brush normal
-            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, normalize(IN.positionOS)), _BrushNormalScale).xyz;
+            float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, rotatedNormal), _BrushNormalScale).xyz;
             brushNormal1 = mul(ltO, brushNormal1);
             // float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, normalize(IN.positionOS)), _BrushNormalScale).xyz;
-            float3 brushNormal2 = float3(0, 0, 1);
-            brushNormal2 = mul(ltO, brushNormal2);
+            float3 brushNormal2 = IN.positionOS;
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2((fbm3D(normalize(IN.positionOS)* _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
@@ -186,8 +197,9 @@ Shader "Custom/StyleizeSky"
             float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
         #endif
             float3 lighting = light.color;
-
-            lightContribution += lighting * (color);
+            lambert = dot(normalize(normal), light.direction) * 0.5 + 0.5;
+            lambert = getBias(lambert, 0.002) * 0.3 + 0.7;
+            lightContribution += lighting * (color) * lambert;
 
             
             // draw sun

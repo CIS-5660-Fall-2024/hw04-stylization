@@ -194,9 +194,10 @@ float getGain(float time, float gain)
 
 float3x3 localToWorld(float3 N)
 {
-    float3 up = abs(N.z) < 0.999 ? float3(0,0,1) : float3(1,0,0);
-    float3 T = normalize(cross(up, N));
-    float3 B = cross(N, T);
+    // float3 up = abs(N.z) < 0.9999999 ? float3(0,0,1) : float3(1,0,0);
+    float3 B = dot(normalize(N), float3(0, 1, 0)) > 0.9999999 ? float3(1, 0, 0) : float3(0, 1, 0);
+    float3 T = normalize(cross(B, N));
+    B = normalize(cross(N, T));
     return transpose(float3x3(T, B, N));
 }
 

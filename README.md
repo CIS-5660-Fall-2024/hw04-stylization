@@ -9,12 +9,12 @@ Honestly, there isn't a paticular reference here. Jusy play around with the shad
 | ![lizard](image/lizard_ori.png)|![lizardr](image/lizard.png)|
 |:--:|:--:|
 | ![lizard](image/mew_ori.png)|![lizardr](image/mew.png)|
-|:--:|:--:|
 | ![lizard](image/link_ori.png)|![lizardr](image/link.png)|
-|:--:|:--:|
 | *Default Material* | *3D Stylized Material* |
 ### Task Fulfillment
-In this scene, Phantump support multiple lighting, rim light and there is a scanline shader for full screen effect. Also, people can rotate the model if they want. The moving spirit in the Phantump is made by shifting the vertex with a sine function. Also, player can press SPACE to change the material as they like.
+![](image/shadow.gif)
+
+In this scene, Phantump support multiple lighting, rim light and there is a scanline shader for full screen effect. Also, people can rotate the model if they want. The moving spirit in the Phantump is made by shifting the vertex with a sine function. Also, player can press SPACE to change the material as they like. For more information please go to [this link](image/shadow.mp4).
 
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.

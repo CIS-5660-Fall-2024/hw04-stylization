@@ -5,7 +5,7 @@ using UnityEngine;
 public class Turntable : MonoBehaviour
 {
 
-    public float rotationSpeed = 1.0f;
+    public float rotationSpeed = 20.0f;
     // Start is called before the first frame update
     void Start()
     {

@@ -1,12 +1,33 @@
 # HW 4: *3D Stylization*
 
 
-## Reference
+## 1. Pick a concept art
 Model: [low poly anime character](https://www.cgtrader.com/free-3d-models/character/fantasy-character/japanese-kid-anime-style-lowpoly-animated)
 
 | *Shader Style Reference* | *Character View* |
 |:--:|:--:|
 | <img width="500px" src=https://github.com/AkikozZM/hw04-stylization/blob/main/img/style_ref1.png>  | <img width="500px" src=https://github.com/AkikozZM/hw04-stylization/blob/main/img/style_ref2.png> |
+
+## 2. Shader
+### Main features
+- Multiple light support
+- Specular highlight
+- Shadow map
+- Animated colors
+- Animated shadows
+
+## 3. Outlines
+### Main features
+- Post-process outlines based on depth and normal buffer
+- Animated outlines
+
+## 4. Full-screen post-process effect
+### Main features
+- Paper-like post-process effect
+
+## 5. Interactivity
+### Main features
+- Party mode (press P to speed up!)
 
 
 ## Project Overview:

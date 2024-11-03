@@ -47,76 +47,15 @@ I also added a second overlay full screen vignette effect. I was particularly in
 Using free 3D Models and my shaders, I compiled a scene reminiscent of Lilo and Stitch!
 
 
-https://github.com/user-attachments/assets/b09d1ffd-bc15-4616-9a63-778dcdc4f135
+
+https://github.com/user-attachments/assets/7bc279a1-6926-4aad-8b74-ec4d5702c069
 
 
 
-## 6. Interactivity
-As a finishing touch, let's show off the fact that our scene is rendered in real-time! Please add an element of interactivity to your scene. Change some major visual aspect of your scene on a keypress. The triggered change could be
-* Party mode (things speed up, different colorization)
-* Memory mode (different post-processing effects to color you scene differently)
-* Fanart mode (different surface shaders, as if done by a different artist)
-* Whatever else you can think of! Combine these ideas, or come up with something new. Just note, your interactive change should be at least as complex as implementing a new type of post processing effect or surface shader. We'll be disappointed if its just a parameter change. There should be significant visual change.
 
-### To-Do:
-* Create at least one new material to be swapped in using a key press
-* Create and attach a new C# script that listens for a key press and swaps out the material on that key press. 
-Your C# script should look something like this:
-```
-public Material[] materials;
-private MeshRenderer meshRenderer;
-int index;
-
-void Start () {
-          meshRenderer = GetComponent<MeshRenderer>();
-}
-
-void Update () {
-          if (Input.GetKeyDown(KeyCode.Space)){
-                 index = (index + 1) % materials.Count;
-                 SwapToNextMaterial(index);
-          }
-}
-
-void SwapToNextMaterial (int index) {
-          meshRenderer.material = materials[index % materials.Count];
-}
-```
-* Attach the c# script as a component to the object(s) that you want to change on keypress
-* Assign all the relevant materials to the Materials list field so you object knows what to swap between.
- 
 ---
-## 7. Extra Credit
-Explore! What else can you do to polish your scene?
-  
-- Implement Texture Support for your Toon Surface Shader with Appealing Procedural Coloring.
-    - I.e. The procedural coloring needs to be more than just multiplying by 0.6 or 1.5 to decrease/increase the value. Consider more deeply the relationship between things such as value and saturation in artist-crafted color palettes? 
-- Add an interesting terrain with grass and/or other interesting features
-- Implement a Custom Skybox alongside a day-night cycle lighting script that changes the main directional light's colors and direction over time.
-- Add water puddles with screenspace reflections!
-- Any other similar level of extra spice to your scene : ) (Evaluated on a case-by-case basis by TAs/Rachel/Adam)
+## 6. Interactivity
+When in gameplay. click to speed the water up!
 
-## Submission
-1. Video of a turnaround of your scene
-2. A comprehensive readme doc that outlines all of the different components you accomplished throughout the homework. 
-3. All your source files, submitted as a PR against this repository.
 
-## Resources:
 
-1. Link to all my videos:
-    - [Playlist link](https://www.youtube.com/playlist?list=PLEScZZttnDck7Mm_mnlHmLMfR3Q83xIGp)
-2. [Lab Video](https://youtu.be/jc5MLgzJong?si=JycYxROACJk8KpM4)
-3. Very Helpful Creators/Videos from the internet
-    - [Cyanilux](https://www.cyanilux.com/)
-        - [Article on Depth in Unity | How depth buffers work!](https://www.cyanilux.com/tutorials/depth/) 
-    - [NedMakesGames](https://www.youtube.com/@NedMakesGames)
-        - [Toon Shader Lighting Tutorial](https://www.youtube.com/watch?v=GQyCPaThQnA&ab_channel=NedMakesGames)
-        - [Tutorial on Depth Buffer Sobel Edge Detection Outlines in Unity URP](https://youtu.be/RMt6DcaMxcE?si=WI7H5zyECoaqBsqF)
-    - [MinionsArt](https://www.youtube.com/@MinionsArt)
-        - [Toon Shader Tutorial](https://www.youtube.com/watch?v=FIP6I1x6lMA&ab_channel=MinionsArt)
-    - [Brackeys](https://www.youtube.com/@Brackeys)
-        - [Intro to Unity Shader Graph](https://www.youtube.com/watch?v=Ar9eIn4z6XE&ab_channel=Brackeys)
-    - [Robin Seibold](https://www.youtube.com/@RobinSeibold)
-        - [Tutorial on Depth and Normal Buffer Robert's Cross Outliens in Unity](https://youtu.be/LMqio9NsqmM?si=zmtWxtdb1ViG2tFs)
-    - [Alexander Ameye](https://ameye.dev/about/)
-        - [Article on Edge Detection Post Process Outlines in Unity](https://ameye.dev/notes/edge-detection-outlines/)

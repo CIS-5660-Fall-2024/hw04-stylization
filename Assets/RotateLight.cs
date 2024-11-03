@@ -14,6 +14,6 @@ public class RotateLight : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.Rotate(new Vector3(0, rotationSpeed * Time.fixedDeltaTime, 0));
+        transform.Rotate(new Vector3(rotationSpeed * Time.fixedDeltaTime,0, 0));
     }
 }

@@ -1353,7 +1353,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.9496855, g: 0.9496855, b: 0.9496855, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.77
   m_Range: 10
   m_SpotAngle: 30
@@ -1397,7 +1397,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5407
+  m_ColorTemperature: 4285
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -1508,7 +1508,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  useOcclusion: 0
+  useOcclusion: 1
   occlusionRadius: 0.1
   useBackgroundCloudOcclusion: 0
   sampleCount: 32
@@ -2316,22 +2316,22 @@ PrefabInstance:
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4.2043023
+      value: 5.3049393
       objectReference: {fileID: 0}
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.23987
       objectReference: {fileID: 0}
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 4.2043023
+      value: 5.3049393
       objectReference: {fileID: 0}
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.22
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
@@ -2341,7 +2341,7 @@ PrefabInstance:
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.37
+      value: 4.28
       objectReference: {fileID: 0}
     - target: {fileID: 4506760285690187860, guid: db2ec6d8ae1c6a14db5f0faa2305a1ab,
         type: 3}

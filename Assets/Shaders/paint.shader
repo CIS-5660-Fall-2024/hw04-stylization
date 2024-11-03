@@ -207,6 +207,7 @@ Shader "Custom/Paint"
                 lightContribution += lighting * (color + specular);
             }
         #endif
+            // return MainLightRealtimeShadow(TransformWorldToShadowCoord(IN.positionWS));
             return half4(lightContribution, 1.0);
             // color *= lightContribution;
         }
@@ -256,8 +257,6 @@ Shader "Custom/Paint"
                 OUT.positionHCS = TransformWorldToHClip(worldPos);
 
                 OUT.uv = IN.uv;
-                
-                
                 return OUT;
             }
 

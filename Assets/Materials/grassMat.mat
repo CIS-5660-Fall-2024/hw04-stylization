@@ -15,6 +15,7 @@ Material:
   - _AdditionalLights
   - _OUTPUTTOPOLOGY_TRIANGLE_CW
   - _PARTITIONING_INTEGER
+  - _RANDOMHEIGHT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -111,9 +112,9 @@ Material:
     - _DirectionJitter: 0.464
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeFactor: 18
+    - _EdgeFactor: 50
     - _EnvironmentReflections: 1
-    - _FadeDist: 664
+    - _FadeDist: 435
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -137,7 +138,7 @@ Material:
     - _PhoneShape: 0
     - _PosJitter: 1.795
     - _QueueOffset: 0
-    - _RandH: 0
+    - _RandH: 1
     - _ReceiveShadows: 1
     - _RotationJitter: 0.8
     - _Smoothness: 0
@@ -146,9 +147,9 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TessMinDist: 29
+    - _TessMinDist: 89
     - _UVSec: 0
-    - _Width: 0.529
+    - _Width: 0.82
     - _WidthJitter: 0.624
     - _WindSpeed: 0.021
     - _WindStrength: 4.06

@@ -10,6 +10,15 @@ public class FullScreenFeature : ScriptableRendererFeature
     {
         public Shader m_Shader;
         public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+        [Range(0.0f, 0.01f)]
+        public float fogDensity = 1.2f;
+        [Range(0.0f, 0.1f)]
+        public float rayVisiblity = 0.02f;
+        [Range(0.1f, 3.0f)]
+        public float stepSize = 0.3f;
+        [Range(2.0f, 10.0f)]
+        public float ditherSize = 5.0f;
+        public Color color = Color.white;
     }
 
 
@@ -51,8 +60,12 @@ public class FullScreenFeature : ScriptableRendererFeature
             CommandBuffer cmd = CommandBufferPool.Get();
             using (new ProfilingScope(cmd, m_ProfilingSampler))
             {
-                m_Material.SetFloat("_Intensity", m_Intensity);
-                m_Material.SetTexture("_MainTex", m_CameraColorTarget);
+                m_Material.SetFloat("_FogDensity", m_Settings.fogDensity);
+                m_Material.SetFloat("_RayVisibility", m_Settings.rayVisiblity);
+                m_Material.SetFloat("_StepSize", m_Settings.stepSize);
+                m_Material.SetFloat("_DitherSize", m_Settings.ditherSize);
+                m_Material.SetVector("_AttenColor", new Vector4(m_Settings.color.r, m_Settings.color.g, m_Settings.color.b, m_Settings.color.a));
+                // m_Material.SetTexture("_MainTex", m_CameraColorTarget);
                 Blitter.BlitCameraTexture(cmd, m_CameraColorTarget, m_CameraColorTarget, m_Material, 0);
             }
             context.ExecuteCommandBuffer(cmd);

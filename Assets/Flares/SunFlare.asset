@@ -31,7 +31,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 1
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -192,7 +192,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -353,7 +353,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -514,7 +514,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 1
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -675,7 +675,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -836,7 +836,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 1
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -997,7 +997,7 @@ MonoBehaviour:
     autoRotate: 0
     flareType: 1
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1158,7 +1158,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1319,7 +1319,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1480,7 +1480,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 1
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1641,7 +1641,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 1
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1802,7 +1802,7 @@ MonoBehaviour:
     autoRotate: 1
     flareType: 2
     modulateByLightColor: 0
-    isFoldOpened: 1
+    isFoldOpened: 0
     distribution: 0
     lengthSpread: 1
     positionCurve:
@@ -1947,18 +1947,18 @@ MonoBehaviour:
       m_RotationOrder: 4
   - visible: 1
     position: 0
-    positionOffset: {x: -0.009, y: 0.012}
+    positionOffset: {x: 0.01, y: -0.01}
     angularOffset: 0
     translationScale: {x: 1, y: 1}
-    m_LocalIntensity: 4.7
-    lensFlareTexture: {fileID: 2800000, guid: 0d6055405326c10498ada5a12f730f9a, type: 3}
+    m_LocalIntensity: 10.2
+    lensFlareTexture: {fileID: 2800000, guid: 27cab0d559964c4439accf34c4b6e76b, type: 3}
     uniformScale: 1
-    sizeXY: {x: 4.48, y: 3.34}
+    sizeXY: {x: 12.77, y: 10.06}
     allowMultipleElement: 0
     m_Count: 5
     preserveAspectRatio: 0
     rotation: 0
-    tint: {r: 0.7607844, g: 0.5568628, b: 0.5254902, a: 1}
+    tint: {r: 0.78431374, g: 0.34542105, b: 0.19215687, a: 1}
     blendMode: 0
     autoRotate: 1
     flareType: 0

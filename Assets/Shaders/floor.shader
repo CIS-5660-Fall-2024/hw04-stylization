@@ -110,27 +110,27 @@ Shader "Custom/Floor"
             ENDHLSL
         }
 
-        // Pass
-        // { 
-        //     Name "Terrain ShadowCaster"
-        //     Tags { "LightMode" = "ShadowCaster"}
-        //     ZWrite On
-        //     ZTest LEqual
+        Pass
+        { 
+            Name "Terrain ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster"}
+            ZWrite On
+            ZTest LEqual
 
-        //     HLSLPROGRAM
-        //     #pragma target 4.6 
-        //     #pragma vertex DistanceBasedTessVert
-        //     #pragma fragment ShadowCasterFragment
-        //     #pragma hull DistanceBasedTessControlPoint
-        //     #pragma domain DistanceBasedTessDomain_Terrain
-        //     #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
-        //     #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
+            HLSLPROGRAM
+            #pragma target 4.6 
+            #pragma vertex DistanceBasedTessVert
+            #pragma fragment ShadowCasterFragment
+            #pragma hull DistanceBasedTessControlPoint
+            #pragma domain DistanceBasedTessDomain_Terrain
+            #pragma multi_compile _PARTITIONING_INTEGER _PARTITIONING_FRACTIONAL_EVEN _PARTITIONING_FRACTIONAL_ODD 
+            #pragma multi_compile _OUTPUTTOPOLOGY_TRIANGLE_CW _OUTPUTTOPOLOGY_TRIANGLE_CCW 
             
-        //     half4 ShadowCasterFragment(DomainOut input) : SV_Target
-        //     {
-        //         return 0;
-        //     }
-        //     ENDHLSL
-        // }
+            half4 ShadowCasterFragment(DomainOut input) : SV_Target
+            {
+                return 0;
+            }
+            ENDHLSL
+        }
     }
 }

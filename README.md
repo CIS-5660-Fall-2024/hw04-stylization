@@ -1,21 +1,5 @@
 # HW 4: *3D Stylization*
 
-## Project Overview:
-In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
-
-| <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/755780f1-8b8c-47e1-b14f-3a619f92fd3a/>  | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/70550c09-ba75-4d10-9b30-60874179ad10/> |
-|:--:|:--:|
-| *2D Concept Illustration* | *3D Stylized Scene in Unity* |
-
-### HW Task List:
-1. Picking a Piece of Concept Art
-2. Interesting Shaders
-3. Outlines
-4. Full Screen Post Process Effect
-5. Creating a Scene
-6. Interactivity
-7. Extra Credit
-
 ## Submission (Charles Wang)
 
 ### 1. Concept art
@@ -31,14 +15,11 @@ These static images don't do the art style justice. Apart from the colored penci
 ---
 ## 2. Interesting Shaders
 
-Let's create some custom surface shaders for the objects in your scene, inspired by your concept art! 
+I added multiple light support by following the tutorial.
 
-Take a moment to think about the main characteristics that you see in the shading of your concept art. What makes it look appealing/aesthetic?
-  * Is it the color palette? How are the different colors blending into each other? Is there any particular texture or pattern you notice?
-  * Are there additional effects such as rim or specular highlights?
-  * Are there multiple lights in the scene?
+### Specular highlight
 
-These are all things we want you to think about before diving into your shaders!
+I didn't like how the specular highlight looked in my scene so I don't use it in the final setup, but here I show the implementation working (and it's available as a separate Shader Graph called "ToonWithSpecular" in the the Shaders folder).
 
 ### To-Do:
 1. **Improved Surface Shader**

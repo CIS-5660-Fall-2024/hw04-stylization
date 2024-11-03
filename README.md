@@ -4,11 +4,11 @@
 
 ## Part 1
 
-[Outline_Lines.MP4](img/Outline_Lines.mp4)
+https://github.com/user-attachments/assets/2af63d2f-df1f-4cbe-bc4a-f1ce102d285d
 
-[Halftone.MP4](img/Halftone.mp4)
+https://github.com/user-attachments/assets/e8373aa7-e95e-495d-9444-3f13587d051f
 
-[Outline_NoLines.MP4](img/Outline_NoLines.mp4)
+https://github.com/user-attachments/assets/69247998-477c-4c3b-894c-1dc6c558df39
 
 You can change between those two shading methods.
 
@@ -16,7 +16,7 @@ The repo could be found here: [GenshinRenderer](https://github.com/WANG-Ruipeng/
 
 ## Part 2
 
-[SceneInGame.MP4](img/SceneInGame.mp4)
+https://github.com/user-attachments/assets/c3c7d288-7e08-4b4c-ac71-abddfe6cba47
 
 # Reference Art
 

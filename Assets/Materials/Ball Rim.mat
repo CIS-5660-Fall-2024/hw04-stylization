@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7625834364628357643
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 7
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wall
-  m_Shader: {fileID: -6465566751694194690, guid: 688a45fed26d5ef4285bb2fbed37f346,
+  m_Name: Ball Rim
+  m_Shader: {fileID: -6465566751694194690, guid: adc1a6bac4e69a6449c0978c5f65e920,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -82,14 +69,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_009eb7c8bec84c0898f89c19ddab1943_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 05cb056fb4807704d94083bc167b31f5, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_9f12a0651b874ae8a1becebaec1a149a_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 05cb056fb4807704d94083bc167b31f5, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_a4c05fac7a5f47febad834182318a075_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 05cb056fb4807704d94083bc167b31f5, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -117,6 +96,7 @@ Material:
     - _ADDITIONAL_LIGHTS: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _Animation_Speed: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -129,6 +109,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Global_Highlight: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -139,13 +120,16 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Rim_Edge_Power: 1
+    - _Rim_Shadow_Power: 1
+    - _Rim_Strength: 0.5
+    - _Rim_Threshold: 0.45
     - _SHADOWS_SOFT: 1
-    - _Shadow_Scale: 10
+    - _Shadow_Scale: 8
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Specular_Size: 1
-    - _Specular_Smoothness: 0
+    - _Specular_Smoothness: 0.5
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -155,12 +139,29 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Highlight: {r: 0.9333334, g: 0.8352942, b: 0.6313726, a: 0}
-    - _Midtone: {r: 0.6, g: 0.4666667, b: 0.2627451, a: 0}
+    - _Highlight: {r: 0.9056604, g: 0.39729437, b: 0.6842431, a: 0}
+    - _Midtone: {r: 1, g: 0.24999997, b: 0.51176494, a: 0}
+    - _Palette_a: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _Palette_b: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _Palette_c: {r: 1, g: 1, b: 1, a: 0}
+    - _Palette_d: {r: 0, g: 0.33, b: 0.67, a: 0}
     - _Ramped_Diffuse_Values: {r: 0.2, g: 0.4, b: 1, a: 0}
-    - _Shadow: {r: 0.6, g: 0.4666667, b: 0.2627451, a: 0}
+    - _Rim_Color: {r: 1, g: 0.6273585, b: 0.6273585, a: 0}
+    - _Shadow: {r: 0.9716981, g: 0.10542006, b: 0.45451713, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Specular: {r: 0, g: 0, b: 0, a: 0}
-    - _Specular_Thresholds: {r: 1, g: 1, b: 0, a: 0}
-    - _Thresholds: {r: 0, g: 0.6, b: 0, a: 0}
+    - _Specular_Thresholds: {r: 0.25, g: 0.5, b: 0, a: 0}
+    - _Thresholds: {r: 0.25, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []
+--- !u!114 &6970757815771091504
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

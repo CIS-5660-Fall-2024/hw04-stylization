@@ -34,12 +34,6 @@ Shader "Custom/Paint"
     // The SubShader block containing the Shader code.
     SubShader
     {
-        // SubShader Tags define when and under which conditions a SubShader block or
-        // a pass is executed.
-        // Blend SrcAlpha OneMinusSrcAlpha
-        // Cull Front
-        // ZWrite Off
-        // ZTest Off
         UsePass "Universal Render Pipeline/Lit/DepthOnly"
         UsePass "Universal Render Pipeline/Lit/DepthNormals"
         

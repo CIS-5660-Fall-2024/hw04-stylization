@@ -8,80 +8,96 @@ public class FullScreenFeature : ScriptableRendererFeature
     [System.Serializable]
     public class FullScreenPassSettings
     {
-        public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
-        public Material material;
+        public Shader m_Shader;
+        public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
     }
 
-    [SerializeField] private FullScreenPassSettings settings;
-    class FullScreenPass : ScriptableRenderPass
-    {
-        const string ProfilerTag = "Full Screen Pass";
-        public FullScreenFeature.FullScreenPassSettings settings;
-        RenderTargetIdentifier colorBuffer, temporaryBuffer;
-        private int temporaryBufferID = Shader.PropertyToID("_TemporaryBuffer");
 
-        public FullScreenPass(FullScreenFeature.FullScreenPassSettings passSettings)
+    class ColorBlitPass : ScriptableRenderPass
+    {
+        FullScreenPassSettings m_Settings;
+        ProfilingSampler m_ProfilingSampler = new ProfilingSampler("ColorBlit");
+        Material m_Material;
+        RTHandle m_CameraColorTarget;
+        float m_Intensity;
+
+        public ColorBlitPass(Material material, FullScreenPassSettings settings)
         {
-            this.settings = passSettings;
-            this.renderPassEvent = settings.renderPassEvent;
-            if (settings.material == null) settings.material = CoreUtils.CreateEngineMaterial("Shader Graphs/Invert");
+            m_Settings = settings;
+            m_Material = material;
+            renderPassEvent = settings.renderPassEvent;
         }
 
-        // This method is called before executing the render pass.
-        // It can be used to configure render targets and their clear state. Also to create temporary render target textures.
-        // When empty this render pass will render to the active camera render target.
-        // You should never call CommandBuffer.SetRenderTarget. Instead call <c>ConfigureTarget</c> and <c>ConfigureClear</c>.
-        // The render pipeline will ensure target setup and clearing happens in a performant manner.
+        public void SetTarget(RTHandle colorHandle, float intensity)
+        {
+            m_CameraColorTarget = colorHandle;
+            m_Intensity = intensity;
+        }
+
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
-            RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
-            colorBuffer = renderingData.cameraData.renderer.cameraColorTarget;
-
-            cmd.GetTemporaryRT(temporaryBufferID, descriptor, FilterMode.Point);
-            temporaryBuffer = new RenderTargetIdentifier(temporaryBufferID);
+            ConfigureTarget(m_CameraColorTarget);
         }
 
-        // Here you can implement the rendering logic.
-        // Use <c>ScriptableRenderContext</c> to issue drawing commands or execute command buffers
-        // https://docs.unity3d.com/ScriptReference/Rendering.ScriptableRenderContext.html
-        // You don't have to call ScriptableRenderContext.submit, the render pipeline will call it at specific points in the pipeline.
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            CommandBuffer cmd = CommandBufferPool.Get();
-            using (new ProfilingScope(cmd, new ProfilingSampler(ProfilerTag)))
-            {
-                // HW 4 Hint: Blit from the color buffer to a temporary buffer and *back*.
-                Blit(cmd, colorBuffer, temporaryBuffer, settings.material);
-            }
+            var cameraData = renderingData.cameraData;
+            if (cameraData.camera.cameraType != CameraType.Game)
+                return;
 
-            // Execute the command buffer and release it.
+            if (m_Material == null)
+                return;
+
+            CommandBuffer cmd = CommandBufferPool.Get();
+            using (new ProfilingScope(cmd, m_ProfilingSampler))
+            {
+                m_Material.SetFloat("_Intensity", m_Intensity);
+                m_Material.SetTexture("_MainTex", m_CameraColorTarget);
+                Blitter.BlitCameraTexture(cmd, m_CameraColorTarget, m_CameraColorTarget, m_Material, 0);
+            }
             context.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
+
             CommandBufferPool.Release(cmd);
         }
+    }
+    [SerializeField]
+    FullScreenPassSettings m_Settings = new FullScreenPassSettings();
+    // public Shader m_Shader;
+    public float m_Intensity;
 
-        // Cleanup any allocated resources that were created during the execution of this render pass.
-        public override void OnCameraCleanup(CommandBuffer cmd)
+    Material m_Material;
+
+    ColorBlitPass m_RenderPass = null;
+
+    public override void AddRenderPasses(ScriptableRenderer renderer,
+                                    ref RenderingData renderingData)
+    {
+        if (renderingData.cameraData.cameraType == CameraType.Game)
+            renderer.EnqueuePass(m_RenderPass);
+    }
+
+    public override void SetupRenderPasses(ScriptableRenderer renderer,
+                                        in RenderingData renderingData)
+    {
+        if (renderingData.cameraData.cameraType == CameraType.Game)
         {
-            if (cmd == null) throw new ArgumentNullException("cmd");
-            cmd.ReleaseTemporaryRT(temporaryBufferID);
+            // Calling ConfigureInput with the ScriptableRenderPassInput.Color argument
+            // ensures that the opaque texture is available to the Render Pass.
+            m_RenderPass.ConfigureInput(ScriptableRenderPassInput.Color);
+            m_RenderPass.SetTarget(renderer.cameraColorTargetHandle, m_Intensity);
         }
     }
 
-    FullScreenPass m_FullScreenPass;
-
-    /// <inheritdoc/>
     public override void Create()
     {
-        m_FullScreenPass = new FullScreenPass(settings);
+        m_Material = CoreUtils.CreateEngineMaterial(m_Settings.m_Shader);
+        m_RenderPass = new ColorBlitPass(m_Material, m_Settings);
     }
 
-    // Here you can inject one or multiple render passes in the renderer.
-    // This method is called when setting up the renderer once per-camera.
-    public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
+    protected override void Dispose(bool disposing)
     {
-        if (renderingData.cameraData.cameraType != CameraType.Game)
-            return;
-        renderer.EnqueuePass(m_FullScreenPass);
+        CoreUtils.Destroy(m_Material);
     }
 }
 

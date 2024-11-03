@@ -12,6 +12,8 @@
 
 You can change between those two shading methods.
 
+The repo could be found here: [GenshinRenderer](https://github.com/WANG-Ruipeng/GenshinRenderer)
+
 ## Part 2
 
 [SceneInGame.MP4](img/SceneInGame.mp4)

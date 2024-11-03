@@ -12,7 +12,6 @@ Both pieces are by [OMOCAT](https://x.com/_omocat)!
 
 These static images don't do the art style justice. Apart from the colored pencil look, I specifically want to recreate the art style for OMORI, which is known to have animated outlines around its characters.
 
----
 ## 2. Interesting Shaders
 
 I added multiple light support by following the tutorial.
@@ -20,6 +19,8 @@ I added multiple light support by following the tutorial.
 ### Specular highlight
 
 I didn't like how the specular highlight looked in my scene so I don't use it in the final setup, but here I show the implementation working (and it's available as a separate Shader Graph called "ToonWithSpecular" in the the Shaders folder).
+
+https://github.com/user-attachments/assets/e8e63a89-4431-4245-ad82-92d30d25df51
 
 ### To-Do:
 1. **Improved Surface Shader**

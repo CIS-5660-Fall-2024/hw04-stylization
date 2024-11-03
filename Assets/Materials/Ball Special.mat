@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ball Rim
-  m_Shader: {fileID: -6465566751694194690, guid: adc1a6bac4e69a6449c0978c5f65e920,
+  m_Name: Ball Special
+  m_Shader: {fileID: -6465566751694194690, guid: 5adae5a0df267f6439863852557241be,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -96,7 +96,6 @@ Material:
     - _ADDITIONAL_LIGHTS: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Animation_Speed: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -122,8 +121,7 @@ Material:
     - _ReceiveShadows: 1
     - _Rim_Edge_Power: 1
     - _Rim_Shadow_Power: 1
-    - _Rim_Strength: 0.5
-    - _Rim_Threshold: 0.45
+    - _Rim_Threshold: 0.6
     - _SHADOWS_SOFT: 1
     - _Shadow_Scale: 8
     - _Smoothness: 0.5
@@ -141,18 +139,14 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Highlight: {r: 0.9056604, g: 0.39729437, b: 0.6842431, a: 0}
     - _Midtone: {r: 1, g: 0.24999997, b: 0.51176494, a: 0}
-    - _Palette_a: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _Palette_b: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - _Palette_c: {r: 1, g: 1, b: 1, a: 0}
-    - _Palette_d: {r: 0, g: 0.33, b: 0.67, a: 0}
     - _Ramped_Diffuse_Values: {r: 0.2, g: 0.4, b: 1, a: 0}
-    - _Rim_Color: {r: 1, g: 0.6273585, b: 0.6273585, a: 0}
+    - _Rim_Color: {r: 0.9811321, g: 0.8982326, b: 0, a: 0}
     - _Shadow: {r: 0.9716981, g: 0.10542006, b: 0.45451713, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Specular_Thresholds: {r: 0.25, g: 0.5, b: 0, a: 0}
     - _Thresholds: {r: 0.25, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6970757815771091504
+--- !u!114 &1987897463121087073
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

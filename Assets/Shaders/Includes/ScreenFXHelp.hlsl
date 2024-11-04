@@ -17,3 +17,21 @@ void NoiseBlendOnEdges_float(
         BLENDALPHA = 1.0 - ((position.y - (1.0 - borderWidth)) / borderWidth);
     }
 }
+
+void MoveNoiseOnCycle_float(
+    float time, out float2 translate
+)
+{
+    if (time % 3 > 2)
+    {
+        translate = float2(-5.f, -5.f);
+    }
+    else if (time % 3 > 1)
+    {
+        translate = float2(0.f, 10.f);
+    }
+    else
+    {
+        translate = float2(5.f, 5.f);
+    }
+}

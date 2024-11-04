@@ -51,13 +51,13 @@ The main idea is to distort and blend object's normal.
 
 | <img src="Results/SurfaceShader1/result.png" width="512" height="512" /> |
 | ------------------------------------------------------------------------ |
-| Paint Shader                                                             |
+| [Paint Shader](Assets/Shaders/paint.shader)                              |
 
 ### Discretized Normal
 
 First we discretize an object's normal using worley noise
 
-| <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="256" height="317" /> |
+| <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="317" height="256" /> |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | World Normal                                                                  | Worley Normal                                                             |
 
@@ -84,11 +84,11 @@ I used an overlay blendmode to blend these two texture to create a compounded br
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | Brush normal                                                                  | Final normal                                                                  |
 
-Then we will use this new normal to do all the shading work.
+Then we will use this newly generated normal to do all the shading work.
 
 | <img src="Results/SurfaceShader1/noLight.png" width="256" height="256" /> |
 | ------------------------------------------------------------------------- |
-| Shade with Ramp Texture                                                   |
+| [Shade with Ramp Texture](Assets/Textures/Ramps)                          |
 
 The above result is obtained by sampling colors from a ramp texture using lambert term. I created a series of ramp texture for the sonic model.
 To make this shader appliable to more objects, I added a shader feature that allows user to choose between a ramp texture, a solid color, or a uv mapping
@@ -97,7 +97,40 @@ To make this shader appliable to more objects, I added a shader feature that all
 | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | Solid Color                                                                  | UV Mapping                                                                  |
 
-Let's create some custom surface shaders for the objects in your scene, inspired by your concept art!
+### Multiple Lights
+
+---
+
+`#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"` allows us to use series of functions related to lighting. We can use GetMainLight(SHADOWCOORD) to
+get main light information, and GetAdditionalLight(INDEX, WORLDPOSITION) to get additional light information
+
+### Depth Based Rim Light (Outline?)
+
+---
+
+Creating rim light in stylized rendering is much like what we do in PBR. But in anime, the rim light is often regular in shape. For example
+
+| ![](Results/SurfaceShader1/rimExample1.png) | ![](Results/SurfaceShader1/rimExample2.jpg) | ![](Results/SurfaceShader1/rimExample3.jpg) |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| Cyberpunk 2077: Edgerunner                  | Violet Evergarden                           | Dandadan                                    |
+
+So based on this observation, we can create a rim light mask that constraint the variation of fresnel lighting.
+
+Steps:
+
+1. Read current pixel depth from depth buffer using screen uv.
+2. Transform world normal from world space to view space, extract its x and y components to decide which direction to apply offset
+3. Apply an offset to current screen uv in the previously calculated direction, sample the depth at the offseted uv
+4. Compute the depth difference.
+5. Compare the depth difference to a given threshold.
+
+And then we can have an rim light mask.
+
+| <img src="Results/SurfaceShader1/rimMask.png" width="512" height="512" /> |
+| ------------------------------------------------------------------------- |
+| Rim Light Mask                                                            |
+
+Next, we multiply this value to a schlick-fresnel value to get an anime-look rim light.
 
 Take a moment to think about the main characteristics that you see in the shading of your concept art. What makes it look appealing/aesthetic?
 
@@ -188,7 +221,7 @@ Specifically, we'll be creating **_Post Process Outlines_** based on Depth and N
     - Let's get creative! Modify your outline to be ANIMATED and to have an appearance that resembles the outlines in your concept art / OR, if the outlines in your concept art are too plain, try to make your outline resemble crayon/pencil sketching/etc.
         - Use your knowledge of toolbox functions to add some wobble, or warping or noise onto the lines that changes over time.
         - In my example below, you might be able to notice that the internal Normal Buffer based edges actually don't have any warping/animation. I did this intentionally because I wanted the final look to still have some kind of structure. Thus, by doing the depth and normal outlines in separate passes, I'm able to have a variety of animated/non-animated outlines composited together : ) !
-              <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
+            <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
 
 5. (OPTIONAL) If you're not satisfied with the look of your outlines and are looking for an extra challenge, after implementing depth/normal based post processing, you may explore non-post process techniques such as inverse hull edge rendering for outer edges to render bolder, more solid looking outlines for a different look.
     - Check out Alexander Ameye's article on alternative methods of outline rendering in Unity: [See Here](https://ameye.dev/notes/rendering-outlines/)

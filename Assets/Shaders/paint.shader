@@ -156,6 +156,8 @@ Shader "Custom/Paint"
             float depthDiff = saturate(depth - fragDepth);  
             float rim = saturate(depthDiff / max(0.0001, _RimThreshold));
             rim = smoothstep(0.03, 1.0, rim) * _RimScale;
+            return rim;
+
             // light contributions
             float3 lightContribution = 0;
 
@@ -177,7 +179,6 @@ Shader "Custom/Paint"
         #endif
             float3 lighting = light.distanceAttenuation * light.color;
 
-            return half4(color, 1.0);
             // kd + ks, ks = rimMask * fresnel * lighting
             float specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V))) * light.shadowAttenuation;
             lightContribution += lighting * (color + specular);

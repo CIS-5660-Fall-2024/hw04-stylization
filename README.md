@@ -38,8 +38,8 @@ For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery S
 ## Shaders
 
 | <img src="Results/Reference/ref5.jpg" width="282" height="501" /> |
-| ------------------------------- |
-| Kiki (Studio Ghibli)            |
+| ----------------------------------------------------------------- |
+| Kiki (Studio Ghibli)                                              |
 
 Since Studio Ghibli uses lots of water paiting techniques which is often build up in thin, transparent layers and has soft edges between colors. The first surface shader is primarily focusing on the replication of the water painting style.
 
@@ -49,17 +49,17 @@ The main idea is to distort and blend object's normal.
 
 ---
 
-| <img src="Results/SurfaceShader1/result.png" width="512" height="512" />|
-| -------------------------------------- |
-| Paint Shader                           |
+| <img src="Results/SurfaceShader1/result.png" width="512" height="512" /> |
+| ------------------------------------------------------------------------ |
+| Paint Shader                                                             |
 
 ### Discretized Normal
 
 First we discretize an object's normal using worley noise
 
-| <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="256" height="256" />  |
-| ------------------------------------------- | --------------------------------------- |
-| World Normal                                | Worley Normal                           |
+| <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="256" height="317" /> |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| World Normal                                                                  | Worley Normal                                                             |
 
 **Notice**: all normal operation is done with **object space normal** or **normalized object space position**, and transformed from object space to world space in the final step.  
 This is because we want the material behavior to be consistant when rotating the model.
@@ -67,35 +67,35 @@ This is because we want the material behavior to be consistant when rotating the
 Next we will try to create a soft transition between normals.
 By adding fbm noise to the oringinal normal, and apply the distorted normal with worley noise, we get the following result
 
-| ![](Results/SurfaceShader1/fbm.png) | ![](Results/SurfaceShader1/fbmWorley.png) |
-| ----------------------------------- | ----------------------------------------- |
-| Fbm Normal                          | FbmWorley Normal                          |
+| <img src="Results/SurfaceShader1/fbm.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/fbmWorley.png" width="256" height="256" /> |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Fbm Normal                                                            | FbmWorley Normal                                                            |
 
 It's... a bit too noisy! But we can soften it up by applying a generic brush texture.
 Here I created two cube maps for brush texture sampling using Photoshop, we'll sample them by object's **normalized object space position** instead of object space normal
 
-| ![](Results/SurfaceShader1/brushCubeMap.png) | ![](Results/SurfaceShader1/brushCubeMap1.png) |
-| -------------------------------------------- | --------------------------------------------- |
-| Fbm normal                                   | FbmWorley Normal                              |
+| <img src="Results/SurfaceShader1/brushCubeMap.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/brushCubeMap1.png" width="256" height="256" /> |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| Brush CubeMap1                                                                 | Brush CubeMap2                                                                  |
 
 I used an overlay blendmode to blend these two texture to create a compounded brush texture, then lerp between the brushNormal and fbmNormal, we can have the following result.
 
-| ![](Results/SurfaceShader1/brushNormal.png) | ![](Results/SurfaceShader1/finalNormal.png) |
-| ------------------------------------------- | ------------------------------------------- |
-| Brush normal                                | Final normal                                |
+| <img src="Results/SurfaceShader1/brushNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/finalNormal.png" width="256" height="256" /> |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Brush normal                                                                  | Final normal                                                                  |
 
 Then we will use this new normal to do all the shading work.
 
-| ![](Results/SurfaceShader1/noLight.png) |
-| --------------------------------------- |
-| Shade with Ramp Texture                 |
+| <img src="Results/SurfaceShader1/noLight.png" width="256" height="256" /> |
+| ------------------------------------------------------------------------- |
+| Shade with Ramp Texture                                                   |
 
 The above result is obtained by sampling colors from a ramp texture using lambert term. I created a series of ramp texture for the sonic model.
 To make this shader appliable to more objects, I added a shader feature that allows user to choose between a ramp texture, a solid color, or a uv mapping
 
-| ![](Results/SurfaceShader1/solidColor.png) | ![](Results/SurfaceShader1/uvMapping.png) |
-| ------------------------------------------ | ----------------------------------------- |
-| Solid Color                                | UV Mapping                                |
+| <img src="Results/SurfaceShader1/solidColor.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/uvMapping.png" width="256" height="256" /> |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Solid Color                                                                  | UV Mapping                                                                  |
 
 Let's create some custom surface shaders for the objects in your scene, inspired by your concept art!
 

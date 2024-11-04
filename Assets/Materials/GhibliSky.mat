@@ -56,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorRamp:
-        m_Texture: {fileID: 2800000, guid: 4709c63ed73abdd47960a971ece20f73, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6ecdc204564866e4c9d71df6fc895dc6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -126,10 +126,12 @@ Material:
     - _ColorTransition: 0.093
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DayTime: 0.268
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _ElapseInterval: 0.222
     - _EnvironmentReflections: 1
     - _FactorBrush: 0.298
     - _FactorFbm: 0.483
@@ -141,6 +143,7 @@ Material:
     - _GlossyReflections: 0
     - _InnerSize: 1
     - _Metallic: 0
+    - _NightTime: 0.484
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -153,6 +156,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
+    - _StarBlinkSpeed: 0.26
+    - _StarDensity: 5.7
+    - _StarSize: 0.01
     - _SunIntensity: 0.18
     - _Surface: 0
     - _UAlbedo: 0
@@ -168,6 +174,7 @@ Material:
     - _Color: {r: 0.54402506, g: 0.8836641, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _StarColor: {r: 1, g: 1, b: 1, a: 0.2784314}
     - _SunColor: {r: 1, g: 1, b: 1, a: 1}
     - _WindDirection: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

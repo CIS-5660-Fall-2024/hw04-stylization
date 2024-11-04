@@ -41,7 +41,7 @@ The main idea is to distort and blend object's normal.
 | ------------------------------------------------------------------------------------ |
 | [Paint Shader](Assets/Shaders/paint.shader) (For detailed shaderLab code check here) |
 
-### Discretized Normal
+### Distort Normal
 
 First we **discretize** an object's normal using **worley noise**
 
@@ -62,7 +62,7 @@ By adding fbm noise to the oringinal normal, and apply the distorted normal with
 It's... a bit too noisy! But we can soften it up by applying a **generic brush texture**.
 Here I created two cube maps for brush texture sampling using Photoshop, we'll sample them by object's **normalized object space position** instead of object space normal
 
-| <img src="Results/SurfaceShader1/brushCubeMap.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/brushCubeMap1.png" width="256" height="256" /> |
+| <img src="Results/SurfaceShader1/brushCubeMap.png" width="341" height="256" /> | <img src="Results/SurfaceShader1/brushCubeMap1.png" width="341" height="256" /> |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | Brush CubeMap1                                                                 | Brush CubeMap2                                                                  |
 
@@ -86,6 +86,10 @@ To make this shader appliable to more types of objects, I added a shader feature
 | Solid Color                                                                  | UV Mapping                                                                  |
 
 Sadly, this is more like an **oil painting** style instead of water painting style. This could be solved by changing the brush normal texture.
+
+| <img src="Results/SurfaceShader1/normalCode.png"/> |
+| -------------------------------------------------- |
+| Code Snippet                                       |
 
 ### Multiple Lights
 
@@ -118,6 +122,10 @@ Steps:
 4. Compute the **depth difference**.
 5. Compare the depth difference to a given **threshold**.
 
+| <img src="Results/SurfaceShader1/rimlightcode.png"/> |
+| ---------------------------------------------------- |
+| Code Snippet                                         |
+
 And then we can have an rim light mask.
 
 | <img src="Results/SurfaceShader1/rimMask.png" width="512" height="512" /> |
@@ -131,11 +139,13 @@ Also, remember to multiply the rim light result with `Light.shadowAttenuation`. 
 | -------------------------------------------------------------------------- |
 | Rim Light Result                                                           |
 
-**Combined Everything** and we finally have the above mentioned final result:
+**Combine everything** and we finally have the above mentioned final result:
 
 | <img src="Results/SurfaceShader1/result.png" width="256" height="256" /> |
 | ------------------------------------------------------------------------ |
 | [Paint Shader](Assets/Shaders/paint.shader)                              |
+
+(Working on the rest of readme...)
 
 ### HW Task List:
 
@@ -238,7 +248,7 @@ Specifically, we'll be creating **_Post Process Outlines_** based on Depth and N
     - Let's get creative! Modify your outline to be ANIMATED and to have an appearance that resembles the outlines in your concept art / OR, if the outlines in your concept art are too plain, try to make your outline resemble crayon/pencil sketching/etc.
         - Use your knowledge of toolbox functions to add some wobble, or warping or noise onto the lines that changes over time.
         - In my example below, you might be able to notice that the internal Normal Buffer based edges actually don't have any warping/animation. I did this intentionally because I wanted the final look to still have some kind of structure. Thus, by doing the depth and normal outlines in separate passes, I'm able to have a variety of animated/non-animated outlines composited together : ) !
-              <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
+          <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
 
 5. (OPTIONAL) If you're not satisfied with the look of your outlines and are looking for an extra challenge, after implementing depth/normal based post processing, you may explore non-post process techniques such as inverse hull edge rendering for outer edges to render bolder, more solid looking outlines for a different look.
     - Check out Alexander Ameye's article on alternative methods of outline rendering in Unity: [See Here](https://ameye.dev/notes/rendering-outlines/)

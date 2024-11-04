@@ -1,7 +1,7 @@
 // This Unity shader reconstructs the world space positions for pixels using a depth
 // texture and screen space UV coordinates. The shader draws a checkerboard pattern
 // on a mesh to visualize the positions.
-Shader "Custom/StyleizeSky"
+Shader "Custom/StyleizeSkybox"
 {
     Properties
     { 
@@ -26,7 +26,6 @@ Shader "Custom/StyleizeSky"
         [Toggle(_UseHalfLambert)] _UHLambert ("Use Half Lambert", Float) = 1
 
         [Header(Sun)][Space]
-        _FlareTex ("Flare Texture", 2D) = "white" {}
         _SunColor ("Sun Color", Color) = (1,1,1,1)
         _SunIntensity ("Sun Intensity", Range(0.1, 10)) = 1.0
         _InnerSize ("Sun Size", Range(0.97, 1)) = 0.1
@@ -36,6 +35,15 @@ Shader "Custom/StyleizeSky"
         _WindDirection ("Wind Direction", Vector) = (1, 0, 0)
         _WindSpeed ("Wind Speed", Range(0.1, 1.0)) = 1.0
         _WindStrength ("Wind Strength", Range(0.2, 10.0)) = 0.1
+
+        [Header(DayNight)][Space]
+        _DayTime ("DayTime", Range(0.0, 1.0)) = 0.4
+        _NightTime ("NightTime", Range(0.0, 1.0)) = 0.6
+        _ElapseInterval ("ElapseInterval", Range(0.0, 1.0)) = 0.1
+        _StarDensity ("Star Density", Range(1.0, 30)) = 1.0
+        _StarSize ("Star Size", Range(0.01, 0.1)) = 0.2
+        _StarColor ("Star Color", Color) = (1,1,1,1)
+        _StarBlinkSpeed ("Star Blink Speed", Range(0.1, 10)) = 1.0
     }
 
     // The SubShader block containing the Shader code.
@@ -79,15 +87,21 @@ Shader "Custom/StyleizeSky"
         float3 _WindDirection;
         float _WindSpeed;
         float _WindStrength;
+        float _DayTime;
+        float _NightTime;
+        float _ElapseInterval;
+        float _StarDensity;
+        float _StarSize;
+        float4 _StarColor;
+        float _StarBlinkSpeed;
         CBUFFER_END
 
 
         TEXTURECUBE(_BrushCube1);
         SAMPLER(sampler_BrushCube1);
         TEXTURE2D(_ColorRamp);
-        SAMPLER(sampler_ColorRamp);
-        TEXTURE2D(_FlareTex);
-        SAMPLER(sampler_FlareTex);
+        #define smp _Point_Clamp
+        SAMPLER(smp);
 
         struct Attributes
         {
@@ -191,7 +205,16 @@ Shader "Custom/StyleizeSky"
         #endif
             
         #ifdef _UseRamp
-            float3 color = SAMPLE_TEXTURE2D(_ColorRamp, sampler_ColorRamp, float2(hlambert, 0.5)).xyz;
+            float3 colorDay = SAMPLE_TEXTURE2D(_ColorRamp, smp, float2(hlambert, 0.9)).xyz;
+            float3 colorDusk = SAMPLE_TEXTURE2D(_ColorRamp, smp, float2(hlambert, 0.5)).xyz;
+            float3 colorNight = SAMPLE_TEXTURE2D(_ColorRamp, smp, float2(hlambert, 0.1)).xyz;
+            float star = voronoi3D(normalize(IN.positionWS) * _StarDensity * 10, voronoiNormal).x;
+            colorNight = lerp(colorNight, lerp(colorNight, _StarColor.rgb, _StarColor.a * (sin((hash31(voronoiNormal) + _Time.y * _StarBlinkSpeed) * PI * 2.0) * 0.5 + 0.5)), step(star, _StarSize));
+            float timeOfDay = 0.5 - dot(float3(0, 1, 0), light.direction) * 0.5;
+            float interval = _ElapseInterval / 2.0;
+            float3 color = lerp(colorDay, colorDusk, smoothstep(_DayTime - interval, _DayTime + interval, timeOfDay));
+            color = lerp(color, colorNight, smoothstep(_NightTime - interval, _NightTime + interval, timeOfDay));
+
         #else
             float3 color = _Color.rgb * (getGain(hlambert, _ColorTransition) * 0.8 + 0.2);
         #endif
@@ -200,11 +223,9 @@ Shader "Custom/StyleizeSky"
             lambert = getBias(lambert, 0.002) * 0.3 + 0.7;
             lightContribution += lighting * (color) * lambert;
 
-            
             // draw sun
             float sunAngle = dot(normalize(IN.positionWS), light.direction);
             UV = IN.positionHCS.xy / _ScaledScreenParams.y;
-            float flareMask = SAMPLE_TEXTURE2D(_FlareTex, sampler_FlareTex, float2(1.0 - sunAngle, 0.5)).r;
             if (sunAngle > _InnerSize)
             {
                 return half4(_SunColor.rgb * _SunIntensity * 10.0, 1.0);

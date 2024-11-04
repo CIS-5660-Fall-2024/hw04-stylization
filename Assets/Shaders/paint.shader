@@ -127,18 +127,19 @@ Shader "Custom/Paint"
             
             float3x3 randomRotMat = randomRototationMatrix(_RotSeed);
 
-            // overlay blend brush normal
+            // overlay blend brush normals
             float3 brushNormal1 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube1, sampler_BrushCube1, mul(randomRotMat, normalize(IN.positionOS))), _BrushNormalScale).xyz;
             brushNormal1 = mul(ltO, brushNormal1);
             float3 brushNormal2 = UnpackNormalScale(SAMPLE_TEXTURECUBE(_BrushCube2, sampler_BrushCube2, mul(randomRotMat, normalize(IN.positionOS))), _BrushNormalScale).xyz;
             brushNormal2 = mul(ltO, brushNormal2);
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
+            // fbm normal
             float2 fbm = float2((fbm3D(normalize(IN.positionOS * 41.1226) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS * 38.7116) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
             fbm = fbm * fbm * fbm;
             float3 fbmNormal = mul(ltO, normalize(float3(fbm, 1.0)));
 
-            // linear light blend normal
+            // lerp normals
             normal = lerp(normal, fbmNormal, _FactorFbm);
             normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
 

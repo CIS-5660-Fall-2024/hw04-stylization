@@ -48,7 +48,7 @@ void EdgeDetection_float(float2 UV, float OutlineThickness, float DepthSensitivi
     {
         depthSamples[i] = SHADERGRAPH_SAMPLE_SCENE_DEPTH(uvSamples[i]);
         normalSamples[i] = DecodeNormal(SAMPLE_TEXTURE2D(_NormalsBuffer, sampler_point_clamp, uvSamples[i]));
-        colorSamples[i] = SAMPLE_TEXTURE2D(_CameraColorTexture, sampler_CameraColorTexture, uvSamples[i]);
+        colorSamples[i] = SAMPLE_TEXTURE2D(_CameraColorTexture, sampler_CameraColorTexture, uvSamples[i]).rgb;
     }
 
     // Depth

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Vignette Mat
+  m_Name: Monster Vignette
   m_Shader: {fileID: -6465566751694194690, guid: 46c065630f44806499b458cdf84f6a68,
     type: 3}
   m_Parent: {fileID: 0}
@@ -38,9 +38,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Animation_Speed: 3
+    - _Animation_Speed: 1
+    - _Noise_Factor: 200
     - _Noise_Scale: 150
-    - _Power: 20
+    - _Power: 25
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 0.0045670285, g: 0.0061432435, b: 0.017169906, a: 0}
   m_BuildTextureStacks: []

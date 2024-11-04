@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Vignette Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 46c065630f44806499b458cdf84f6a68,
+  m_Name: Monster Outline 3
+  m_Shader: {fileID: -6465566751694194690, guid: 238d9dda96d95b3489881e0c896088ce,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,6 +24,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalsBuffer:
+        m_Texture: {fileID: 8400000, guid: a348fe2d588e6ba48b8e31d4143cb7ba, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_37f884ac8f1d4cd2a59a9e85da638485_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 05cb056fb4807704d94083bc167b31f5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -39,8 +51,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Animation_Speed: 3
-    - _Noise_Scale: 150
-    - _Power: 20
+    - _Color_Sensitivity: 0.1
+    - _Depth_Sensitivity: 0.1
+    - _Noise_Factor: 0
+    - _Normals_Sensitivity: 0.5
+    - _Outline_Thickness: 1
+    - _Scratchiness: 2.5
+    - _Warp_Factor: 0.4
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

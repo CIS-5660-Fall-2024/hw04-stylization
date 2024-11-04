@@ -26,7 +26,7 @@ void GetCrossSampleUVs_float(float4 UV, float2 TexelSize, float OffsetMultiplier
 void Vignette_float(float2 UV, float Intensity, out float Result)
 {
     float2 newUV = UV * (1.0 - UV.yx);
-    float vig = newUV.x * newUV.y * 20.0;
+    float vig = newUV.x * newUV.y * 30.0;
     vig = pow(vig, Intensity);
 
     Result = 1.0 - vig;

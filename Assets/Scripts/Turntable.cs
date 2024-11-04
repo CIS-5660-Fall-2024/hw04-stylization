@@ -12,12 +12,15 @@ public class Turntable : MonoBehaviour
     public GameObject wither, wolf;
     public Material postMat;
     bool hull = false;
+    bool animated = true;
     public GameObject[] hulls;
 
     void Start()
     {
         SwapToNextMaterial(0);
         hull = postMat.GetFloat("_Thickness_1") == 0;
+        foreach (Material m in materials)
+            m.SetFloat("_Animated_Strokes", 1);
     }
 
     void Update()
@@ -29,7 +32,22 @@ public class Turntable : MonoBehaviour
             index = (index + 1) % materials.Length;
             SwapToNextMaterial(index);
         }
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (!animated)
+            {
+                foreach(Material m in materials)
+                    m.SetFloat("_Animated_Strokes", 1);
+                animated = true;
+            }
+            else
+            {
+                foreach (Material m in materials)
+                    m.SetFloat("_Animated_Strokes", 0);
+                animated = false;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (!hull)
             {

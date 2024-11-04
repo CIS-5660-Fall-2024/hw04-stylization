@@ -1,10 +1,8 @@
-# HW 4: *3D Stylization*
+# HW 4: *3D Stylization* Submission (Charles Wang)
 
-## Submission (Charles Wang)
+## 1. Concept art
 
-### 1. Concept art
-
-Both pieces are by [OMOCAT](https://x.com/_omocat) and her team!
+All three pieces are by [OMOCAT](https://x.com/_omocat) and her team!
 
 | Piece 1 | Piece 2 | Piece 3 |
 |-------|------|-------|
@@ -18,51 +16,28 @@ I added multiple light support by following the tutorial.
 
 ### Specular highlight
 
-I didn't like how the specular highlight looked in my scene so I don't use it in the final setup, but here I show the implementation working (and it's available as a separate Shader Graph called "ToonWithSpecular" in the the Shaders folder).
+I didn't like how the specular highlight looked in my scene so I don't use it in the final setup, but here I show the implementation working (and it's available as a separate Shader Graph called "ToonWithSpecular" in the Shaders folder).
 
 https://github.com/user-attachments/assets/e8e63a89-4431-4245-ad82-92d30d25df51
 
 ### Interesting shadow
 
-To emulate the pencil, scribbly look of OMORI, I quickly used the pencil brush from Procreate to create this 512x512 texture:
+To emulate the scribble-y look of OMORI, I used the pencil brush from Procreate to create this 512x512 texture, and tiled it using the website:
 
 ![](Assets/Textures/shadow.png)
 
-### To-Do:
-1. **Improved Surface Shader**
-   - Create a surface shader inspired by the surface(s) in your concept art. Use the three tone toon shader you created from the Stylization Lab as a starting point to build a more interesting shader that fulfills all of the following requirements:
-      1. **Multiple Light Support**
-          - Follow the following tutorial to implement multiple light support.
-              - <img width="450" alt="Screenshot 2023-10-26 140845" src="https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/b4c8dfed-b79d-4c2a-b280-41a617d69aaf">
-              - [Link to Complete Additional Light Support Tutorial Video](https://youtu.be/1CJ-ZDSFsMM)
-      2. **Additional Lighting Feature**
-          - Implement a Specular Highlight, Rim Highlight or another similarly interesting lighting-related effect
-      3. **Interesting Shadow**
-          1. Create your own custom shadow texture!
-              - You can use whatever tools you have available! Digital art (Photoshop, CSP, Procreate, etc.), traditional art (drawing on paper, and then taking a photo/scan)-you have complete freedom!
-          2. Make your texture seamless/tesselatable! You can do this through the following online tool: https://www.imgonline.com.ua/eng/make-seamless-texture.php
-          3. Modify your shadows using this custom texture in a similar way to Puzzle 3 from the Lab
-          4. Now, instead of using screen position, use the default object UVs!
-              - In the 3rd Puzzle of the Lab, the shadow texture was sampled using the Screen Position node. This time, let's use the object's UV coordinates to have the shadows conform to geometry. Hint: To get a consistent looking shadow texture scale across multiple objects, you're going to want some exposed float parameter, "Shadow Scale," that will adjust the tiling of the shadow texture. This will allow for per material control over the tiling of your shadow texture.
-              - <img width="350" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/1ceef0fc-fd9d-4987-80de-0a8b6ba6fe76>
-              - Notice how in this artwork by [Emma Koch](https://www.artstation.com/ekoch), Link's shadow does not remain fixed in screen space as it is drawn via object UV coordinates.
+### Special surface shader
 
-      4. **Accurate Color Palette**
-          - Do your best to replicate the colors/lighting of your concept art!
-3. **Special Surface Shader**
-   - *Let's get creative!* Create a SPECIAL second shader that adds a glow, a highlight or some other special effect that makes the object stand out in some way. This is intended to give you practice riffing on existing shaders. Most games or applications require some kind of highlighting: this could be an effect in a game that draw player focus, or a highlight on hover like you see in a tool. If your concept art doesn't provide a visual example of what highlighting could look like, use your imagination or find another piece of concept art. Duplicate your shader to create a variant with an additional special feature that will make the hero object of your scene stand out. Choose one of the following three options:
-       - **Option 1: Animated colors**
-              -   ![animesher com_gif-hair-colorful-1560031](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/1758825/4ba53d68-5a82-4108-a842-e71abf522cbc)
+To create the "selected" shader, I drew inspiration from two sources in the game. The first is how sometimes the art likes to invert colors. See [this YouTube video](https://www.youtube.com/watch?v=dU_Wbl5va3E) and look at the bottom left corner, OMORI flips colors. Also this picture:
 
-          - The above is a simple example of what an animated surface shader might do, eg flash through a bunch of different colors. Using at least two toolbox functions, animate some aspect of the surface shader to create an eye-catching effect. Consider how procedural patterns, the screen space position and noise might contribute.
-          - Useful tips to get started:
-              - Use the Time node in Unity's shader graph to get access to time for animation. Consider using a Floor node on time to explore staggered/stepped interpolation! This can be really helpful for selling the illusion of the animation feeling handdrawn.
-       - **Option 2: Vertex animation**
-          - Similar to the noise cloud assignment, modify your object shader to animate the vertex positions of your object, eg. making an object sway or bob up and down to make it stand out. You should be able to figure out how to do this given the walkthrough so far, but if you need addition help, check out [this tutorial](https://www.youtube.com/watch?v=VQxubpLxEqU&ab_channel=GabrielAguiarProd).
-       - **Option 3: Another Custom Effect Tailored to your Concept Art**
-          - If you'd like to do an alternative effect to Option 1, just make sure that your idea is roughly similar in scope/difficulty. Feel free to make an EdStem post or ask any TA to double check whether your effect would be sufficient.
+![](ConceptArt/opp.jpg)
 
----
+I also wished to animate the selected object using the drawn look as seen in the game, which I did by reusing the shadow texture and overlaying it on the object. I used time, a triangle wave, and floored it so I could get staggered values to use to rotate the UV coords, allowing me to "animate" it. Here's a pic of the Graphtoy I used to plan it:
+
+![](ConceptArt/graph.png)
+
+For this shader, I also went back to the shadow and made it animated in the same manner, using a different offset/time scale so it looks different from the actual object.
+
 ## 3. Outlines
 Make your objects pop by adding outlines to your scene! 
 

@@ -13,6 +13,7 @@ public class FullScreenFeature : ScriptableRendererFeature
     }
 
     [SerializeField] private FullScreenPassSettings settings;
+
     class FullScreenPass : ScriptableRenderPass
     {
         const string ProfilerTag = "Full Screen Pass";
@@ -52,6 +53,7 @@ public class FullScreenFeature : ScriptableRendererFeature
             {
                 // HW 4 Hint: Blit from the color buffer to a temporary buffer and *back*.
                 Blit(cmd, colorBuffer, temporaryBuffer, settings.material);
+                Blit(cmd, temporaryBuffer, colorBuffer);
             }
 
             // Execute the command buffer and release it.

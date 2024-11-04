@@ -2,8 +2,10 @@
 
 ## 1. Picking a Piece of Concept Art
 I liked the image of link drawn in colour pencil, so I picked this one:
-![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/9c345ee6-19df-4191-9e47-6722b6597a5a)  
-*https://twitter.com/trudicastle/status/1122648793009098752*
+
+<img width="350" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/1ceef0fc-fd9d-4987-80de-0a8b6ba6fe76>
+
+[Emma Koch](https://www.artstation.com/ekoch)
 
 ---
 ## 2. Interesting Shaders
@@ -24,14 +26,14 @@ For this part, I made the pencil texure animated. Firstly, this was because it m
 ---
 ## 3. Outlines
 
-I then created post process outlines using the depth and normal technique, and animated it using a gradient noise and time to make the image feel like its being drawn in real time by someone. 
+I then created post process outlines using the depth and normal technique, and animated it using a gradient noise and time to make the image feel like its being drawn in real time by someone. It also mimics the way the shadows appear when link turns in the gif.
 
 Additionally, I created an alternative outline using inverse hull rendering, where for each mesh I made a copy, created a new shader that only rendered backfaces for each copy, and increased their sizes so that each mesh had a larger black version surrounding it.
 
 ---
 ## 4. Full Screen Post Process Effect
 
-I created a full screen post process effect by multiplying the scene's output with a paper texture to make it seem like everything was being drawn on paper.
+I created a full screen post process effect by multiplying the scene's output with a paper texture to make it seem like everything was being drawn on paper. This wasn't in the image, but it seemed like a good touch for a pencil shader.
 
 ---
 ## 5. Create a Scene

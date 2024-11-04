@@ -50,6 +50,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 5407e8dcec2004e4399be306ad2a926f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_9630fce7460d4692a88cd7407d072445_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 91f2e73a29e44f248bcd72d431fe1c38, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -67,7 +71,7 @@ Material:
     - ADDITIONAL_LIGHT_CALCULATE_SHADOWS: 1
     - MAIN_LIGHT_CALCULATE_SHADOWS: 1
     - _ADDITIONAL_LIGHTS: 1
-    - _Float_Magnitude: 1
+    - _Float_Magnitude: 20
     - _HighlightStippleRange: 0.3
     - _MAIN_LIGHT_SHADOWS_CASCADE: 1
     - _QueueControl: 0

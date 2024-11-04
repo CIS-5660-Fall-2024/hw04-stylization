@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Monster Outline 2
+  m_Name: Monster Outline 4
   m_Shader: {fileID: -6465566751694194690, guid: 238d9dda96d95b3489881e0c896088ce,
     type: 3}
   m_Parent: {fileID: 0}
@@ -51,13 +51,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Animation_Speed: 3
-    - _Color_Sensitivity: 0.1
-    - _Depth_Sensitivity: 0.1
+    - _Color_Sensitivity: 0.05
+    - _Depth_Sensitivity: 0.05
     - _Noise_Factor: 0
-    - _Normals_Sensitivity: 0.5
-    - _Outline_Thickness: 3
-    - _Scratchiness: 3.5
-    - _Warp_Factor: 0.3
+    - _Normals_Sensitivity: 0.05
+    - _Outline_Thickness: 1
+    - _Scratchiness: 3
+    - _Warp_Factor: 0.5
     m_Colors:
-    - _Outline_Color: {r: 0.2509804, g: 0.16078432, b: 0.20392157, a: 0}
+    - _Outline_Color: {r: 0.25, g: 0.15931374, b: 0.20343137, a: 0}
   m_BuildTextureStacks: []

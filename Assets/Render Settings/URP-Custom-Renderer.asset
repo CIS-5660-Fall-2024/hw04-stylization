@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: Monster Outline 2
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     material: {fileID: 2100000, guid: 27aec1c1479fb414ab582bf94fc3b34d, type: 2}
@@ -28,10 +28,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: Monster Outline 1
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     material: {fileID: 2100000, guid: 87fb5a28fc340f6419913ec3af9e6de9, type: 2}
+--- !u!114 &-2424501310946797567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
+  m_Name: Monster Outline 4
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    material: {fileID: 2100000, guid: 5d23d380e3da7e844aab44780e9a9d45, type: 2}
 --- !u!114 &-2377414094374388489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +77,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
-  m_Name: Ball Vignette
+  m_Name: Vignette
   m_EditorClassIdentifier: 
   m_Active: 1
   passMaterial: {fileID: 2100000, guid: c99273e67e2bb9c46bd1e2b0f111fd1b, type: 2}
@@ -86,13 +102,14 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -2377414094374388489}
+  - {fileID: 426631871236435065}
   - {fileID: -3230171738628921090}
   - {fileID: -7758875448969533039}
   - {fileID: 2077794010840447106}
-  - {fileID: 1181637759129471545}
-  - {fileID: 426631871236435065}
+  - {fileID: -2424501310946797567}
+  - {fileID: 3351925033968816563}
   - {fileID: -1629493125471130759}
-  m_RendererFeatureMap: f7bcce2c7aba01dffe6884fbea1f2cd391e9ab2fe3ef5294823894eca4ced51c39ca190648056610796ce82e6db3eb05792b5ac4a2e062e9
+  m_RendererFeatureMap: f7bcce2c7aba01df796ce82e6db3eb05fe6884fbea1f2cd391e9ab2fe3ef5294823894eca4ced51c01188c3be7705adeb35173230f6e842e792b5ac4a2e062e9
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 0}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -147,27 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: Ball Outline
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 500
     material: {fileID: 2100000, guid: 37e8846a77235c14d8efee8d69044872, type: 2}
---- !u!114 &1181637759129471545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
-  m_Name: Monster Vignette
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  passMaterial: {fileID: 2100000, guid: ba6faf30d5b10834f82fd0090ffd307e, type: 2}
-  injectionPoint: 600
-  requirements: 0
-  passIndex: 0
 --- !u!114 &2077794010840447106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,10 +180,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: Monster Outline 3
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     material: {fileID: 2100000, guid: 73d2c8d32e33fc14d8a1067430b2cd94, type: 2}
+--- !u!114 &3351925033968816563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
+  m_Name: Monster Outline 5
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    renderPassEvent: 500
+    material: {fileID: 2100000, guid: 55bdb3cec55927a4eb795227e57e1eb0, type: 2}
 --- !u!114 &5953239638328874002
 MonoBehaviour:
   m_ObjectHideFlags: 0

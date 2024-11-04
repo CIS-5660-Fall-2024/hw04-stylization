@@ -34,7 +34,7 @@ https://github.com/user-attachments/assets/2af8a444-4d7a-40b1-b960-dfc28ca6c96f
 ### Outlines
 
 I used an implementation of Roberts cross edge detection across normal, depth, and color to draw the outlines in a postprocess shader.
-My outlines are animated in a staggered manner to have both adjustable scratchiness / noise and warping that are modified by gradient noise.
+My outlines are animated in a staggered manner to have both "scratchiness" and warping that are controlled by gradient noise.
 The final scene is achieves the handdrawn aesthetic by layering multiple outline materials with varying thicknesses, colors, noise scales, and warp factors.
 
 ### Postprocess Effect

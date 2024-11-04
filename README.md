@@ -52,12 +52,16 @@ So I do just that in my shader, blending between them using Darken. In addition,
 
 ![](Writeup/cool-outlines.png)
 
----
 ## 4. Full Screen Post Process Effect
 
 Inspired by the white border that surrounds the first concept art piece, I decided to implement a white-colored vignette that goes around the screen borders.
 
 ## 5. Create a Scene
+
+Models and credits:
+
+- "Picnic Basket from Poly by Google" (https://skfb.ly/6XXuR) by IronEqual is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 Using Unity's controls, create a ***SUPER BASIC*** scene with a few elements to show off your unique rendering stylization. Be sure to apply the materials you've created. Please don't go crazy with the geometry -- then you'll have github problems if your files are too large. [See here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github). 
 
 Note that your modelling will NOT be graded at all for this assignment. It is **NOT** expected that your scene will be a one-to-one faithful replica of your concept art. You are **STRONGLY ENCOURAGED** to find free assets online, even if they don't strongly resemble the geometry/objects present in your concept art. (TLDR; If you choose to model your own geometry for this project, be aware of the time-constraint and risk!)

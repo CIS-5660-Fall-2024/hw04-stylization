@@ -46,7 +46,7 @@ class NormalsPass : ScriptableRenderPass
 
         target = targetTexture;
 
-        m_ShaderTagIdList.Add(new ShaderTagId("DepthOnly")); // Only render DepthOnly pass
+        m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward")); // Only render DepthOnly pass
         normalsMaterial = mat;
     }
 

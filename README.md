@@ -2,7 +2,6 @@
 
 ## 1. Picking a Piece of Concept Art
 I liked the image of link drawn in colour pencil, so I picked this one:
-
 ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/9c345ee6-19df-4191-9e47-6722b6597a5a)  
 *https://twitter.com/trudicastle/status/1122648793009098752*
 
@@ -14,9 +13,12 @@ For the first part of the HW I finished our toon shader by implementing multiple
 
 Of course, I also made a basic pencil shader, complete with interesting shadows (the edges were postprocessing). I used a pencil texture input as a filter for where to draw the mesh's albedo texture. Since it seems like someone had already made that shader, I made my pencil texture and noise look slightly different from the picture (for the sake of uniqueness). 
 <img width="467" alt="Screenshot 2024-11-03 at 10 19 37 PM" src="https://github.com/user-attachments/assets/bd307a4f-5d74-4d75-9188-d758091755cd">
+
 However, there were some long blank lines that I couldn't seem to remove no matter how I mapped the static pencil texture. That is why I made an improvement in the next part of the shader.
 
-3. **Special Surface Shader**
+---
+## 3. Special Surface Shader
+
 For this part, I made the pencil texure animated. Firstly, this was because it made the continuities look less obvious, and also t make it seem like the texture was being drawn in real time every frame. The texture animates with the movement of the camera to imitate the way that the gif of this image moves as well.
 
 ---
@@ -39,7 +41,8 @@ I couldn't find a good link mesh that worked in unity, so I found a wolf link me
 ---
 ## 6. Interactivity
 
-Here is interactivity:
+Here are the controls:
+
 Spacebar: Switches between both meshes, along with normal draw mode and "static mode" (where the pencil strokes look like static interference instead)
 
 E: Switches edge rendering mode

@@ -6,12 +6,12 @@ void GetMainLight_float(float3 WorldPos, out float3 Color, out float3 Direction,
     DistanceAtten = 1;
     ShadowAtten = 1;
 #else
-#if SHADOWS_SCREEN
+    #if SHADOWS_SCREEN
         float4 clipPos = TransformWorldToClip(WorldPos);
         float4 shadowCoord = ComputeScreenPos(clipPos);
-#else
-    float4 shadowCoord = TransformWorldToShadowCoord(WorldPos);
-#endif
+    #else
+        float4 shadowCoord = TransformWorldToShadowCoord(WorldPos);
+    #endif
 
     Light mainLight = GetMainLight(shadowCoord);
     Direction = mainLight.direction;

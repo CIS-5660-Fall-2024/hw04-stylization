@@ -44,7 +44,13 @@ I first implemented basic outlines using the Roberts Cross method.
 
 ![](Writeup/basic-outlines.png)
 
+However, outlines in OMORI art seem to be made up of three parts: a green, pink, and purple piece all overlayed on each other.
 
+![](Writeup/outlineex.png)
+
+So I do just that in my shader, blending between them using Darken. In addition, each of the three outlines are customized by slightly offsetting the UVs to give a more "chromatic aberration" look, and I use the Random Range node to vary the thickness of the outlines depending on screen position. Finally, I use the same animation technique that I used in the surface shader above.
+
+![](Writeup/cool-outlines.png)
 
 Make your objects pop by adding outlines to your scene! 
 

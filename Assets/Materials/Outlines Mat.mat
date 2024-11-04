@@ -40,6 +40,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 725029d7d86bcf44782729b284138d6e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_67767782f12443d1ba7ed0a22bcc9c09_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6fa826a9dceedd3408e1654b6475c054, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -61,6 +65,7 @@ Material:
     - _DepthThreshold: 1.5
     - _NormalThreshold: 0.4
     - _OutlineScale: 3
+    - _ScreenBorderRadius: 0.05
     - _TextureScale: -0.83
     m_Colors:
     - _OutlineColor: {r: 0.31764707, g: 0.08235294, b: 0.8745099, a: 0}

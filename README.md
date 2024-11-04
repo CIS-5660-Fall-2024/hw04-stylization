@@ -54,20 +54,9 @@ So I do just that in my shader, blending between them using Darken. In addition,
 
 ---
 ## 4. Full Screen Post Process Effect
-We're nearing the end! 
 
-### To-Do:
-Ok, now regardless of what your concept art looks like, using what you know about toolbox functions and screen space effects, add an appealing post-process effect to give your scene a unique look. Your post processing effect should do at least one of the following.
-* A vingette that darkens the edges of your images with a color or pattern
-* Color / tone mapping that changes the colorization of your renders. [Here's some basic ideas, but please experiment](https://gmshaders.com/tutorials/basic_colors/) 
-* A texture to make your image look like it's drawn on paper or some other surface.
-* A blur to make your image look smudged.
-* Fog or clouds that drift over your scene
-* Whatever else you can think of that complements your scene!
+Inspired by the white border that surrounds the first concept art piece, I decided to implement a white-colored vignette that goes around the screen borders.
 
-***Note: This should be easily accomplishable using what you should have already learnt about working with Unity's Custom Render Features from the Outline section!***
-
----
 ## 5. Create a Scene
 Using Unity's controls, create a ***SUPER BASIC*** scene with a few elements to show off your unique rendering stylization. Be sure to apply the materials you've created. Please don't go crazy with the geometry -- then you'll have github problems if your files are too large. [See here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github). 
 

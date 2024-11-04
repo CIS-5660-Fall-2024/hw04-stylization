@@ -37,7 +37,7 @@ For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery S
 
 ## Shaders
 
-| ![](Results/Reference/ref5.jpg) |
+| <img src="Results/Reference/ref5.jpg" width="282" height="501" /> |
 | ------------------------------- |
 | Kiki (Studio Ghibli)            |
 
@@ -49,7 +49,7 @@ The main idea is to distort and blend object's normal.
 
 ---
 
-| ![](Results/SurfaceShader1/result.png) |
+| <img src="Results/SurfaceShader1/result.png" width="512" height="512" />|
 | -------------------------------------- |
 | Paint Shader                           |
 
@@ -57,7 +57,7 @@ The main idea is to distort and blend object's normal.
 
 First we discretize an object's normal using worley noise
 
-| ![](Results/SurfaceShader1/worldNormal.png) | ![](Results/SurfaceShader1/voronoi.png) |
+| <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="256" height="256" />  |
 | ------------------------------------------- | --------------------------------------- |
 | World Normal                                | Worley Normal                           |
 

@@ -18,7 +18,7 @@ public class Turntable : MonoBehaviour
     void Start()
     {
         SwapToNextMaterial(0);
-        hull = postMat.GetFloat("_Thickness_1") == 0;
+        postMat.SetFloat("_Thickness_1", 1);
         foreach (Material m in materials)
             m.SetFloat("_Animated_Strokes", 1);
     }

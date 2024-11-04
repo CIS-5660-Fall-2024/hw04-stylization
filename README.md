@@ -1,7 +1,11 @@
-# HW 4: *3D Stylization*
+# HW 4: *Ghibli Stylization*
 
 ## Project Overview:
-In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
+In this project, I implemented
+1. A Ghibli-style shader that creates a oil or water painting feel texture.
+2. A grass shader that generate animate-style grass using tessellation shader and geometry shader.
+3. Post-process ray march fog and volumetric light.
+4. All materials receive multiple lights and correctly cast shadows.
 
 | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/755780f1-8b8c-47e1-b14f-3a619f92fd3a/>  | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/70550c09-ba75-4d10-9b30-60874179ad10/> |
 |:--:|:--:|

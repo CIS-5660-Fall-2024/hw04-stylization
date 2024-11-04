@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gradient 1
+  m_Name: Roof 1
   m_Shader: {fileID: -6465566751694194690, guid: b6b72d1e8eec0dd4a974a43f5cdd4524,
     type: 3}
   m_Parent: {fileID: 0}
@@ -114,6 +114,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HaveStripes: 0
+    - _IsEmissive: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -131,10 +132,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0.8867924, g: 0.6065326, b: 0.7089352, a: 0}
+    - _BottomColor: {r: 0.928066, g: 0.7122642, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 11.03792, g: 2.447087, b: 9.716354, a: 0}
+    - _ShadowColor: {r: 0.8470588, g: 0.5372549, b: 0.8705882, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _StripeColor: {r: 0.8867924, g: 0.7899836, b: 0.78221786, a: 0}
-    - _TopColor: {r: 1, g: 0.8808541, b: 0.6745283, a: 0}
+    - _TopColor: {r: 0.0754717, g: 0.07394066, b: 0.07226771, a: 0}
   m_BuildTextureStacks: []

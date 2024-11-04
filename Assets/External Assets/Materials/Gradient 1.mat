@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Window
+  m_Name: Gradient 1
   m_Shader: {fileID: -6465566751694194690, guid: b6b72d1e8eec0dd4a974a43f5cdd4524,
     type: 3}
   m_Parent: {fileID: 0}
@@ -77,6 +77,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0d38d3816f394eac812f11bf006cde4b_Texture_1_Texture2D:
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -114,7 +118,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HaveStripes: 0
-    - _IsEmissive: 1
+    - _IsEmissive: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -132,11 +136,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0.8773585, g: 0.45937166, b: 0.7478414, a: 0}
+    - _BottomColor: {r: 0.8867924, g: 0.6065326, b: 0.7089352, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 11.816997, g: 0.7080346, b: 0, a: 0}
+    - _EmissiveColor: {r: 11.03792, g: 2.447087, b: 9.716354, a: 0}
+    - _ShadowColor: {r: 0.84579694, g: 0.53631186, b: 0.8679245, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _StripeColor: {r: 0.8867924, g: 0.7899836, b: 0.78221786, a: 0}
-    - _TopColor: {r: 1, g: 0.8427328, b: 0.6745098, a: 0}
+    - _TopColor: {r: 1, g: 0.8808541, b: 0.6745283, a: 0}
   m_BuildTextureStacks: []

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gradient 5
+  m_Name: Gradient
   m_Shader: {fileID: -6465566751694194690, guid: b6b72d1e8eec0dd4a974a43f5cdd4524,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 5d66968adb1264a45a495392248ed860, type: 2}
@@ -36,13 +36,17 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _SampleTexture2D_0d38d3816f394eac812f11bf006cde4b_Texture_1_Texture2D:
+        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Frequency: 80
     - _HaveStripes: 1
-    - _StripeThreshold: 0.01
+    - _StripeThreshold: 0.05
     m_Colors:
-    - _BottomColor: {r: 0.7705578, g: 0.59527415, b: 0.8584906, a: 0}
-    - _TopColor: {r: 0.764151, g: 0.39978173, b: 0, a: 0}
+    - _BottomColor: {r: 1, g: 1, b: 1, a: 0}
+    - _TopColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

@@ -13,18 +13,6 @@ In this project, I implemented
 3. Post-process ray march fog and volumetric light.
 4. All materials receive multiple lights and cast shadows properly .
 
-### HW Task List:
-
-1. Picking a Piece of Concept Art
-2. Interesting Shaders
-3. Outlines
-4. Full Screen Post Process Effect
-5. Creating a Scene
-6. Interactivity
-7. Extra Credit
-
----
-
 ## Concept Art
 
 For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery Service, along with an unrelated but beautiful animestyle dusk scene.
@@ -41,7 +29,7 @@ For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery S
 | ----------------------------------------------------------------- |
 | Kiki (Studio Ghibli)                                              |
 
-Since Studio Ghibli uses lots of water paiting techniques which is often build up in thin, transparent layers and has soft edges between colors. The first surface shader is primarily focusing on the replication of the water painting style.
+Since **Studio Ghibli** uses lots of water paiting techniques which is often build up in thin, transparent layers and has soft edges between colors. The first surface shader is primarily focusing on the replication of the water painting style.
 
 The main idea is to distort and blend object's normal.
 
@@ -55,30 +43,30 @@ The main idea is to distort and blend object's normal.
 
 ### Discretized Normal
 
-First we discretize an object's normal using worley noise
+First we **discretize** an object's normal using **worley noise**
 
 | <img src="Results/SurfaceShader1/worldNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/voronoi.png" width="317" height="256" /> |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | World Normal                                                                  | Worley Normal                                                             |
 
-**Notice**: all normal operation is done with **object space normal** or **normalized object space position**, and transformed from object space to world space in the final step.  
-This is because we want the material behavior to be consistant when rotating the model.
+**Notice**: all normal operation is done with **object space normal** or **normalized object space position**, and transformed from object space to world space in the final step.
+This is because we want the material behavior to be **consistant** when rotating the model.
 
-Next we will try to create a soft transition between normals.
+Next we will try to create a **soft transition** between normals.
 By adding fbm noise to the oringinal normal, and apply the distorted normal with worley noise, we get the following result
 
 | <img src="Results/SurfaceShader1/fbm.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/fbmWorley.png" width="256" height="256" /> |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | Fbm Normal                                                            | FbmWorley Normal                                                            |
 
-It's... a bit too noisy! But we can soften it up by applying a generic brush texture.
+It's... a bit too noisy! But we can soften it up by applying a **generic brush texture**.
 Here I created two cube maps for brush texture sampling using Photoshop, we'll sample them by object's **normalized object space position** instead of object space normal
 
 | <img src="Results/SurfaceShader1/brushCubeMap.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/brushCubeMap1.png" width="256" height="256" /> |
 | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | Brush CubeMap1                                                                 | Brush CubeMap2                                                                  |
 
-I used an overlay blendmode to blend these two texture to create a compounded brush texture, then lerp between the brushNormal and fbmNormal, we can have the following result.
+I used an **overlay blendmode** to blend these two texture to create a compounded brush texture, then **lerp between the brushNormal and fbmNormal**, we can have the following result.
 
 | <img src="Results/SurfaceShader1/brushNormal.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/finalNormal.png" width="256" height="256" /> |
 | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
@@ -90,8 +78,8 @@ Then we will use this newly generated normal to do all the shading work.
 | ------------------------------------------------------------------------- |
 | [Shade with Ramp Texture](Assets/Textures/Ramps)                          |
 
-The above result is obtained by sampling colors from a ramp texture using lambert term. I created a series of ramp texture for the sonic model.
-To make this shader appliable to more objects, I added a shader feature that allows user to choose between a ramp texture, a solid color, or a uv mapping
+The above result is obtained by sampling colors from different **ramp textures** using lambert term. I created a series of ramp texture for the sonic model.
+To make this shader appliable to more types of objects, I added a shader feature that allows user to choose between **a ramp texture, a solid color, or a uv mapping**
 
 | <img src="Results/SurfaceShader1/solidColor.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/uvMapping.png" width="256" height="256" /> |
 | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -101,28 +89,28 @@ To make this shader appliable to more objects, I added a shader feature that all
 
 ---
 
-`#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"` allows us to use series of functions related to lighting. We can use GetMainLight(SHADOWCOORD) to
-get main light information, and GetAdditionalLight(INDEX, WORLDPOSITION) to get additional light information
+`#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"` allows us to use series of functions related to lighting. We can use `GetMainLight(SHADOWCOORD)` to
+get main light information, and `GetAdditionalLight(INDEX, WORLDPOSITION)` to get additional light information
 
 ### Depth Based Rim Light (Outline?)
 
 ---
 
-Creating rim light in stylized rendering is much like what we do in PBR. But in anime, the rim light is often regular in shape. For example
+Creating **rim light** in stylized rendering is much like what we do in PBR. But in anime, the rim light is often **regular** in shape. For example
 
 | ![](Results/SurfaceShader1/rimExample1.png) | ![](Results/SurfaceShader1/rimExample2.jpg) | ![](Results/SurfaceShader1/rimExample3.jpg) |
 | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 | Cyberpunk: Edgerunner                       | Violet Evergarden                           | Dandadan                                    |
 
-So based on this observation, we can create a rim light mask that constraint the variation of fresnel lighting.
+So based on this observation, we can create a **rim light mask** that constraints the variation of fresnel lighting.
 
 Steps:
 
-1. Read current pixel depth from depth buffer using screen uv.
-2. Transform world normal from world space to view space, extract its x and y components to decide which direction to apply offset
-3. Apply an offset to current screen uv in the previously calculated direction, sample the depth at the offseted uv
-4. Compute the depth difference.
-5. Compare the depth difference to a given threshold.
+1. Read current pixel **depth** from depth buffer using screen uv.
+2. Transform world normal from world space to **view space**, **extract its x and y components** to decide which direction to apply offset
+3. Apply an offset to current screen uv in the previously calculated direction, **sample the depth at the offseted uv**
+4. Compute the **depth difference**.
+5. Compare the depth difference to a given **threshold**.
 
 And then we can have an rim light mask.
 
@@ -130,12 +118,24 @@ And then we can have an rim light mask.
 | ------------------------------------------------------------------------- |
 | Rim Light Mask                                                            |
 
-Next, we multiply this value to a schlick-fresnel value to get an anime-look rim light.  
-Also, remember to multiply the rim light result with Light.shadowAttenuation. Shadowed area will not produce rim light.
+Next, we multiply this value to a simplified **schlick-fresnel value**: `(1 - HdotV)^5` to get an anime-look rim light.  
+Also, remember to multiply the rim light result with `Light.shadowAttenuation`. Shadowed area will not produce rim light.
 
 | <img src="Results/SurfaceShader1/rimlight.png" width="512" height="512" /> |
 | -------------------------------------------------------------------------- |
 | Rim Light Result                                                           |
+
+### HW Task List:
+
+1. Picking a Piece of Concept Art
+2. Interesting Shaders
+3. Outlines
+4. Full Screen Post Process Effect
+5. Creating a Scene
+6. Interactivity
+7. Extra Credit
+
+---
 
 Take a moment to think about the main characteristics that you see in the shading of your concept art. What makes it look appealing/aesthetic?
 

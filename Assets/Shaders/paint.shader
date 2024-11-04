@@ -135,9 +135,10 @@ Shader "Custom/Paint"
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2((fbm3D(normalize(IN.positionOS * 41.1226) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS * 38.7116) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
-            fbm = fbm * fbm * 2.0 - 1.0;
+            // float2 fbm = float2((fbmPerlin3D(normalize(IN.positionOS) + 26.7, _FbmBrushFrequency, 1.0, 3 ) - 0.5) * _FbmBrushStrength ,(fbmPerlin3D(normalize(IN.positionOS) + 114.51, _FbmBrushFrequency, 1.0, 3) * _FbmBrushStrength));
+            fbm = fbm * fbm * fbm;
             float3 fbmNormal = mul(ltO, normalize(float3(fbm, 1.0)));
-
+            // return half4(fbmNormal, 1.0);
             // linear light blend normal
             normal = lerp(normal, fbmNormal, _FactorFbm);
             normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
@@ -145,7 +146,7 @@ Shader "Custom/Paint"
             // voronoi using distorted normal as input
             float3 voronoiNormal;
             float2 voronoi = voronoi3D(normal * _VoronoiSize , voronoiNormal);
-            normal = normalize(mul(transpose(unity_WorldToObject), float4(voronoiNormal, 0.0)).xyz) * 2.0 - 1.0;
+            normal = normalize(mul(transpose(unity_WorldToObject), float4(normalize(voronoiNormal), 0.0)).xyz);
 
             // depth based rim mask
             float fragDepth = getDepth(UV);
@@ -176,6 +177,7 @@ Shader "Custom/Paint"
         #endif
             float3 lighting = light.distanceAttenuation * light.color;
 
+            return half4(color, 1.0);
             // kd + ks, ks = rimMask * fresnel * lighting
             float specular = rim * POW5(1 - saturate(dot(normalize(V + light.direction), V))) * light.shadowAttenuation;
             lightContribution += lighting * (color + specular);

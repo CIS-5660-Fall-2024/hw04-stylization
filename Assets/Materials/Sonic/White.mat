@@ -13,8 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _AdditionalLights
-  - _UseAlbedoMap
-  - _UseRamp
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -120,7 +118,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorTransition: 0.5
+    - _ColorTransition: 0.321
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -128,8 +126,10 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FactorBrush: 0.505
-    - _FactorFbm: 0.191
+    - _FactorBrush: 0.295
+    - _FactorFbm: 0.01
+    - _FbmBrushFrequency: 2.07
+    - _FbmBrushStrength: 5.84
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -142,16 +142,18 @@ Material:
     - _RimKernel: 0.0034
     - _RimScale: 2.166
     - _RimThreshold: 0.00152
+    - _RotSeed: 114514.25
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _UAlbedo: 1
-    - _URamp: 1
+    - _UAlbedo: 0
+    - _UHLambert: 0
+    - _URamp: 0
     - _UVSec: 0
-    - _VoronoiSize: 5
+    - _VoronoiSize: 7
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

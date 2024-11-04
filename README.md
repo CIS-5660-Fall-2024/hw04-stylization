@@ -10,7 +10,7 @@ In this project, I implemented
 
 1. A Ghibli-style shader that creates a oil or water painting feel texture.
 2. A grass shader that generate animate-style grass using tessellation shader and geometry shader.
-3. Post-process ray march fog and volumetric light.
+3. Post-process distance fog and volumetric light.
 4. All materials receive multiple lights and cast shadows properly .
 
 ## Concept Art
@@ -29,7 +29,7 @@ For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery S
 | ----------------------------------------------------------------- |
 | Kiki (Studio Ghibli)                                              |
 
-Since **Studio Ghibli** uses lots of water paiting techniques which is often build up in thin, transparent layers and has soft edges between colors. The first surface shader is primarily focusing on the replication of the water painting style.
+Since **Studio Ghibli** uses lots of water paiting techniques which is often built up in thin, transparent layers and has soft edges between colors. The first surface shader is primarily focusing on the replication of the water painting style.
 
 The main idea is to distort and blend object's normal.
 
@@ -37,9 +37,9 @@ The main idea is to distort and blend object's normal.
 
 ---
 
-| <img src="Results/SurfaceShader1/result.png" width="512" height="512" /> |
-| ------------------------------------------------------------------------ |
-| [Paint Shader](Assets/Shaders/paint.shader)                              |
+| <img src="Results/SurfaceShader1/result.png" width="512" height="512" />             |
+| ------------------------------------------------------------------------------------ |
+| [Paint Shader](Assets/Shaders/paint.shader) (For detailed shaderLab code check here) |
 
 ### Discretized Normal
 
@@ -50,12 +50,12 @@ First we **discretize** an object's normal using **worley noise**
 | World Normal                                                                  | Worley Normal                                                             |
 
 **Notice**: all normal operation is done with **object space normal** or **normalized object space position**, and transformed from object space to world space in the final step.
-This is because we want the material behavior to be **consistant** when rotating the model.
+This is because we want the material behavior to be **consistant** when the model is rotated.
 
 Next we will try to create a **soft transition** between normals.
 By adding fbm noise to the oringinal normal, and apply the distorted normal with worley noise, we get the following result
 
-| <img src="Results/SurfaceShader1/fbm.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/fbmWorley.png" width="256" height="256" /> |
+| <img src="Results/SurfaceShader1/fbm.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/fbmWorley.png" width="311" height="256" /> |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | Fbm Normal                                                            | FbmWorley Normal                                                            |
 
@@ -85,12 +85,18 @@ To make this shader appliable to more types of objects, I added a shader feature
 | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | Solid Color                                                                  | UV Mapping                                                                  |
 
+Sadly, this is more like an **oil painting** style instead of water painting style. This could be solved by changing the brush normal texture.
+
 ### Multiple Lights
 
 ---
 
 `#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"` allows us to use series of functions related to lighting. We can use `GetMainLight(SHADOWCOORD)` to
 get main light information, and `GetAdditionalLight(INDEX, WORLDPOSITION)` to get additional light information
+
+| <img src="Results/SurfaceShader1/noLight.png" width="256" height="256" /> | <img src="Results/SurfaceShader1/multiLight.png" width="256" height="256" /> |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [Shade with Ramp Texture](Assets/Textures/Ramps)                          | Multiple Lighting                                                            |
 
 ### Depth Based Rim Light (Outline?)
 
@@ -118,12 +124,18 @@ And then we can have an rim light mask.
 | ------------------------------------------------------------------------- |
 | Rim Light Mask                                                            |
 
-Next, we multiply this value to a simplified **schlick-fresnel value**: `(1 - HdotV)^5` to get an anime-look rim light.  
+Next, we multiply this value to an simplified **schlick-fresnel value**: `(1 - HdotV)^5` to get an anime-look rim light.  
 Also, remember to multiply the rim light result with `Light.shadowAttenuation`. Shadowed area will not produce rim light.
 
 | <img src="Results/SurfaceShader1/rimlight.png" width="512" height="512" /> |
 | -------------------------------------------------------------------------- |
 | Rim Light Result                                                           |
+
+**Combined Everything** and we finally have the above mentioned final result:
+
+| <img src="Results/SurfaceShader1/result.png" width="256" height="256" /> |
+| ------------------------------------------------------------------------ |
+| [Paint Shader](Assets/Shaders/paint.shader)                              |
 
 ### HW Task List:
 

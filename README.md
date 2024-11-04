@@ -112,7 +112,7 @@ Creating rim light in stylized rendering is much like what we do in PBR. But in 
 
 | ![](Results/SurfaceShader1/rimExample1.png) | ![](Results/SurfaceShader1/rimExample2.jpg) | ![](Results/SurfaceShader1/rimExample3.jpg) |
 | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
-| Cyberpunk 2077: Edgerunner                  | Violet Evergarden                           | Dandadan                                    |
+| Cyberpunk: Edgerunner                       | Violet Evergarden                           | Dandadan                                    |
 
 So based on this observation, we can create a rim light mask that constraint the variation of fresnel lighting.
 
@@ -130,7 +130,12 @@ And then we can have an rim light mask.
 | ------------------------------------------------------------------------- |
 | Rim Light Mask                                                            |
 
-Next, we multiply this value to a schlick-fresnel value to get an anime-look rim light.
+Next, we multiply this value to a schlick-fresnel value to get an anime-look rim light.  
+Also, remember to multiply the rim light result with Light.shadowAttenuation. Shadowed area will not produce rim light.
+
+| <img src="Results/SurfaceShader1/rimlight.png" width="512" height="512" /> |
+| -------------------------------------------------------------------------- |
+| Rim Light Result                                                           |
 
 Take a moment to think about the main characteristics that you see in the shading of your concept art. What makes it look appealing/aesthetic?
 
@@ -221,7 +226,7 @@ Specifically, we'll be creating **_Post Process Outlines_** based on Depth and N
     - Let's get creative! Modify your outline to be ANIMATED and to have an appearance that resembles the outlines in your concept art / OR, if the outlines in your concept art are too plain, try to make your outline resemble crayon/pencil sketching/etc.
         - Use your knowledge of toolbox functions to add some wobble, or warping or noise onto the lines that changes over time.
         - In my example below, you might be able to notice that the internal Normal Buffer based edges actually don't have any warping/animation. I did this intentionally because I wanted the final look to still have some kind of structure. Thus, by doing the depth and normal outlines in separate passes, I'm able to have a variety of animated/non-animated outlines composited together : ) !
-            <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
+              <p align="center"> <img width="300px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/69b3705b-4e65-4d44-b535-b0fd198d7b6f/>
 
 5. (OPTIONAL) If you're not satisfied with the look of your outlines and are looking for an extra challenge, after implementing depth/normal based post processing, you may explore non-post process techniques such as inverse hull edge rendering for outer edges to render bolder, more solid looking outlines for a different look.
     - Check out Alexander Ameye's article on alternative methods of outline rendering in Unity: [See Here](https://ameye.dev/notes/rendering-outlines/)

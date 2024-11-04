@@ -135,10 +135,9 @@ Shader "Custom/Paint"
             float3 brushNormal = overlay(brushNormal1 * 0.5 + 0.5, brushNormal2 * 0.5 + 0.5);
 
             float2 fbm = float2((fbm3D(normalize(IN.positionOS * 41.1226) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength ,(fbm3D(normalize(IN.positionOS * 38.7116) * _FbmBrushFrequency) - 0.5) * _FbmBrushStrength);
-            // float2 fbm = float2((fbmPerlin3D(normalize(IN.positionOS) + 26.7, _FbmBrushFrequency, 1.0, 3 ) - 0.5) * _FbmBrushStrength ,(fbmPerlin3D(normalize(IN.positionOS) + 114.51, _FbmBrushFrequency, 1.0, 3) * _FbmBrushStrength));
             fbm = fbm * fbm * fbm;
             float3 fbmNormal = mul(ltO, normalize(float3(fbm, 1.0)));
-            // return half4(fbmNormal, 1.0);
+
             // linear light blend normal
             normal = lerp(normal, fbmNormal, _FactorFbm);
             normal = lerp(normal, brushNormal * 2.0 - 1.0, _FactorBrush);
@@ -156,7 +155,6 @@ Shader "Custom/Paint"
             float depthDiff = saturate(depth - fragDepth);  
             float rim = saturate(depthDiff / max(0.0001, _RimThreshold));
             rim = smoothstep(0.03, 1.0, rim) * _RimScale;
-            return rim;
 
             // light contributions
             float3 lightContribution = 0;

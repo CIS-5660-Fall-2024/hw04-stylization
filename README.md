@@ -6,7 +6,7 @@ All three pieces are by [OMOCAT](https://x.com/_omocat) and her team!
 
 | Piece 1 | Piece 2 | Piece 3 |
 |-------|------|-------|
-|![](ConceptArt/1.png)|![](ConceptArt/2.png)|![](ConceptArt/3.png)|
+|![](Writeup/1.png)|![](Writeup/2.png)|![](Writeup/3.png)|
 
 These static images don't do the art style justice. Apart from the colored pencil look, I specifically want to recreate the art style for OMORI, which is known to have animated outlines around its characters.
 
@@ -30,15 +30,22 @@ To emulate the scribble-y look of OMORI, I used the pencil brush from Procreate 
 
 To create the "selected" shader, I drew inspiration from two sources in the game. The first is how sometimes the art likes to invert colors. See [this YouTube video](https://www.youtube.com/watch?v=dU_Wbl5va3E) and look at the bottom left corner, OMORI flips colors. Also this picture:
 
-![](ConceptArt/opp.jpg)
+![](Writeup/opp.jpg)
 
 I also wished to animate the selected object using the drawn look as seen in the game, which I did by reusing the shadow texture and overlaying it on the object. I used time, a triangle wave, and floored it so I could get staggered values to use to rotate the UV coords, allowing me to "animate" it. Here's a pic of the Graphtoy I used to plan it:
 
-![](ConceptArt/graph.png)
+![](Writeup/graph.png)
 
 For this shader, I also went back to the shadow and made it animated in the same manner, using a different offset/time scale so it looks different from the actual object.
 
 ## 3. Outlines
+
+I first implemented basic outlines using the Roberts Cross method.
+
+![](Writeup/basic-outlines.png)
+
+
+
 Make your objects pop by adding outlines to your scene! 
 
 Specifically, we'll be creating ***Post Process Outlines*** based on Depth and Normal buffers of our scene!

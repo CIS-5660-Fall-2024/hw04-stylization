@@ -4,7 +4,7 @@
 
 I chose to attempt to replicate a style like that of this concept art:
 
-<img width="500px" src=https://github.com/jeff-mostyn/hw04-stylization/blob/main/Assets/Models/Pokemon/sourceimages/pokemon%20in%20hoodies.jpg?raw=true/> 
+<img width="500px" src="https://github.com/jeff-mostyn/hw04-stylization/blob/main/Assets/Models/Pokemon/sourceimages/pokemon%20in%20hoodies.jpg?raw=true" /> 
 
 which evoked something like crayon or colored pencil on lightly textured paper.
 

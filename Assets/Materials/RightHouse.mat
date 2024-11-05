@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gradient 4
+  m_Name: RightHouse
   m_Shader: {fileID: -6465566751694194690, guid: b6b72d1e8eec0dd4a974a43f5cdd4524,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 5d66968adb1264a45a495392248ed860, type: 2}
@@ -43,12 +43,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Frequency: 200
+    - _Frequency: 80
     - _HaveStripes: 1
-    - _StripeThreshold: 0.02
+    - _StripeThreshold: 0.01
     m_Colors:
-    - _BottomColor: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 0}
-    - _ShadowColor: {r: 0.19150543, g: 0, b: 1, a: 1}
-    - _StripeColor: {r: 0.6792453, g: 0.42707962, b: 0.40690637, a: 0}
-    - _TopColor: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 0}
+    - _BottomColor: {r: 0.60315245, g: 0.44499823, b: 0.754717, a: 1}
+    - _ShadowColor: {r: 0.8867924, g: 0.6483624, b: 0.8026092, a: 0}
+    - _TopColor: {r: 1, g: 0.8224792, b: 0.1745283, a: 0}
   m_BuildTextureStacks: []

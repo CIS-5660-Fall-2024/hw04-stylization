@@ -57,6 +57,8 @@ Material:
     - _Thickness: 0.0005
     m_Colors:
     - _Color: {r: 0.81960785, g: 0.5921569, b: 0.36078432, a: 1}
+    - _VignetteColor: {r: 0.31459808, g: 0, b: 1, a: 0}
+    - _VignetteRange: {r: 0.2, g: 0.8, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &5818958634683202365
 MonoBehaviour:

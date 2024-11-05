@@ -11,7 +11,7 @@ Credit: https://www.instagram.com/p/CTz0GcPqc9-/?hl=en
 2. 
 I first finished the three toon shader and added multiple light support to it:
 ![alt text](17c0b6ed6b3992467da8b9935c0c5ea.png)
-After that, I opened a new shader graph for me new shader. To create a gradient effect, I read the v-coordinate of the object's UV and use it to lerp between two colors. Additionally, I allow users to choose, when applying the material, whether it should be emissive (for glowing windows) and whether it should have stripes (created with a sine function). 
+After that, I opened a new shader graph for me new shader. To create a gradient effect, I read the v-coordinate of the object's UV and used it to lerp between two colors. Additionally, I allowed users to choose, when applying the material, whether it should be emissive (for glowing windows) and whether it should have stripes (created with a sine function). 
 Then, I read the shadow attenuation to let shadows take on different colors. For the result, I chose purple.
 Then, I used Blender to create a tree model, and by animating the vertices and UV, I achieved a leaf movement effect using Shader Graph. I also added a leaf-falling effect with the particle system.
 ![alt text](image-1.png)
@@ -32,7 +32,7 @@ I used unity store asset: https://assetstore.unity.com/packages/3d/environments/
 https://assetstore.unity.com/packages/3d/props/interior/office-pack-free-258600
 
 6. 
-After pressing the space bar, I can toggle between the gradient and the 3-tone toon shader appied on major buildings. 
+After pressing the space bar, I could toggle between the gradient and the 3-tone toon shader appied on major buildings. 
 ![alt text](image-3.png)![alt text](image-4.png)
 (Since the tree originally uses the toon shader, swapping materials will only change its color.)
 

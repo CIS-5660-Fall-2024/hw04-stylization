@@ -1,5 +1,9 @@
 # HW 4: *3D Stylization*
 
+https://github.com/user-attachments/assets/26c35d70-e876-40b1-9992-ca91d90a2a67
+
+![samandmax](./sammax.png)
+![samandmax](./sammaxdisco.png)
 
 ### References:
 

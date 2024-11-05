@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outlines Mat
+  m_Name: Full Screen Feature Mat
   m_Shader: {fileID: -6465566751694194690, guid: 84af9cc25ea3fb24b902ac125e9d4a1a,
     type: 3}
   m_Parent: {fileID: 0}
@@ -71,8 +71,8 @@ Material:
     - _OutlineScale: 3
     - _ScreenBorderRadius: 0.05
     - _TextureScale: -0.83
-    - _VignetteIntensity: 0.1
+    - _VignetteIntensity: 0.05
     m_Colors:
-    - _OutlineColor: {r: 0.31764707, g: 0.08235294, b: 0.8745099, a: 0}
+    - _OutlineColor: {r: 0.31764704, g: 0.082352914, b: 0.8745099, a: 1}
     - _PositionOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -1,5 +1,45 @@
 # HW 4: *3D Stylization*
 
+Final Result:
+![alt text](2024-11-04224533-ezgif.com-video-to-gif-converter.gif)
+
+1. 
+My reference art piece is: 
+![alt text](image.png)
+Credit: https://www.instagram.com/p/CTz0GcPqc9-/?hl=en
+
+2. 
+I first finished the three toon shader and added multiple light support to it:
+![alt text](17c0b6ed6b3992467da8b9935c0c5ea.png)
+After that, I opened a new shader graph for me new shader. To create a gradient effect, I read the v-coordinate of the object's UV and used it to lerp between two colors. Additionally, I allowed users to choose, when applying the material, whether it should be emissive (for glowing windows) and whether it should have stripes (created with a sine function). 
+Then, I read the shadow attenuation to let shadows take on different colors. For the result, I chose purple.
+Then, I used Blender to create a tree model, and by animating the vertices and UV, I achieved a leaf movement effect using Shader Graph. I also added a leaf-falling effect with the particle system.
+![alt text](image-1.png)
+![alt text](image-2.png)
+
+Credit for the tutorials: https://www.youtube.com/@SpeedTutor and https://www.youtube.com/@lobeyjongamedev676
+
+3. 
+I think I fixed the Full Screen Feature.cs. For the outlines, I simply followed NedMakesGames's tutorial and made adjustment due to the version difference. I chose a golden outline to mimic the feeling of moonlight spilling over the buildings.I did not animate the outline because I was quite satisfied with the result I had got.
+
+4. 
+In the same full screen shader graph that I used for outlines, I used screen position to create a radial gradient that darkens toward the edges, creating a vignette effect. Users can select the color of vignette effect and I chose dark blue. Additionally, I used Unity's Post Process Profile (film grain, bloom and color adjustment) to further enhance the scene's aesthetics.
+ ![alt text](image-5.png)
+ Before unity post process profile
+
+5. 
+I used unity store asset: https://assetstore.unity.com/packages/3d/environments/urban/japanese-street-stylized-low-poly-192386
+https://assetstore.unity.com/packages/3d/props/interior/office-pack-free-258600
+
+6. 
+After pressing the space bar, I could toggle between the gradient and the 3-tone toon shader appied on major buildings. 
+![alt text](image-3.png)![alt text](image-4.png)
+(Since the tree originally uses the toon shader, swapping materials will only change its color.)
+
+Turnaround: 
+![alt text](Clipchamp1-ezgif.com-video-to-gif-converter.gif)
+
+
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 

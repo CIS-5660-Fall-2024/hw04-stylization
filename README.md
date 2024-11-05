@@ -4,6 +4,8 @@
 | -------------------------- |
 | Result                     |
 
+https://github.com/user-attachments/assets/a1707c27-c5f2-4f7f-b448-96967cfec618
+
 ## Project Overview:
 
 In this project, I implemented
@@ -20,6 +22,8 @@ For reference I picked a few shots from My Neighbor Totoro and Kiki's Delivery S
 | ![](Results/Reference/ref1.png) | ![](Results/Reference/ref2.png) | ![](Results/Reference/ref3.png) | ![](Results/Reference/ref4.png) |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
 | Kiki (Studio Ghibli)            | Totoro (Studio Ghibli)          | Kiki (Studio Ghibli)            | Dusk Scnene (Unknown Author)    |
+
+
 
 ---
 
@@ -166,7 +170,8 @@ In unity, just apply it with a **paint shader** and a generic **ramp texture** w
 1. Distance based **tessellation**
 2. Generate grass instance using **geometry shader**
 3. Random position, orientation, rotation, width, height
-4. Multiple light support
+4. Apply wind using **flow map**
+5. Multiple light support
 
 [**Grass Shader**](https://roystan.net/articles/grass-shader/).
 
@@ -175,6 +180,10 @@ Primarily followed this tutorial, made some change to be compatible with Unity U
 | ![](Results/Grass/warmLight.png) | ![](Results/Grass/coldLight.png) | ![](Results/Grass/multiLight.png) |
 | -------------------------------- | -------------------------------- | --------------------------------- |
 | Warm Light                       | Cold Light                       | Multiple Lights                   |
+
+
+https://github.com/user-attachments/assets/882b1860-b914-4303-81f4-97f3ff11b695
+
 
 ### Skybox
 
@@ -186,6 +195,10 @@ Primarily followed this tutorial, made some change to be compatible with Unity U
 2. **Day night cycle** based on main light direction
 3. Stars
 4. ~~Skybox flow map~~ (Implemented but result was not good. [Can check this GDC talk if interested](https://www.youtube.com/watch?v=o66p1QDH7aI&t=896s))
+
+
+https://github.com/user-attachments/assets/0cc30330-65cb-4b0b-9ca0-377cf3b9f14a
+
 
 ### Post Process
 
@@ -200,12 +213,12 @@ Primarily followed this tutorial, made some change to be compatible with Unity U
 ## Reference:
 
 **Art Resources**:  
-[**【中字】Blender 吉卜力风格教程合集**](https://www.bilibili.com/video/BV1hr4y1a7Up/?spm_id_from=333.337.search-card.all.click&vd_source=354457820404a24b71c449a00f7c3cb9)
-[**EASIEST Way to Make Painterly Animations in Blender 3D (Procedural Shader)**](https://www.youtube.com/watch?v=UfSw6428bcc&t=299s)
-[**All Blend Modes! Looking at the Shader Graph Blend Mode Filters ✔️ 2021.1 | Unity Game Dev Tutorial**](https://www.youtube.com/watch?v=d9NKqeNtobc)
-[**How to Create Ghibli Trees in 3D - Blender Tutorial**](https://www.youtube.com/watch?v=DEgzuMmJtu8)
+[**【中字】Blender 吉卜力风格教程合集**](https://www.bilibili.com/video/BV1hr4y1a7Up/?spm_id_from=333.337.search-card.all.click&vd_source=354457820404a24b71c449a00f7c3cb9)  
+[**EASIEST Way to Make Painterly Animations in Blender 3D (Procedural Shader)**](https://www.youtube.com/watch?v=UfSw6428bcc&t=299s)  
+[**All Blend Modes! Looking at the Shader Graph Blend Mode Filters ✔️ 2021.1 | Unity Game Dev Tutorial**](https://www.youtube.com/watch?v=d9NKqeNtobc)  
+[**How to Create Ghibli Trees in 3D - Blender Tutorial**](https://www.youtube.com/watch?v=DEgzuMmJtu8)  
 
 **Tech Resources**:  
-[**Moving the Heavens: An Artistic and Technical Look at the Skies of The Last of Us**](https://www.youtube.com/watch?v=o66p1QDH7aI&t=896s)
-[**Grass Shader**](https://roystan.net/articles/grass-shader/)
-[**NPR 卡通渲染 - Rim Light 边缘光 | 深度边缘光**](https://zhuanlan.zhihu.com/p/476051447)
+[**Moving the Heavens: An Artistic and Technical Look at the Skies of The Last of Us**](https://www.youtube.com/watch?v=o66p1QDH7aI&t=896s)  
+[**Grass Shader**](https://roystan.net/articles/grass-shader/)  
+[**NPR 卡通渲染 - Rim Light 边缘光 | 深度边缘光**](https://zhuanlan.zhihu.com/p/476051447)  

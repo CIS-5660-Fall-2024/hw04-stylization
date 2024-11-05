@@ -9,12 +9,30 @@ https://github.com/user-attachments/assets/26c35d70-e876-40b1-9992-ca91d90a2a67
 
 Models were ripped from **Sam & Max Save the World**, a PC game from 2009. 
 
-## Inspiration
+## Picking a Piece of Concept Art
 
 Artwork Inspiration: 
 
+![image](https://github.com/user-attachments/assets/47c3cd50-d9fe-49c3-8188-d6f24465a09d)
+
 Pose Inspiration: 
-https://sketchfab.com/3d-models/sam-max-7bcb897df5b743909ede7ad9983a5178 
+https://sketchfab.com/3d-models/sam-max-7bcb897df5b743909ede7ad9983a5178
+
+![image](https://github.com/user-attachments/assets/3349419d-1292-4d20-9121-3c2675de81fd)
+
+## Interactivity
+
+Press Spacebar to toggle `disco max`...
+
+## WIP Images
+
+### Shadow textures were created by me in aseprite
+
+![asepritewip](https://github.com/user-attachments/assets/60fe5ddc-b565-49ff-beca-71986c3c7f9f)
+
+### I posed the characters in Maya
+
+![mayaposing](https://github.com/user-attachments/assets/d5237e3b-b0d8-40a1-9a2d-b3f107301490)
 
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.

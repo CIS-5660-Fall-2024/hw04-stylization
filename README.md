@@ -1,8 +1,7 @@
 # HW 4: *3D Stylization*
 
 Final Result:
-https://youtube.com/shorts/Cy7JscWw0Pk?feature=share
-![alt text](image-6.png)
+![alt text](2024-11-04224533-ezgif.com-video-to-gif-converter.gif)
 
 1. 
 My reference art piece is: 

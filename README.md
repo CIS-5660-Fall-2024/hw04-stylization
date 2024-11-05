@@ -11,9 +11,9 @@ where the UVs are multiplied by one Worley and then passed into the second one. 
 for easy customization. To get the main brush stroke effect, I used a variation on the voronoi mozaic post process effect. By combinin it with some layers of noise (using the same technique
 described above) I was able to rough up the edges of the voronoi cells.
 ![img3](Scene%20Image.png)
-![DemoVid1](SceneDemo_Vid_V1.mp4)
+![DemoVid1](SceneDemo_Vid_V1.gif)
 
 For an added effect, I made a quick star mode shader using some time offset noise and gradient. This was applied to Mario and the trees so that a party-star mode was activaed on key press.
-![StarDemo](StarModeDemo_V1.mp4)
+![StarDemo](StarModeDemo_V1.gif)
 
 

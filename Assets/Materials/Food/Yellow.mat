@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Picnic Red
+  m_Name: Yellow
   m_Shader: {fileID: -6465566751694194690, guid: d92d905d8de3f924da26827ab73752e4,
     type: 3}
   m_Parent: {fileID: 0}
@@ -132,7 +132,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SHADOWS_SOFT: 1
-    - _Shadow_Scale: 0.25
+    - _Shadow_Scale: 1.58
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -145,11 +145,11 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Highlight: {r: 0.9803922, g: 0.54901963, b: 0.5568628, a: 1}
-    - _Midtone: {r: 0.7169812, g: 0.39005575, b: 0.39599985, a: 1}
+    - _Highlight: {r: 0.95294124, g: 0.6431373, b: 0.2784314, a: 1}
+    - _Midtone: {r: 0.7610062, g: 0.51809245, b: 0.2321307, a: 1}
     - _Ramped_Diffuse_Values: {r: 0.2, g: 0.4, b: 1, a: 0}
-    - _Shadow: {r: 0.7176471, g: 0.38823533, b: 0.39607847, a: 1}
+    - _Shadow: {r: 0.5849056, g: 0.3999103, b: 0.1820932, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Threshold: {r: 0.2, g: 0.7, b: 0, a: 0}
+    - _Threshold: {r: 0.25, g: 0.7, b: 0, a: 0}
     - _Thresholds: {r: 0.25, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []

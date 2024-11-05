@@ -61,15 +61,11 @@ Inspired by the white border that surrounds the first concept art piece, I decid
 Models and credits:
 
 - "Picnic Basket from Poly by Google" (https://skfb.ly/6XXuR) by IronEqual is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+- "Low Poly Laptop" (https://skfb.ly/o9G6r) by zgoosr is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+- "Low Poly Picnic Asset Pack" (https://skfb.ly/6TtZR) by lizhiqiang is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+- "Door" (https://skfb.ly/opVZ9) by Arnau Rocher Alcayde is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
-Using Unity's controls, create a ***SUPER BASIC*** scene with a few elements to show off your unique rendering stylization. Be sure to apply the materials you've created. Please don't go crazy with the geometry -- then you'll have github problems if your files are too large. [See here](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github). 
-
-Note that your modelling will NOT be graded at all for this assignment. It is **NOT** expected that your scene will be a one-to-one faithful replica of your concept art. You are **STRONGLY ENCOURAGED** to find free assets online, even if they don't strongly resemble the geometry/objects present in your concept art. (TLDR; If you choose to model your own geometry for this project, be aware of the time-constraint and risk!)
-
-Some example resources for finding 3D assets to populate your scene With:
-1. [SketchFab](https://sketchfab.com/)
-2. [Mixamo](https://www.mixamo.com/#/)
-3. [TurboSquid](https://www.turbosquid.com/)
+For the laptop, I created a custom shader that specifically draws a texture to the screen geometry. To prevent the door from self-shadowing (and looking uglier), I added a `UseShadow` parameter that completely turns off shadow attenuation in the main toon shader. (We're not exactly being realistic in this HW.)
 
 ## 6. Interactivity
 As a finishing touch, let's show off the fact that our scene is rendered in real-time! Please add an element of interactivity to your scene. Change some major visual aspect of your scene on a keypress. The triggered change could be

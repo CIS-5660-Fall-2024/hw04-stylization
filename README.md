@@ -8,7 +8,7 @@ All three pieces are by [OMOCAT](https://x.com/_omocat) and her team!
 |-------|------|-------|
 |![](Writeup/1.png)|![](Writeup/2.png)|![](Writeup/3.png)|
 
-These static images don't do the art style justice. Apart from the colored pencil look, I specifically want to recreate the art style for OMORI, which is known to have animated outlines around its characters.
+I wanted to recreate the art style of OMORI, a game that is unique for its colored pencil look and animated outlines/sprites the characters, world, and environment.
 
 ## 2. Interesting Shaders
 
@@ -25,6 +25,8 @@ https://github.com/user-attachments/assets/e8e63a89-4431-4245-ad82-92d30d25df51
 To emulate the scribble-y look of OMORI, I used the pencil brush from Procreate to create this 512x512 texture, and tiled it using the website:
 
 ![](Assets/Textures/shadow.png)
+
+Later on I also create a "lighter" version of the texture when I want the lines to be less sparse.
 
 ### Special surface shader
 
@@ -54,7 +56,7 @@ So I do just that in my shader, blending between them using Darken. In addition,
 
 ## 4. Full Screen Post Process Effect
 
-Inspired by the white border that surrounds the first concept art piece, I decided to implement a white-colored vignette that goes around the screen borders.
+Inspired by the white border that surrounds the first concept art piece, I decided to implement a white-colored vignette that goes around the screen borders. (I use the vignette "value" later on for interactivity. More deets below.)
 
 ## 5. Create a Scene
 
@@ -71,72 +73,18 @@ For the laptop, I created a custom shader that specifically draws a texture to t
 
 I wanted to include a background from the game as my scene's background. As a hack, I positioned a plane as a child of the main camera and created a shader that translated over the UVs of the background image as a texture, which is sampled using the UVs. This is then the final fragment output. I use this shader in a material that I put on the plane. Now the plane rotates along with the camera, so it looks like a background overlay!
 
+![](Writeup/hack.png)
+
 ## 6. Interactivity
-As a finishing touch, let's show off the fact that our scene is rendered in real-time! Please add an element of interactivity to your scene. Change some major visual aspect of your scene on a keypress. The triggered change could be
-* Party mode (things speed up, different colorization)
-* Memory mode (different post-processing effects to color you scene differently)
-* Fanart mode (different surface shaders, as if done by a different artist)
-* Whatever else you can think of! Combine these ideas, or come up with something new. Just note, your interactive change should be at least as complex as implementing a new type of post processing effect or surface shader. We'll be disappointed if its just a parameter change. There should be significant visual change.
 
-### To-Do:
-* Create at least one new material to be swapped in using a key press
-* Create and attach a new C# script that listens for a key press and swaps out the material on that key press. 
-Your C# script should look something like this:
-```
-public Material[] materials;
-private MeshRenderer meshRenderer;
-int index;
+Press Space to toggle between horror and back.
 
-void Start () {
-          meshRenderer = GetComponent<MeshRenderer>();
-}
+![](Writeup/horror.png)
 
-void Update () {
-          if (Input.GetKeyDown(KeyCode.Space)){
-                 index = (index + 1) % materials.Count;
-                 SwapToNextMaterial(index);
-          }
-}
+A number of changes occur when horror mode is turned on:
 
-void SwapToNextMaterial (int index) {
-          meshRenderer.material = materials[index % materials.Count];
-}
-```
-* Attach the c# script as a component to the object(s) that you want to change on keypress
-* Assign all the relevant materials to the Materials list field so you object knows what to swap between.
- 
----
-## 7. Extra Credit
-Explore! What else can you do to polish your scene?
-  
-- Implement Texture Support for your Toon Surface Shader with Appealing Procedural Coloring.
-    - I.e. The procedural coloring needs to be more than just multiplying by 0.6 or 1.5 to decrease/increase the value. Consider more deeply the relationship between things such as value and saturation in artist-crafted color palettes? 
-- Add an interesting terrain with grass and/or other interesting features
-- Implement a Custom Skybox alongside a day-night cycle lighting script that changes the main directional light's colors and direction over time.
-- Add water puddles with screenspace reflections!
-- Any other similar level of extra spice to your scene : ) (Evaluated on a case-by-case basis by TAs/Rachel/Adam)
-
-## Submission
-1. Video of a turnaround of your scene
-2. A comprehensive readme doc that outlines all of the different components you accomplished throughout the homework. 
-3. All your source files, submitted as a PR against this repository.
-
-## Resources:
-
-1. Link to all my videos:
-    - [Playlist link](https://www.youtube.com/playlist?list=PLEScZZttnDck7Mm_mnlHmLMfR3Q83xIGp)
-2. [Lab Video](https://youtu.be/jc5MLgzJong?si=JycYxROACJk8KpM4)
-3. Very Helpful Creators/Videos from the internet
-    - [Cyanilux](https://www.cyanilux.com/)
-        - [Article on Depth in Unity | How depth buffers work!](https://www.cyanilux.com/tutorials/depth/) 
-    - [NedMakesGames](https://www.youtube.com/@NedMakesGames)
-        - [Toon Shader Lighting Tutorial](https://www.youtube.com/watch?v=GQyCPaThQnA&ab_channel=NedMakesGames)
-        - [Tutorial on Depth Buffer Sobel Edge Detection Outlines in Unity URP](https://youtu.be/RMt6DcaMxcE?si=WI7H5zyECoaqBsqF)
-    - [MinionsArt](https://www.youtube.com/@MinionsArt)
-        - [Toon Shader Tutorial](https://www.youtube.com/watch?v=FIP6I1x6lMA&ab_channel=MinionsArt)
-    - [Brackeys](https://www.youtube.com/@Brackeys)
-        - [Intro to Unity Shader Graph](https://www.youtube.com/watch?v=Ar9eIn4z6XE&ab_channel=Brackeys)
-    - [Robin Seibold](https://www.youtube.com/@RobinSeibold)
-        - [Tutorial on Depth and Normal Buffer Robert's Cross Outliens in Unity](https://youtu.be/LMqio9NsqmM?si=zmtWxtdb1ViG2tFs)
-    - [Alexander Ameye](https://ameye.dev/about/)
-        - [Article on Edge Detection Post Process Outlines in Unity](https://ameye.dev/notes/edge-detection-outlines/)
+- The background translates faster and the opposite way. The image also changes to something else. I did this by including both as textures in the shader and picking between them based on the material parameter input.
+- Similarly, the turntable camera rotates faster and the opposite way.
+- The vignette gets replaced. Instead, I use the scribble texture from above as an interpolation value between a pure red color and the scene color. This gives it the "veiny" look. I also randomly offset the texture UV with time.
+- I change the door's material to a modified version of the selected surface shader from earlier. In particular, shadows are removed and colors are adjusted to red and black. The phasing speed is also sped up.
+- Laptop screen is replaced with another image. Same method as the background: simple logic switch in the laptop screen shader.

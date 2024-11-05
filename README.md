@@ -1,11 +1,11 @@
 # Take Me Out! - Unity Stylization Exploration
 
 ## Project Overview:
-This is an exploration into stylized shading using Unity's ShaderGraph. For my project, I chose the "Dadaist" animation style scattered with elements of collage and pop from Scottish band Franz Ferdinand's hit music video and song "Take Me Out". Below is how it turned out in the end (obvious sound credit to Franz Ferdinand)!
+This is an exploration into stylized shading using Unity's ShaderGraph. For my project, I chose the "Dadaist" animation style scattered with elements of collage and pop from Scottish band Franz Ferdinand's hit music video and song "Take Me Out". Below is how it turned out in the end (obvious sound credit to Franz Ferdinand)! [I highly recommend you watch a tiny bit of the music video here](https://www.youtube.com/watch?v=Ijk4j-r7qPA)
 
 https://github.com/user-attachments/assets/24a19016-c75c-460a-9307-9ce4da7216b9
 
-| <img width="500px" src=https://github.com/user-attachments/assets/d1507913-fd43-4d50-bfae-35144b46b837/>  | <img width="500px" src=https://github.com/user-attachments/assets/f563a274-1fbd-4d98-bfa1-23fc71359f18/> |
+| <img width="500px" src=https://github.com/user-attachments/assets/bc9ed95a-8730-4556-bf10-b209833457ab/>  | <img width="500px" src=https://github.com/user-attachments/assets/f563a274-1fbd-4d98-bfa1-23fc71359f18/> |
 |:--:|:--:|
 | *2D Concept Illustration* | *3D Stylized Scene in Unity* |
 

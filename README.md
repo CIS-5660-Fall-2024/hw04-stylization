@@ -10,6 +10,9 @@ noise. This distored the cutoff lines between the highlight, midtone, and shadow
 where the UVs are multiplied by one Worley and then passed into the second one. This give the circular swirling pattern I was going for. The colors and thresholds were all parameterized
 for easy customization. To get the main brush stroke effect, I used a variation on the voronoi mozaic post process effect. By combinin it with some layers of noise (using the same technique
 described above) I was able to rough up the edges of the voronoi cells.
+##
+![GameVid](GameSceneVid.gif)
+##
 ![img3](Scene%20Image.png)
 ##
 ![DemoVid1](SceneDemo_Vid_V1.gif)

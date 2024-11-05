@@ -18,6 +18,11 @@ The features I implemented:
 - Post-Process Edge Dissolve: The edge dissolve was not something that originated from the concept art. Rather, as I was developing the rest of the stylized shader suite, I thought that adding an edge dissolve to make the image look like it was entirely sitting on a piece of paper would enhance the feeling of the shader. This was relatively simple, just further noise application, with a cutoff that linearly interpolated from 0-1 from the edge of the image in. The range of the lerp is configurable in the shader.
 - Alternate "Party Mode" Toon Shader: Utilizing a black/white mask, animated color is applied to certain areas of the model. It is activated with the space bar. In the case of the Magnemite, the ends of its magnets and its eye flash in color.
 
+## Output Example
+
+[<img width="500px" src="https://github.com/jeff-mostyn/hw04-stylization/blob/main/Assets/Models/Pokemon/sourceimages/pokemon%20in%20hoodies.jpg?raw=true" /> 
+](https://github.com/jeff-mostyn/hw04-stylization/blob/main/Renders/stylizationStillRender.png?raw=true)
+
 ## Credits
 
 - Concept art - I unfortunately could not trace down the artist who originally made the concept art I chose. Despite reverse-image-searching it, many of the oldest sources would not load. The image itself has been reposted around the internet since at least 2017 or so.

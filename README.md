@@ -22,6 +22,8 @@ The features I implemented:
 
 <img width="500px" src="https://github.com/jeff-mostyn/hw04-stylization/blob/main/Renders/stylizationStillRender.png?raw=true" /> 
 
+Turntable render located at https://github.com/jeff-mostyn/hw04-stylization/blob/main/Renders/CrayonStylization.m4v
+
 ## Credits
 
 - Concept art - I unfortunately could not trace down the artist who originally made the concept art I chose. Despite reverse-image-searching it, many of the oldest sources would not load. The image itself has been reposted around the internet since at least 2017 or so.

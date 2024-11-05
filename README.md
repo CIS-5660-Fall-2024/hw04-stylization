@@ -1,39 +1,44 @@
 # HW 4: *3D Stylization*
 
 Final Result:
-<video controls src="20241105-0345-21.4380940.mp4" title="Title"></video>
+https://youtube.com/shorts/Cy7JscWw0Pk?feature=share
+![alt text](image-6.png)
 
-1. Picking a Piece of Concept Art
+1. 
 My reference art piece is: 
 ![alt text](image.png)
 Credit: https://www.instagram.com/p/CTz0GcPqc9-/?hl=en
 
-2. Interesting Shaders
+2. 
 I first finished the three toon shader and added multiple light support to it:
 ![alt text](17c0b6ed6b3992467da8b9935c0c5ea.png)
 After that, I opened a new shader graph for me new shader. To create a gradient effect, I read the v-coordinate of the object's UV and use it to lerp between two colors. Additionally, I allow users to choose, when applying the material, whether it should be emissive (for glowing windows) and whether it should have stripes (created with a sine function). 
 Then, I read the shadow attenuation to let shadows take on different colors. For the result, I chose purple.
 Then, I used Blender to create a tree model, and by animating the vertices and UV, I achieved a leaf movement effect using Shader Graph. I also added a leaf-falling effect with the particle system.
-![alt text](image-1.png)![alt text](image-2.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+
 Credit for the tutorials: https://www.youtube.com/@SpeedTutor and https://www.youtube.com/@lobeyjongamedev676
 
-3. Outlines
+3. 
 I think I fixed the Full Screen Feature.cs. For the outlines, I simply followed NedMakesGames's tutorial and made adjustment due to the version difference. I chose a golden outline to mimic the feeling of moonlight spilling over the buildings.I did not animate the outline because I was quite satisfied with the result I had got.
 
-4. Full Screen Post Process Effect
+4. 
 In the same full screen shader graph that I used for outlines, I used screen position to create a radial gradient that darkens toward the edges, creating a vignette effect. Users can select the color of vignette effect and I chose dark blue. Additionally, I used Unity's Post Process Profile (film grain, bloom and color adjustment) to further enhance the scene's aesthetics.
-Before unity post process profile: ![alt text](image-5.png)
-5. Creating a Scene
+ ![alt text](image-5.png)
+ Before unity post process profile
+
+5. 
 I used unity store asset: https://assetstore.unity.com/packages/3d/environments/urban/japanese-street-stylized-low-poly-192386
 https://assetstore.unity.com/packages/3d/props/interior/office-pack-free-258600
 
-6. Interactivity
+6. 
 After pressing the space bar, I can toggle between the gradient and the 3-tone toon shader appied on major buildings. 
 ![alt text](image-3.png)![alt text](image-4.png)
 (Since the tree originally uses the toon shader, swapping materials will only change its color.)
 
 Turnaround: 
-<video controls src="566hw4 turnaround.mp4" title="Title"></video>
+![alt text](Clipchamp1-ezgif.com-video-to-gif-converter.gif)
 
 
 ## Project Overview:

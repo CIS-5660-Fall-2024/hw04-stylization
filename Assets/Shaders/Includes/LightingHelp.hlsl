@@ -72,8 +72,8 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
     
     if (Diffuse <= 0.3)
     {
-        //Color = float3(0, 0, 0);
-        //Diffuse = 0;
+        Color = float3(0, 0, 0);
+        Diffuse = 0;
     }
     
 #endif

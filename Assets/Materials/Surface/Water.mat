@@ -73,10 +73,10 @@ Material:
     m_Floats:
     - _ColorDistance: 15.07
     - _Distance: 1.69
-    - _FoamAmount: 4.43
-    - _FoamCutoff: 1.92
-    - _FoamScale: 94.28
-    - _FoamSpeed: 0.84
+    - _FoamAmount: 8.56
+    - _FoamCutoff: 1.16
+    - _FoamScale: 80.92
+    - _FoamSpeed: 0.18
     - _NormalStrength: 0.63
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -93,10 +93,12 @@ Material:
     m_Colors:
     - _Bottom: {r: 0, g: 0.4398614, b: 0.6037736, a: 1}
     - _BottomColor: {r: 0.14117648, g: 0.21176472, b: 0.36078432, a: 1}
-    - _FoamColor: {r: 0.85098046, g: 0.86666673, b: 0.7372549, a: 1}
-    - _Rim_Color: {r: 0.85098046, g: 0.854902, b: 0.72156864, a: 1}
-    - _Rim_Threshold: {r: 0.795, g: 0.8, b: 0, a: 0}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Rim_Color: {r: 0.38542777, g: 0.40772772, b: 0.6037736, a: 1}
+    - _Rim_Color_2: {r: 1, g: 1, b: 1, a: 0}
+    - _Rim_Threshold: {r: 0.55, g: 0.551, b: 0, a: 0}
+    - _Rim_Threshold_2: {r: 0.75, g: 0.76, b: 0, a: 0}
     - _Surface: {r: 0.09803922, g: 0.90588236, b: 0.7960495, a: 1}
-    - _SurfaceColor: {r: 0.037023824, g: 0.29743657, b: 0.4528302, a: 0.7372549}
+    - _SurfaceColor: {r: 0.037023824, g: 0.29743654, b: 0.45283014, a: 1}
     - _WaveDirection: {r: 1, g: -0.78, b: 0, a: 0}
   m_BuildTextureStacks: []

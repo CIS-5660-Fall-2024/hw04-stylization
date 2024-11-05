@@ -20,8 +20,7 @@ The features I implemented:
 
 ## Output Example
 
-[<img width="500px" src="https://github.com/jeff-mostyn/hw04-stylization/blob/main/Assets/Models/Pokemon/sourceimages/pokemon%20in%20hoodies.jpg?raw=true" /> 
-](https://github.com/jeff-mostyn/hw04-stylization/blob/main/Renders/stylizationStillRender.png?raw=true)
+<img width="500px" src="https://github.com/jeff-mostyn/hw04-stylization/blob/main/Renders/stylizationStillRender.png?raw=true" /> 
 
 ## Credits
 

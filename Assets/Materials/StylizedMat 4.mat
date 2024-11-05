@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StylizedMat
+  m_Name: StylizedMat 4
   m_Shader: {fileID: -6465566751694194690, guid: 39676724fa4150947be1811098956f52,
     type: 3}
   m_Parent: {fileID: 0}
@@ -74,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PaperTexture:
-        m_Texture: {fileID: 2800000, guid: fd320d0edcc3f23448bffa27873adf40, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9dfc127651590c74882bca5ec958e29a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -130,8 +130,8 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _PaperPower: 4
-    - _PaperScale: 1
+    - _PaperPower: 1.32
+    - _PaperScale: 5.71
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -148,11 +148,11 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Highlight: {r: 0.8962264, g: 0.8680432, b: 0.8680432, a: 0}
-    - _Midtone: {r: 0.6603774, g: 0.36923215, b: 0.15367268, a: 0}
+    - _Highlight: {r: 1, g: 0.80067605, b: 0, a: 0}
+    - _Midtone: {r: 0, g: 0.14247668, b: 0.5754717, a: 0}
     - _OverallColor: {r: 1, g: 1, b: 1, a: 0}
     - _RampedDiffuseValues: {r: 0.2, g: 0.4, b: 1, a: 0}
-    - _Shadow: {r: 0.5660378, g: 0.087419316, b: 0.04627978, a: 0}
+    - _Shadow: {r: 0.94509804, g: 0.3388555, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Thresholds: {r: 0.1, g: 1, b: 0, a: 0}
     - _Thresholds2: {r: 0, g: 0, b: 0, a: 0}

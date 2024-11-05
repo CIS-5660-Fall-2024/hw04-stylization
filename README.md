@@ -67,6 +67,10 @@ Models and credits:
 
 For the laptop, I created a custom shader that specifically draws a texture to the screen geometry. To prevent the door from self-shadowing (and looking uglier), I added a `UseShadow` parameter that completely turns off shadow attenuation in the main toon shader. (We're not exactly being realistic in this HW.)
 
+### Moving background
+
+I wanted to include a background from the game as my scene's background. As a hack, I positioned a plane as a child of the main camera and created a shader that translated over the UVs of the background image as a texture, which is sampled using the UVs. This is then the final fragment output. I use this shader in a material that I put on the plane. Now the plane rotates along with the camera, so it looks like a background overlay!
+
 ## 6. Interactivity
 As a finishing touch, let's show off the fact that our scene is rendered in real-time! Please add an element of interactivity to your scene. Change some major visual aspect of your scene on a keypress. The triggered change could be
 * Party mode (things speed up, different colorization)

@@ -1,5 +1,7 @@
 # HW 4: *3D Stylization* Submission (Charles Wang)
 
+https://github.com/user-attachments/assets/8d6bde28-e8db-40dd-a7e4-8b54ad72e73a
+
 ## 1. Concept art
 
 All three pieces are by [OMOCAT](https://x.com/_omocat) and her team!

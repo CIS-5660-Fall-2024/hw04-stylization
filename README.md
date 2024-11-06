@@ -1,5 +1,15 @@
 # HW 4: *3D Stylization*
 
+## Details
+
+by: Andrew Ding
+
+Couldn't finish the full-screen shader, edge postprocessing, and interactivity.
+
+Other things are done: the 3-tone toon shader, a color-changing shader, multiple lights (the head of the robot contains a light), shadow pattern in the shader.
+
+
+
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 

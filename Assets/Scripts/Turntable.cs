@@ -6,7 +6,7 @@ public class Turntable : MonoBehaviour
 {
     private bool fast = false;
     public float rotationSpeed = 1.0f;
-    public float multiplier = 3.0f;
+    public float multiplier = -3.0f;
     // Start is called before the first frame update
     void Start()
     {

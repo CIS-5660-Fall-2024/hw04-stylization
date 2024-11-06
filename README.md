@@ -18,7 +18,7 @@ https://github.com/user-attachments/assets/239c4f41-cf47-40e8-b206-9ffa79485f5b
 |*Sakura From Cardcaptor Sakura*|
 
 ## Surface Shader
-### Basic Toon Shader
+### Basic Toon Shader & Rim Light
 
 <img width="638" alt="image" src="https://github.com/user-attachments/assets/a29fa5d0-d4f7-48f9-a826-1d3a9ec4c579">
  

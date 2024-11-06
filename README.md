@@ -1,11 +1,12 @@
 # HW 4: *3D Stylization*
 
 ## Project Overview:
-In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
+In this assignment, I use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 
 | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/755780f1-8b8c-47e1-b14f-3a619f92fd3a/>  | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/70550c09-ba75-4d10-9b30-60874179ad10/> |
 |:--:|:--:|
 | *2D Concept Illustration* | *3D Stylized Scene in Unity* |
+
 ### HW Task List:
 1. Picking a Piece of Concept Art
 2. Interesting Shaders
@@ -62,6 +63,7 @@ For this project, I selected multiple references to guide different aspects of m
 |Shadow Texture| Shadow |
 
 ## 5. Create a Scene
+- The scene is created in the HW Scene 1.
 ![](./img/demo.gif)
 [Video Link](https://youtu.be/2tjTbFXVLjI)
 

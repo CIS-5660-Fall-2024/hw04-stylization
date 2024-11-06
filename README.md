@@ -14,6 +14,55 @@ In this assignment, you will use a 2D concept art piece as inspiration to create
 5. Creating a Scene
 6. Interactivity
 7. Extra Credit
+---
+## 1. Picking a Piece of Concept Art
+| ![](./img/Ref1.png) | ![](./img/Ref2.png) | ![](./img/Ref3.jpg) |
+|:--:|:--:|:--:|:--:|:--:|
+| *https://persona.atlus.com/p5r/?lang=en#* | *https://images.squarespace-cdn.com/content/v1/54fc8146e4b02a22841f4df7/1564599209054-DQVL0PMM8GG4Q8XYML52/Art+of+Kung+Fu+Panda+L+-+41.jpg* | *https://wiki.biligame.com/jiangnan/%E8%A7%92%E8%89%B2%E5%9B%BE%E9%89%B4* | 
+
+## 2. Interesting Shaders
+- **Multiple Light Support**
+    - Implement multiple light supports
+
+- **Additional Lighting Feature**
+    - Rim Highlight
+    ![](./img/rim.png)
+
+- **Interesting Shadow**
+    - Custom Shadow
+    ![](./img/shadow.png)
+
+- **Animated colors**
+    - Rim Light Color Changing
+| ![](./img/rimChange1.png) | ![](./img/rimChange2.png) |
+|:--:|:--:|
+
+## 3. Post Process Outlines
+- Brush-like outlines
+    ![](./img/outlines.png)
+
+- Add noise to outlines width
+| ![](./img/thick.png) | ![](./img/thin.png) |
+|:--:|:--:|
+
+## 4. Full Screen Post Process Effect
+- Xuan Paper(Rice paper) texture
+| ![](./Assets/Textures/Shadow.jpg) | ![](./img/outlines.png) |
+|:--:|:--:|
+
+## 5. Create a Scene
+[Video Link](https://youtu.be/2tjTbFXVLjI)
+
+## 6. Interactivity
+- Fanart mode 
+    - Press Space to change materials of Sun and Ground
+| ![](./img/mode1.png) | ![](./img/mode2.png) |
+|:--:|:--:|
+
+## 7. Extra Credit
+- Moving lights
+- Moving Sun
+- Noise Shader
 
 ---
 # Tasks

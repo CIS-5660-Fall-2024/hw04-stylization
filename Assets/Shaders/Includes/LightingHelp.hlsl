@@ -51,10 +51,10 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
         {
             rampedDiffuse = RampedDiffuseValues.x;
         }
-        // else if (thisDiffuse < Thresholds.y)
-        // {
-        //     rampedDiffuse = RampedDiffuseValues.y;
-        // }
+         else if (thisDiffuse < Thresholds.y)
+         {
+             rampedDiffuse = RampedDiffuseValues.y;
+         }
         else
         {
             rampedDiffuse = RampedDiffuseValues.z;

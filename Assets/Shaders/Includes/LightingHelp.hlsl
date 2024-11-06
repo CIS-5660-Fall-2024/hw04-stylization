@@ -23,9 +23,10 @@ void GetMainLight_float(float3 WorldPos, out float3 Color, out float3 Direction,
 
 void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
     float2 Thresholds, float3 RampedDiffuseValues,
-    out float3 Color, out float Diffuse)
+    out float3 Color, out float3 LightVector, out float Diffuse)
 {
     Color = float3(0, 0, 0);
+    LightVector = float3(0, 0, 0);
     Diffuse = 0;
 
 #ifndef SHADERGRAPH_PREVIEW
@@ -59,7 +60,13 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
         {
             rampedDiffuse = RampedDiffuseValues.z;
         }
+        
+        
+        if (shadowAtten * NdotL == 0)
+        {
+            rampedDiffuse = 0;
 
+        }
         
         if (light.distanceAttenuation <= 0)
         {
@@ -68,14 +75,10 @@ void ComputeAdditionalLighting_float(float3 WorldPosition, float3 WorldNormal,
 
         Color += max(rampedDiffuse, 0) * light.color.rgb;
         Diffuse += rampedDiffuse;
+
+        // output vector that is vector from surface to light
+        LightVector = light.direction;
     }
-    
-    if (Diffuse <= 0.3)
-    {
-        Color = float3(0, 0, 0);
-        Diffuse = 0;
-    }
-    
 #endif
 }
 

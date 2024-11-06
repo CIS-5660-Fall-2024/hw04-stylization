@@ -21,6 +21,10 @@ https://github.com/user-attachments/assets/239c4f41-cf47-40e8-b206-9ffa79485f5b
 ### Basic Toon Shader & Rim Light
 
 <img width="638" alt="image" src="https://github.com/user-attachments/assets/a29fa5d0-d4f7-48f9-a826-1d3a9ec4c579">
+
+|![1](https://github.com/user-attachments/assets/5f662632-144d-4592-b2d2-fc80539b6e66)|![2](https://github.com/user-attachments/assets/33d5a691-cd8d-4f94-8ad0-ccc1f14820c9)|![3](https://github.com/user-attachments/assets/466df1e4-2caa-4842-bdec-78761a0aad1e)|
+|:--:|:--:|:--:|
+|*Base Material*|*Gold Material*|*Wing Material*|
  
 ### Animated Toon Shader
 

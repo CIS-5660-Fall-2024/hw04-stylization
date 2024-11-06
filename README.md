@@ -1,5 +1,64 @@
 # HW 4: *3D Stylization*
 
+## Final Outcome
+
+
+
+https://github.com/user-attachments/assets/9f2aaaaf-fdd1-49eb-901d-dbd9c3e9e74f
+
+
+
+<img width="1097" alt="d1883f48f610eec8cb5b7c7c53c43dd" src="https://github.com/user-attachments/assets/29ffee42-5472-41da-991d-dcc9d76c1170">
+
+<img width="1191" alt="763516efaff387cd7d879af7ddadaaf" src="https://github.com/user-attachments/assets/9cd7b7d5-dee0-43b3-965c-e4b6622073ec">
+
+
+
+## 1. Interesting Shaders
+
+I enabled Multiple Light Support by following the tutorial in the starter code. For the shadow shader, I added a pencil-style shade that can change its appearance over time.
+
+<img width="794" alt="f60d5f815d098ae13f6b8956a66bcec" src="https://github.com/user-attachments/assets/c7a91b48-4a6c-4435-92ef-b9e07d118781">
+
+For the special surface shader, I created a leaf shader that includes a wind system and subsurface scattering, following this [tutorial](https://www.youtube.com/watch?v=flbnFFZWcsc).
+
+<img width="449" alt="b556c2c96e8b9a993ecdcf3372dab05" src="https://github.com/user-attachments/assets/58aa674f-75a4-4bd7-ae38-2ca89b985ce2">
+
+
+## 2. Outline
+
+I created the outline post effect by following the tutorial listed in the starter code: [Outline Tutorial](https://www.youtube.com/watch?v=RMt6DcaMxcE).
+
+## 3. Full-Screen Post Process Effect
+
+I created a vignette effect that darkens the edges of the screen.
+
+<img width="758" alt="aef2d431acbe1d84db4f9d3541b6e63" src="https://github.com/user-attachments/assets/2f38a217-5c37-41bb-b6b1-243b690ff5cc">
+
+
+## 4. Scene Build-Up
+
+I downloaded low-poly art models from the Unity Asset Store:
+
+- [Low Poly Simple Nature Pack](https://assetstore.unity.com/packages/3d/environments/landscapes/low-poly-simple-nature-pack-162153?srsltid=AfmBOop_GW78OWUwlEdS9caUxw12AncGs-omV1jFvDuA632YP-TfVDQK)
+- [GAG Low Poly Trees Pack 1](https://assetstore.unity.com/packages/3d/vegetation/trees/gag-low-poly-trees-pack-1-295515)
+
+## 5. Interactivity
+
+When pressing the space key, the material of the leaf can be switched between two different leaf textures.
+
+## 6. Extra Credit
+
+I created a water shader to simulate a water surface effect.
+
+<img width="749" alt="a6fbbd2f95822f643c68cfb4d68f9c3" src="https://github.com/user-attachments/assets/e953c68d-8ea8-490c-aa07-b763c8dc7e12">
+
+
+
+-----------------------------
+
+
+
 ## Project Overview:
 In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 

@@ -94,3 +94,10 @@ void ChooseColor_float(float3 Highlight, float3 Midtone, float3 Shadow, float Di
         OUT = Highlight;
     }
 }
+
+void CalculateRimLighting_float(float3 Normal, float3 ViewDir, float EdgeThreshold, float3 RimColor1, float3 RimColor2, out float3 OUT) {
+    float rim = 1.0 - max(dot(Normal, ViewDir), 0.0);
+    float3 rimColor = lerp(RimColor1, RimColor2, rim - 0.15f);
+    rim = smoothstep(EdgeThreshold, 1.0, rim);
+    OUT = rimColor * rim;
+}

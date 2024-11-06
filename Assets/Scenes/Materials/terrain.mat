@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: terrain
+  m_Shader: {fileID: -6465566751694194690, guid: 31d92a17b00e7094aad76e4a80ddb182,
+    type: 3}
+  m_Parent: {fileID: 2100000, guid: c48717041ed704b429bdac80036d281c, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - ADDITIONAL_LIGHT_CALCULATE_SHADOWS
+  - MAIN_LIGHT_CALCULATE_SHADOWS
+  - _ADDITIONAL_LIGHTS
+  - _MAIN_LIGHT_SHADOWS_CASCADE
+  - _SHADOWS_SOFT
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Highlight: 1.1
+    - _Shadow: 0.9
+    - _Shadow_Texture_Direction: 5.43
+    - _SpecularHardness: 14.7
+    - _SpecularThreshold: 0.54
+    - _TextureTile: 69.34
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Highlight: {r: 0.63014734, g: 0.9150943, b: 0.5740922, a: 1}
+    - _MidColor: {r: 0.48531505, g: 0.7735849, b: 0.48531505, a: 1}
+    - _Ramped_Diffuse_Values: {r: 0.06, g: 0.32, b: 1, a: 0}
+    - _Shadow: {r: 0.3190192, g: 0.6320754, b: 0.5364396, a: 0}
+    - _Threshold: {r: 0.47, g: 0.68, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &4103046390138920616
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

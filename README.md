@@ -1,3 +1,5 @@
+I got permission from Rachel to submit late (11/7)
+
 # HW 4: *3D Stylization*
 
 ## Project Overview:

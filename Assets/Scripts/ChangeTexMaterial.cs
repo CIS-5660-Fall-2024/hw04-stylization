@@ -16,7 +16,7 @@ public class ChangeTexMaterial : MonoBehaviour
 
     void Update()
     {
-        int index = 0;
+        
         if (Input.GetKeyDown(KeyCode.Space))
            
         {

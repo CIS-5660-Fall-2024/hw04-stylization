@@ -186,7 +186,7 @@ Explore! What else can you do to polish your scene?
 3. All your source files, submitted as a PR against this repository.
 
 ## Resources:
-
+Credit to 3D Models: https://sketchfab.com/3d-models/wirt-13fc12a4d322469585445f44c1d74e66 and https://sketchfab.com/3d-models/over-the-garden-wall-lantern-e0a444d9cdb240779ffd11af0ea73102#download
 1. Link to all my videos:
     - [Playlist link](https://www.youtube.com/playlist?list=PLEScZZttnDck7Mm_mnlHmLMfR3Q83xIGp)
 2. [Lab Video](https://youtu.be/jc5MLgzJong?si=JycYxROACJk8KpM4)

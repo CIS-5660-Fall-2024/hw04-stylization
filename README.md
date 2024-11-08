@@ -1,7 +1,6 @@
 # HW 4: *3D Stylization*
 
 ## Project Overview:
-In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
 
 | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/755780f1-8b8c-47e1-b14f-3a619f92fd3a/>  | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/70550c09-ba75-4d10-9b30-60874179ad10/> |
 |:--:|:--:|
@@ -27,28 +26,15 @@ After forking the repo, take a moment to watch this brief HW/Base Project Overvi
 
 Choose a simple illustration to guide your stylization. Choose a relatively simple piece of art THAT INCLUDES OUTLINES. You *might* want to look through the rest of the homework instructions before committing to one. Here are some examples of styles that will work well. Feel free to choose one of these, but we encourage your to pick your own.
 
-| ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/dae1ffc2-8269-493d-919f-b3811c76ed30) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/9c345ee6-19df-4191-9e47-6722b6597a5a) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/48521733-f83a-4704-ac8d-9d2f24574922) | ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/3068bdc4-1b08-41cf-9a16-08d94be5f1ea) |  ![](https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/ae1d0fae-7998-4287-8269-13e2cafd740b) | 
+| ![](https://github.com/clara-nolan/hw04-stylization/blob/main/conceptArt1.jpg) | ![](https://github.com/clara-nolan/hw04-stylization/blob/main/conceptArt2.jpg) | ![](https://github.com/clara-nolan/hw04-stylization/blob/main/conceptArt3.jpg) | ![](https://github.com/clara-nolan/hw04-stylization/blob/main/claymation.png) |  ![](https://github.com/clara-nolan/hw04-stylization/blob/main/conceptArt4.png) | 
 |:--:|:--:|:--:|:--:|:--:|
-| *https://twitter.com/stefscribbles/status/1646235145110683650* | *https://twitter.com/trudicastle/status/1122648793009098752* | *https://twitter.com/caomor/status/1049494055518908416* | *https://www.artstation.com/requinoesis* | *https://twitter.com/cysketch/status/1712442821389713597* | 
 
+**Inspiration: I wanted to create a shader to replicate some of the earlier artworks made for Over the Garden Wall. I liked the line work from the black and white images and the graininess from the other pieces.**
 
-**Disclaimer: Don't forget to identify and credit the artist who created the concept art : )**
-
-**[Emma Koch](https://www.artstation.com/ekoch)**, an amazing 3D artist I happened to stumble upon on ArtStation produces incredible 2D-esque 3D art pieces. Some of the references I picked above were inspired directly from her work. I'd definitely check out her artstation for any inspiraiton if you want some! [Link](https://www.artstation.com/ekoch)
+**Credit: All of these pieces were created by Patrick McHale and Mikkel Sommer**
 
 ---
 ## 2. Interesting Shaders
-
-Let's create some custom surface shaders for the objects in your scene, inspired by your concept art! 
-
-Take a moment to think about the main characteristics that you see in the shading of your concept art. What makes it look appealing/aesthetic?
-  * Is it the color palette? How are the different colors blending into each other? Is there any particular texture or pattern you notice?
-  * Are there additional effects such as rim or specular highlights?
-  * Are there multiple lights in the scene?
-
-These are all things we want you to think about before diving into your shaders!
-
-### To-Do:
 1. **Improved Surface Shader**
    - Create a surface shader inspired by the surface(s) in your concept art. Use the three tone toon shader you created from the Stylization Lab as a starting point to build a more interesting shader that fulfills all of the following requirements:
       1. **Multiple Light Support**
@@ -200,7 +186,8 @@ Explore! What else can you do to polish your scene?
 3. All your source files, submitted as a PR against this repository.
 
 ## Resources:
-
+Credit to 3D Models: https://sketchfab.com/3d-models/wirt-13fc12a4d322469585445f44c1d74e66 and https://sketchfab.com/3d-models/over-the-garden-wall-lantern-e0a444d9cdb240779ffd11af0ea73102#download
+https://sketchfab.com/3d-models/pumpkin-79f906eceb3640bf8729b903cdd47f9b
 1. Link to all my videos:
     - [Playlist link](https://www.youtube.com/playlist?list=PLEScZZttnDck7Mm_mnlHmLMfR3Q83xIGp)
 2. [Lab Video](https://youtu.be/jc5MLgzJong?si=JycYxROACJk8KpM4)

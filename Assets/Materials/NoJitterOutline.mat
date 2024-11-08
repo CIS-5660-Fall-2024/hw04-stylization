@@ -95,9 +95,9 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthStrength: 0.9
+    - _DepthStrength: 20
     - _DepthThickness: 1.4
-    - _DepthThreshold: 0.098
+    - _DepthThreshold: 0.3
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -117,7 +117,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Thickness: 0.003
+    - _Thickness: 1.2
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

@@ -16,7 +16,7 @@ MonoBehaviour:
   settings:
     renderPassEvent: 500
     material: {fileID: 2100000, guid: df2d605b7d8a3034ca341612b536d452, type: 2}
---- !u!114 &-2712834501169144385
+--- !u!114 &-2679656978902466421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,12 +26,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
-  m_Name: FullScreenFeature
+  m_Name: PostProcessPaper
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 600
-    material: {fileID: 2100000, guid: 027f99c766960e6458301d41f196c383, type: 2}
+    material: {fileID: 2100000, guid: 0308794609b16c3459b03f997e740f46, type: 2}
 --- !u!114 &-296605111737366682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552c866e32d5f734daec12e70f016d2c, type: 3}
   m_Name: NormalFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   normalsLayerMask:
     serializedVersion: 2
     m_Bits: 55
@@ -72,8 +72,8 @@ MonoBehaviour:
   - {fileID: -8360190854314793963}
   - {fileID: 5333971548139935303}
   - {fileID: 688375816986841518}
-  - {fileID: -2712834501169144385}
-  m_RendererFeatureMap: 664754ec383fe2fb15e41852b6a2fa8b47d6ebc8dc12064aae51788b289a8d09bf9d63f764135ada
+  - {fileID: -2679656978902466421}
+  m_RendererFeatureMap: 664754ec383fe2fb15e41852b6a2fa8b47d6ebc8dc12064aae51788b289a8d098b409fd42cf2cfda
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 0}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: Outline
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 600
     material: {fileID: 2100000, guid: ae125360f61e9fa4f8e31fd3ceb76705, type: 2}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faec35144280c146ac2395f7d7187de, type: 3}
   m_Name: OutlineNoJitter
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 600
     material: {fileID: 2100000, guid: cd6fea298e659284ba5ec17f681c2663, type: 2}

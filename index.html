@@ -9,6 +9,13 @@
       content="text/html; charset=utf-8"
     />
 
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/Build/favicon-white.png"
+    />
+
     <style>
       html,
       body {
@@ -106,12 +113,14 @@
       </script>
       <script>
         let isRed = false;
+        const favicon = document.querySelector("link[rel='icon']");
 
         document.addEventListener("keydown", function (event) {
           if (event.code === "Space") {
             event.preventDefault(); // Prevent page scrolling
             isRed = !isRed;
             document.body.style.backgroundColor = isRed ? "red" : "white";
+            favicon.href = `/Build/favicon-${isRed ? "red" : "white"}.png`;
           }
         });
       </script>

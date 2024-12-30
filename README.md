@@ -24,6 +24,7 @@ I also added a second overlay full screen vignette effect. I was particularly in
 ---
 ## 5. Create a Scene
 Using free 3D Models and my shaders, I compiled a scene reminiscent of Lilo and Stitch!
+![20241101151438](https://github.com/user-attachments/assets/155e48e4-6ada-42f2-8c22-3c2ec7c9d901)
 
 
 

@@ -1,29 +1,8 @@
-# HW 4: *3D Stylization*
+#  *3D Unity Stylization*
 
-## Project Overview:
-In this assignment, you will use a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. This will give you the opportunity to explore stylized graphics techniques alongside non-photo-realistic (NPR) real-time rendering workflows in Unity.
+In this project, I used a 2D concept art piece as inspiration to create a 3D Stylized scene in Unity. 
 
-| <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/755780f1-8b8c-47e1-b14f-3a619f92fd3a/>  | <img width="500px" src=https://github.com/CIS-566-Fall-2023/hw04-stylization/assets/72320867/70550c09-ba75-4d10-9b30-60874179ad10/> |
-|:--:|:--:|
-| *2D Concept Illustration* | *3D Stylized Scene in Unity* |
-### HW Task List:
-1. Picking a Piece of Concept Art
-2. Interesting Shaders
-3. Outlines
-4. Full Screen Post Process Effect
-5. Creating a Scene
-6. Interactivity
-7. Extra Credit
 
----
-# Tasks
-
-## 0. Base Project Overview
-
-After forking the repo, take a moment to watch this brief HW/Base Project Overview which goes over things that you're expected to bring over from the lab, and etc.
-- [See the Project Overview here](https://youtu.be/JmVTmpgSz5U)
-
-## 1. Picking a Piece of Concept Art
 The concept art I am inspiring my scene off of is a piece of visual development done by Chris Sanders when developing the Disney film Lilo and Stitch. I really enjoy the water color aspects of it!
 
 ![lilostitchconceptart](https://github.com/user-attachments/assets/f146f97e-b5a8-4012-bd1f-59d7832346c3)

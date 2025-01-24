@@ -24,9 +24,116 @@ To interact with the scene, press "Space" to swap materials, "P" to distort geom
 - Interactive material swapping
 
 ---
-## Table of Contents
-- WIP
+# Basic surface shading
+We begin with a simple toon-shader to break down lighting into three colors: **base color, mid-tone, and shadow color.** This is done by taking dot(light vector, normal), or Lambert's cosine law, to apply some basic diffuse shading.
+Using our dot product, we can check if it exceeds threshold levels to determine if it's an albedo, mid-tone, or shadow color.
+
+To add rim highlightings, I used a combination of Blinn-Phong specular and a Fresnel node, adding the sum to my highlights threshold.
+<img width="689" alt="image" src="https://github.com/user-attachments/assets/88345560-69d9-4c3a-965a-9dcfa00825ec" />
+
+
+For my shadows, I used my screenspace coordinates to sample a rotated voronoi grid to make a dotted shadow. 
+I then multiplied the result by a pencil on paper image to add some grain and texture.
+<img width="677" alt="image" src="https://github.com/user-attachments/assets/5b2e26c5-c35b-4dfa-9ea5-9342dbf4faf0" />
+
+The overall look, in a static image, looks like this now:
+
+<img width="415" alt="image" src="https://github.com/user-attachments/assets/6b93678a-1ed0-4215-816b-b5ce5f2938ce" />
+
+---
+# The Element of Time (Animating it)
+We can make this much more exciting by animating our shading, using time nodes to manipulate our thresholds and textures.
+To add some simple choppy animation to our shader, we can mathematically split up time into discrete segments by the eq:
+t' = floor(n * t) / n, with t = time, and n = frame rate. 
+
+<img width="516" alt="image" src="https://github.com/user-attachments/assets/20e2528b-af6d-412d-b8ee-3e428ccc6862" />
+
+We can then use t' as an offset to our UV coordinates for texture or noise reads, making our scene look like an inconsistent and chaotic animation.
+Manually piecing together **FBM noise**, for example, with the time element gets us some pretty cool results that we can then add to our thresholds.
+
+![ezgif-2-cc906273f1](https://github.com/user-attachments/assets/0bf3171d-bfd5-406e-a6ba-31855396231d)
+
+We can use this same approach to multiply our output color by another paper texture to get the screen-space paper effect.
+<img width="544" alt="image" src="https://github.com/user-attachments/assets/bfad25bd-aec8-4b1d-8123-7a6ec4339d25" />
+
+Check out the new look, I'd say we're closer to the *Take Me Out* style compared to the start.
+![ezgif-2-2458130414](https://github.com/user-attachments/assets/b601f48f-e634-44a8-aa88-010e717b7284)
+
+---
+# Post-Processing: Getting edgy, noisey, and vignette-y
+I won't get into setting up the post-processing pipeline that much (we render to a buffer, then render another image using the buffer to the screen), but I will get into what post-processing I did.
+There are a few main effects I used:
+- Edge outlines
+- Old film noise
+- Vignette
+
+## Edge Outlines
+I first made a custom node to detect edges, using the same approach in this article: https://ameye.dev/notes/edge-detection-outlines/
+The idea is that, for a given pixel, if we can check for high depth discontinuities for surrounding pixels, then it's likely that there's an edge there.
+We can use the same idea for normals and colors that may also be likely candidates for edges, requiring us to have a depth and normal buffer as well.
+Using our cool time-offset trick from before, we can, again, re-use that to offset our outline-detection UV sample for a fun, wobbly, animated look.
+
+<img width="437" alt="image" src="https://github.com/user-attachments/assets/3e714b0e-ea82-4c22-8da3-bd2d9032ca49" />
+
+## Film Noise
+Nothing that new, but we again use that time-offset. I split my film noise into two segments, one for mottled white splotches (bottom) and one for general film grain (top).
+It's important to first note that the outline node returns the MainTexture with outlines applied, so if I want noise, then I'd either have to multiply or lerp between that and a noise value.
+That being said, that's why the lerp node is there.
+
+![ezgif-7-b1cc68adfe](https://github.com/user-attachments/assets/0a9570ad-dab2-422a-a573-6ad97aeb9fc6)
+
+On the top, our film grain is a simple noise read with a saturation to correct [-1,1] to [0, 1], and a power to amplify its contrast.
+Below, we want some streaks of white that occasionally pop-up in old films, so I apply a step function after my power, proceeded by a one-minus so I can add it to my above noise.
+(Note: the noise reads are not the same, the noise below has a lower frame-rate than the one above!)
+
+## Vignette
+We now reach the final step: applying the vignette. I wrote a custom-node for this, translated from https://www.shadertoy.com/view/Wdj3zV
+<img width="515" alt="image" src="https://github.com/user-attachments/assets/e9ca6001-02d7-4bf9-ab11-aa7daa77bda1" />
+
+## Post-Processing Results:
+![ezgif-7-114156400c](https://github.com/user-attachments/assets/1a641c5a-0c1a-4cf0-a968-e5b710d19ab7)
+
+I slightly had to crop this for Clipchamp, but it's looking really cool now!
+
+---
+# The Background
+We still have a background to finish, as ever present in the *Take Me Out* music video. Most of what makes that video fun is the background.
+To do this, we need an additional render pass for the background, which can be done before we render any objects (for my project's deferred rendering setup, that's before G-Buffer).
+Like the post-processing, there are a few elements I stich together for the back:
+- Shaking background
+- Scrolling Dots
+- Audio Ripple
+
+## Shaking Background
+Like many things in the video, the background texture shakes a lot! To get this effect, I made a UV offset = vec2(cos(t), sin(t + noise(xy)).
+This offset is a parameterized circle over time, but with some slight noise to add jitter, making stuff shake.
+
+<img width="497" alt="image" src="https://github.com/user-attachments/assets/4588ea77-dd6a-408d-ae26-5cc8dcc3f592" />
+
+The multiply node at the end is vec2(0.005, 0.005). 
+
+Again, using screenspace coordinates and our shaking offset, we can compose our background picture. I decided, for visual variety,
+to combine two pictures separately, using noise as a mask so we can lerp between them, stitching them together.
+
+<img width="556" alt="image" src="https://github.com/user-attachments/assets/bd1aeb61-3ff8-487e-9996-43cb9cc60c53" />
+
+## Scrolling Dots
+*Take Me Out* loves to also have tons of moving geometry in the background. I chose to re-create the scrolling dots found around the one-to-two second marks.
+I first make a scrolling UV sample, where speed = 0.6 * time, and offset = vec2(speed, speed), feeding that into Tiling And Offset.
+To get our dots, we do a one-minus to get a mask, and then apply a step. We can then multiply this result with our output, such that we keep everything (mul by 1) but apply dots (mul by 0).
+
+![ezgif-7-2cabba41ed](https://github.com/user-attachments/assets/65f2569b-a335-405d-a7bd-d52c27eb0ab0)
+
+## Audio Ripple
+At [1:24](https://youtu.be/Ijk4j-r7qPA?si=WeUb4sZRilLP7yAM&t=84), there's a really cool but brief ripple effect. having worked with polar coordinate nodes before, 
+
+---
+# Scene Construction
+
+around 1:18 we got funky geometry morphing
 
 ## Resources:
 - [Drum kit model](https://sketchfab.com/3d-models/american-idiot-drum-kit-fbc02f9a2ca14992a692297f8f06f095)
 - [Guitar + amp model](https://sketchfab.com/3d-models/ljas-guitars-amp-299481c99a40490985678f9a227f5bfa)
+- Edge Detection Approach: https://ameye.dev/notes/edge-detection-outlines/
+- Vignette: https://www.shadertoy.com/view/Wdj3zV

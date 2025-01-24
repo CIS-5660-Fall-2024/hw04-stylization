@@ -118,20 +118,42 @@ to combine two pictures separately, using noise as a mask so we can lerp between
 <img width="556" alt="image" src="https://github.com/user-attachments/assets/bd1aeb61-3ff8-487e-9996-43cb9cc60c53" />
 
 ## Scrolling Dots
-*Take Me Out* loves to also have tons of moving geometry in the background. I chose to re-create the scrolling dots found around the one-to-two second marks.
+*Take Me Out* loves to also have tons of moving geometry in the background. I chose to recreate the scrolling dots found around the one-to-two second marks.
 I first make a scrolling UV sample, where speed = 0.6 * time, and offset = vec2(speed, speed), feeding that into Tiling And Offset.
 To get our dots, we do a one-minus to get a mask, and then apply a step. We can then multiply this result with our output, such that we keep everything (mul by 1) but apply dots (mul by 0).
 
 ![ezgif-7-2cabba41ed](https://github.com/user-attachments/assets/65f2569b-a335-405d-a7bd-d52c27eb0ab0)
 
 ## Audio Ripple
-At [1:24](https://youtu.be/Ijk4j-r7qPA?si=WeUb4sZRilLP7yAM&t=84), there's a really cool but brief ripple effect. having worked with polar coordinate nodes before, 
+At [1:24](https://youtu.be/Ijk4j-r7qPA?si=WeUb4sZRilLP7yAM&t=84), there's a really cool but brief ripple effect. Having worked with polar coordinate nodes before,
+I decided to recreate this as well.
+
+![ezgif-1-67a76034d4](https://github.com/user-attachments/assets/bb34746e-5f23-4396-95fe-f046699ca4af)
+
+On the top, we use a polar coordinate node to make the ripple. The node's R channel represents distance "r" to center for a given UV.
+Using r, we can get a wobble by letting p = sin(frequency * (r + speed * time)), resulting in the hypnotizing node in the GIF. I then use a step node to thin the ripples.
+To fade out the ripples, I add the result by another polar coordinate distance float, but this time smoothstepping it so that it naturally fades from black to white the greater r is.
+This ends up working pretty well, since any values > 1 (far away from center) will naturally get clamped to 1 by our saturation, resulting in the final output.
+
+## The Results
+Multiplying the results of each step together, we get this:
+
+![Untitledvideo-MadewithClipchamp12-ezgif com-optimize](https://github.com/user-attachments/assets/dbd59747-e682-495f-a17f-480648ff77d4)
 
 ---
-# Scene Construction
+# Scene Construction/User Interactivity
+If you've made it this far, that's firstly great, but secondly I won't introduce anymore cool shader elements at this point.
+For my overall look, I found a new models of guitars and drums on Sketchfab, attempting to rebuild the band without the members.
 
-around 1:18 we got funky geometry morphing
+Around [1:17](https://youtu.be/Ijk4j-r7qPA?si=JikSF8WsCw-OgTt6&t=77) though, there are scattered bits of morphing geometry that I found pretty cool, so I incorporated that into my scene as well.
+This is the "distort geometry" bit of my project, but all it does is scale the geometry by a random Vector3, then lerping between the scales. I let the user press "p" to activate it.
 
+Besides that, there's also a turning camera and a simple material-swapping animation too.
+
+Overall, this is the final result, and I'm very happy with it:
+<img width="500px" src=https://github.com/user-attachments/assets/f563a274-1fbd-4d98-bfa1-23fc71359f18/>
+
+Thanks for checking out my README, and feel free to find more projects at [geant.pro](https://www.geant.pro/).
 ## Resources:
 - [Drum kit model](https://sketchfab.com/3d-models/american-idiot-drum-kit-fbc02f9a2ca14992a692297f8f06f095)
 - [Guitar + amp model](https://sketchfab.com/3d-models/ljas-guitars-amp-299481c99a40490985678f9a227f5bfa)

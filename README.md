@@ -123,6 +123,7 @@ to combine two pictures separately, using noise as a mask so we can lerp between
 *Take Me Out* loves to also have tons of moving geometry in the background. I chose to recreate the scrolling dots found around the one-to-two second marks.
 I first make a scrolling UV sample, where speed = 0.6 * time, and offset = vec2(speed, speed), feeding that into Tiling And Offset.
 To get our dots, we do a one-minus to get a mask, and then apply a step. We can then multiply this result with our output, such that we keep everything (mul by 1) but apply dots (mul by 0).
+Edit: There is no point in the one-minus and power! I think you can just directly use step and life is good.
 
 ![ezgif-7-2cabba41ed](https://github.com/user-attachments/assets/65f2569b-a335-405d-a7bd-d52c27eb0ab0)
 

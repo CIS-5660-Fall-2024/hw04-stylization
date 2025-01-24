@@ -151,6 +151,7 @@ This is the "distort geometry" bit of my project, but all it does is scale the g
 Besides that, there's also a turning camera and a simple material-swapping animation too.
 
 Overall, this is the final result, and I'm very happy with it:
+
 <img width="500px" src=https://github.com/user-attachments/assets/f563a274-1fbd-4d98-bfa1-23fc71359f18/>
 
 Thanks for checking out my README, and feel free to find more projects at [geant.pro](https://www.geant.pro/).

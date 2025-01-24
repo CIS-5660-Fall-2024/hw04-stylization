@@ -54,6 +54,7 @@ Manually piecing together **FBM noise**, for example, with the time element gets
 ![ezgif-2-cc906273f1](https://github.com/user-attachments/assets/0bf3171d-bfd5-406e-a6ba-31855396231d)
 
 We can use this same approach to multiply our output color by another paper texture to get the screen-space paper effect.
+
 <img width="544" alt="image" src="https://github.com/user-attachments/assets/bfad25bd-aec8-4b1d-8123-7a6ec4339d25" />
 
 Check out the new look, I'd say we're closer to the *Take Me Out* style compared to the start.
@@ -88,6 +89,7 @@ Below, we want some streaks of white that occasionally pop-up in old films, so I
 
 ## Vignette
 We now reach the final step: applying the vignette. I wrote a custom-node for this, translated from https://www.shadertoy.com/view/Wdj3zV
+
 <img width="515" alt="image" src="https://github.com/user-attachments/assets/e9ca6001-02d7-4bf9-ab11-aa7daa77bda1" />
 
 ## Post-Processing Results:
